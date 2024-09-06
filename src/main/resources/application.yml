@@ -4,6 +4,8 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
+  profiles:
+      active: dev
 
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3303/koi_company?useSSL=false&serverTimezone=UTC}
