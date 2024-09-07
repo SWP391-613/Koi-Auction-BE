@@ -24,6 +24,7 @@ public class UserService implements IUserService{
 
         for (User user : userList) {
             if (user.getEmail().equals(email)) {
+                log.error("Email already exists");
                 throw new Exception("Email already exists");
             }
         }
@@ -40,6 +41,8 @@ public class UserService implements IUserService{
 
         newUser.setRole(new Role(userRegisterDTO.getRoleId(), "USER"));
 
+        log.info("New user registered successfully");
+
         return newUser;
     }
 
@@ -47,9 +50,11 @@ public class UserService implements IUserService{
     public String login(String email, String password) throws Exception {
         for (User user : userList) {
             if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+                log.info("Login success");
                 return "Login success";
             }
         }
+        log.error("Wrong email or password");
         throw new Exception("Wrong email or password");
     }
 
