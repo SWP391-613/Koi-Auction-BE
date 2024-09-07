@@ -1,7 +1,10 @@
 package com.swp391_09.Koi_BE.controllers;
 
 import com.swp391_09.Koi_BE.dtos.UserLoginDTO;
+import com.swp391_09.Koi_BE.dtos.UserRegisterDTO;
+import com.swp391_09.Koi_BE.models.User;
 import com.swp391_09.Koi_BE.responses.LoginResponse;
+import com.swp391_09.Koi_BE.responses.RegisterResponse;
 import com.swp391_09.Koi_BE.services.CategoryService;
 import com.swp391_09.Koi_BE.services.IUserService;
 import com.swp391_09.Koi_BE.services.UserService;
@@ -37,6 +40,26 @@ public class UserController {
             );
         }
 
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<RegisterResponse> createUser(
+        @RequestBody @Valid UserRegisterDTO userRegisterDTO) {
+        try {
+            User user = userService.createUser(userRegisterDTO);
+            return ResponseEntity.ok(
+                RegisterResponse.builder()
+                    .message("Register success")
+                    .user(user)
+                    .build()
+            );
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(
+                RegisterResponse.builder()
+                    .message(e.getMessage())
+                    .build()
+            );
+        }
     }
 
 }
