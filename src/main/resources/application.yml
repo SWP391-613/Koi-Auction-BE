@@ -16,9 +16,8 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     show-sql: true
-
   jwt:
     secret: your_jwt_secret_key
     access:
