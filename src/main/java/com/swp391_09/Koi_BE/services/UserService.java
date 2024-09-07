@@ -5,9 +5,11 @@ import com.swp391_09.Koi_BE.models.Role;
 import com.swp391_09.Koi_BE.models.User;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class UserService implements IUserService{
 
     List<User> userList = new ArrayList<>();
