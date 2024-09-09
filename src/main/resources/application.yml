@@ -6,6 +6,9 @@ spring:
       enabled: ALWAYS
   profiles:
       active: dev
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
 
   datasource:
     url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3303/koi_company?useSSL=false&serverTimezone=UTC}
@@ -18,20 +21,40 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-  jwt:
-    secret: your_jwt_secret_key
-    access:
-      expiration: 600000
-    refresh:
-      expiration: 1209600000
 
 server:
-  port: 8080
+  port: 4000
 
 api:
   prefix: /api/v1
 
+jwt:
+  expiration: 2592000 #30 days = 30 * 24 * 60 * 60
+  expiration-refresh-token: 5184000 #60 days = 60 * 24 * 60 * 60
+  secretKey: TaqlmGv1iEDMRiFp/pHuID1+T84IABfuA0xXh4GhiUI=
+
 logging:
   level:
     org.springframework: DEBUG
+    springframework.security: DEBUG
     org.hibernate: DEBUG
+
+# swagger-ui custom path
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /api-docs
+  show-actuator: true
+
+#health check
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      base-path: /api/v1/actuator
+      exposure:
+        #include: "health"
+        include: "health, info"

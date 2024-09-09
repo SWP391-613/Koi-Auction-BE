@@ -29,7 +29,8 @@ public class Role {
     @Column(name = "name", columnDefinition = "VARCHAR(20)")
     private String name;
 
-    public static String ADMIN = "ADMIN";
-    public static String USER = "USER";
-
+    public static String MEMBER = "MEMBER";
+    public static String STAFF = "STAFF";
+    public static String BREEDER = "BREEDER";
+    public static String MANAGER = "MANAGER";
 }

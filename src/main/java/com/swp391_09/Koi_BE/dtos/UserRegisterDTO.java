@@ -24,7 +24,7 @@ public class UserRegisterDTO {
 
     private String address;
 
-    @NotBlank(message = "Password can not be empty")
+    @NotBlank(message = "Password is required")
     private String password;
 
     @JsonProperty("retype_password")

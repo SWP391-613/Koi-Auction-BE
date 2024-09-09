@@ -1,17 +1,20 @@
 package com.swp391_09.Koi_BE.controllers;
 
+import com.swp391_09.Koi_BE.components.LocalizationUtils;
 import com.swp391_09.Koi_BE.dtos.UserLoginDTO;
 import com.swp391_09.Koi_BE.dtos.UserRegisterDTO;
 import com.swp391_09.Koi_BE.models.User;
 import com.swp391_09.Koi_BE.responses.LoginResponse;
 import com.swp391_09.Koi_BE.responses.RegisterResponse;
-import com.swp391_09.Koi_BE.services.CategoryService;
 import com.swp391_09.Koi_BE.services.IUserService;
-import com.swp391_09.Koi_BE.services.UserService;
+import com.swp391_09.Koi_BE.utils.MessageKeys;
 import jakarta.validation.Valid;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,33 +23,70 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("${api.prefix}/users")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
     private final IUserService userService;
+    private final LocalizationUtils localizationUtils;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody @Valid UserLoginDTO userLoginDTO) {
+    public ResponseEntity<LoginResponse> login(
+        @RequestBody @Valid UserLoginDTO userLoginDTO,
+        BindingResult result) {
+
+        if (result.hasErrors()) {
+            List<FieldError> fieldErrorList = result.getFieldErrors();
+            List<String> errorMessages = fieldErrorList
+                .stream()
+                .map(FieldError::getDefaultMessage)
+                .toList();
+            return ResponseEntity.badRequest().body(LoginResponse.builder()
+                                                        .message(errorMessages.toString())
+                                                        .build());
+        }
+
+        String token;
         try {
-            String result = userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
+            token = userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
+            log.info("User logged in successfully");
             return ResponseEntity.ok(LoginResponse.builder()
-                                         .message(result)
-                                         .token("token")
+                                         .message(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_SUCCESSFULLY))
+                                         .token(token)
                                          .build());
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(
-                LoginResponse.builder()
-                    .message(e.getMessage())
-                    .build()
-            );
+            return ResponseEntity.badRequest().body(LoginResponse.builder()
+                                                        .message(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_FAILED, e.getMessage()))
+                                                        .build());
         }
 
     }
 
     @PostMapping("/register")
     public ResponseEntity<RegisterResponse> createUser(
-        @RequestBody @Valid UserRegisterDTO userRegisterDTO) {
+        @RequestBody @Valid UserRegisterDTO userRegisterDTO,
+        BindingResult result) {
+
+        if (result.hasErrors()) {
+            List<FieldError> fieldErrorList = result.getFieldErrors();
+            List<String> errorMessages = fieldErrorList
+                .stream()
+                .map(FieldError::getDefaultMessage)
+                .toList();
+            return ResponseEntity.badRequest().body(RegisterResponse.builder()
+                                                        .message(errorMessages.toString())
+                                                        .build());
+        }
+
+        if (!userRegisterDTO.getPassword().equals(userRegisterDTO.getRetypePassword())) {
+            return ResponseEntity.badRequest()
+                .body(RegisterResponse.builder()
+                          .message(localizationUtils.getLocalizedMessage(MessageKeys.PASSWORD_NOT_MATCH))
+                          .build());
+        }
+
         try {
             User user = userService.createUser(userRegisterDTO);
+            log.info("New user registered successfully");
             return ResponseEntity.ok(
                 RegisterResponse.builder()
                     .message("Register success")

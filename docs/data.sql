@@ -6203,8 +6203,10 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`) VALUES
-                                       (1, 'userDTO'),
-                                       (2, 'admin');
+                                       (1, 'member'),
+                                       (2, 'staff'),
+                                       (3, 'breeder'),
+                                       (4, 'manager');
 
 -- --------------------------------------------------------
 
