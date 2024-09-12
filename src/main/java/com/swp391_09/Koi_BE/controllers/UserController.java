@@ -8,6 +8,7 @@ import com.swp391_09.Koi_BE.responses.LoginResponse;
 import com.swp391_09.Koi_BE.responses.RegisterResponse;
 import com.swp391_09.Koi_BE.services.IUserService;
 import com.swp391_09.Koi_BE.utils.MessageKeys;
+import com.swp391_09.Koi_BE.utils.ResponseUtils;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -49,14 +50,9 @@ public class UserController {
         try {
             token = userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
             log.info("User logged in successfully");
-            return ResponseEntity.ok(LoginResponse.builder()
-                                         .message(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_SUCCESSFULLY))
-                                         .token(token)
-                                         .build());
+            return ResponseUtils.loginSuccess(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_SUCCESSFULLY), token);
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(LoginResponse.builder()
-                                                        .message(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_FAILED, e.getMessage()))
-                                                        .build());
+            return ResponseUtils.loginFailed(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_FAILED, e.getMessage()));
         }
 
     }

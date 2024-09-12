@@ -85,7 +85,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public String loginOrRegisterGoogle(String email, String name, String googleId) throws Exception {
+    public String loginOrRegisterGoogle(String email, String name, String googleId, String avatarUrl) throws Exception {
         Optional<User> optionalUser = userRepository.findByEmail(email);
         User user;
 
@@ -98,6 +98,7 @@ public class UserService implements IUserService {
                     .fullName(name)
                     .email(email)
                     .googleAccountId(1)
+                    .avatarUrl(avatarUrl)
                     .role(memberRole)
                     .build();
 
