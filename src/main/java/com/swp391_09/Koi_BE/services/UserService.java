@@ -2,11 +2,14 @@ package com.swp391_09.Koi_BE.services;
 
 import com.swp391_09.Koi_BE.components.JwtTokenUtils;
 import com.swp391_09.Koi_BE.dtos.UserRegisterDTO;
+import com.swp391_09.Koi_BE.enums.SocialProvider;
 import com.swp391_09.Koi_BE.exceptions.DataNotFoundException;
 import com.swp391_09.Koi_BE.exceptions.PermissionDeniedException;
 import com.swp391_09.Koi_BE.models.Role;
+import com.swp391_09.Koi_BE.models.SocialAccount;
 import com.swp391_09.Koi_BE.models.User;
 import com.swp391_09.Koi_BE.repositories.RoleRepository;
+import com.swp391_09.Koi_BE.repositories.SocialAccountRepository;
 import com.swp391_09.Koi_BE.repositories.UserRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +31,7 @@ public class UserService implements IUserService {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtils jwtTokenUtils;
     private final RoleRepository roleRepository;
+    private final SocialAccountRepository socialAccountRepository;
 
     @Override
     public User createUser(UserRegisterDTO userRegisterDTO) throws Exception {
@@ -52,7 +56,6 @@ public class UserService implements IUserService {
                 .address(userRegisterDTO.getAddress())
                 .dob(userRegisterDTO.getDateOfBirth())
                 .avatarUrl("https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg")
-                .facebookAccountId(userRegisterDTO.getFacebookAccountId())
                 .googleAccountId(userRegisterDTO.getGoogleAccountId())
                 .build();
 
@@ -73,7 +76,7 @@ public class UserService implements IUserService {
             throw new DataNotFoundException("User not found");
         }
         User existingUser = optionalUser.get();
-        if (existingUser.getFacebookAccountId() == 0 && existingUser.getGoogleAccountId() == 0) {
+        if (existingUser.getGoogleAccountId() == 0) {
             if (!passwordEncoder.matches(password, existingUser.getPassword())) {
                 throw new BadCredentialsException("Wrong email or password");
             }
@@ -88,6 +91,7 @@ public class UserService implements IUserService {
     public String loginOrRegisterGoogle(String email, String name, String googleId, String avatarUrl) throws Exception {
         Optional<User> optionalUser = userRepository.findByEmail(email);
         User user;
+        SocialAccount socialAccount;
 
         if (optionalUser.isEmpty()) {
             // Register new user
@@ -102,7 +106,15 @@ public class UserService implements IUserService {
                     .role(memberRole)
                     .build();
 
+            SocialAccount newSocialAccount = SocialAccount.builder()
+                    .provider(SocialProvider.GOOGLE.getProvider())
+                    .providerId(googleId)
+                    .name(name)
+                    .email(email)
+                    .build();
+
             user = userRepository.save(newUser);
+            socialAccountRepository.save(newSocialAccount);
         } else {
             // Login existing user
             user = optionalUser.get();

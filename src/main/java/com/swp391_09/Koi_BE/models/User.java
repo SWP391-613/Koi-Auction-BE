@@ -59,9 +59,6 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name="avatar_url")
     private String avatarUrl;
 
-    @Column(name="facebook_account_id", columnDefinition = "INT(11)")
-    private int facebookAccountId;
-
     @Column(name="google_account_id", columnDefinition = "INT(11)")
     private int googleAccountId;
 
