@@ -3,6 +3,7 @@ package com.swp391_09.Koi_BE.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Entity
@@ -26,6 +27,11 @@ public class KoiImage {
     private Koi koi;
 
     @Column(name = "image_url", length = 300)
+    @NotNull
     @JsonProperty("image_url")
     private String imageUrl;
+
+    @Column(name = "video_url", length = 500)
+    @JsonProperty("video_url")
+    private String videoUrl;
 }
