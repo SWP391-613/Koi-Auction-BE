@@ -6,6 +6,7 @@ import com.swp391_09.Koi_BE.enums.TrackingStatus;
 import com.swp391_09.Koi_BE.models.Category;
 import com.swp391_09.Koi_BE.models.Koi;
 import com.swp391_09.Koi_BE.services.koi.IKoiService;
+import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,24 +32,39 @@ public class KoiController {
     private ResponseEntity<String> generateFakeKois() {
         Faker faker = new Faker();
 
+        List<String> koiNames = Arrays.asList(
+            "Kohaku", "Sanke", "Showa", "Tancho", "Shusui", "Asagi", "Bekko",
+            "Utsurimono", "Goshiki", "Kumonryu", "Ochiba", "Koromo", "Yamabuki",
+            "Doitsu", "Chagoi", "Ki Utsuri", "Beni Kikokuryu", "Platinum Ogon",
+            "Hariwake", "Kikokuryu", "Matsuba", "Ginrin Kohaku", "Ginrin Sanke",
+            "Ginrin Showa", "Doitsu Kohaku", "Doitsu Sanke", "Doitsu Showa",
+            "Aka Matsuba", "Kage Shiro Utsuri", "Kin Showa", "Orenji Ogon",
+            "Kikusui", "Ki Bekko", "Hikari Muji", "Hikari Utsuri", "Benigoi",
+            "Soragoi", "Midorigoi", "Ginrin Chagoi", "Kanoko Kohaku",
+            "Kanoko Sanke", "Kanoko Showa", "Kujaku", "Doitsu Kujaku",
+            "Yamatonishiki", "Budo Sanke", "Ai Goromo", "Sumi Goromo",
+            "Kin Ki Utsuri", "Gin Shiro Utsuri"
+        );
+
         String[] genders = {"M", "F", "O", "U"};
 
-        for (int i = 1; i < 100; i++) {
-            String koiName = faker.animal().name();
-            if(koiService.existsByName(koiName)) {
-                continue;
-            }
+        for (int i = 1; i < 300; i++) {
+            String koiName = koiNames.get(faker.number().numberBetween(0, koiNames.size()));
+//            if(koiService.existsByName(koiName)) {
+//                continue;
+//            }
             KoiDTO koiDTO = KoiDTO.builder()
                 .name(koiName)
                 .price((float)faker.number().numberBetween(10, 90_000_000))
                 .trackingStatus(TrackingStatus.getRandomStatus())
                 .isDisplay(faker.number().numberBetween(0, 2))
                 .isSold(faker.number().numberBetween(0, 2))
-                .thumbnail(faker.internet().image())
+                .thumbnail("https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/48/photos/Sanke%2040cm.png")
                 .sex(genders[faker.number().numberBetween(0, genders.length)])
                 .length(faker.number().numberBetween(1, 100))
-                .age(faker.number().numberBetween(1, 230))
+                .age(faker.number().numberBetween(1, 231)) //1-230
                 .description(faker.lorem().sentence())
+                .userId((long) faker.number().numberBetween(1, 4)) //userId from 1-3
                 .categoryId(faker.number().numberBetween(1, 11)) //1-10 categories
                 .build();
             try{
@@ -61,7 +77,7 @@ public class KoiController {
     }
 
     //pagination kois
-    @GetMapping("")
+    @GetMapping("") //kois/?page=0&limit=10
     public ResponseEntity<List<Koi>> getAllKois(
         @RequestParam("page") int page,
         @RequestParam("limit") int limit

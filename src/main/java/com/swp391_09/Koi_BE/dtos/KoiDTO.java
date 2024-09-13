@@ -3,7 +3,9 @@ package com.swp391_09.Koi_BE.dtos;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.swp391_09.Koi_BE.enums.TrackingStatus;
 import lombok.Builder;
+import lombok.Data;
 
+@Data
 @Builder
 public class KoiDTO {
 
@@ -39,5 +41,8 @@ public class KoiDTO {
 
     @JsonProperty("category_id")
     private int categoryId;
+
+    @JsonProperty("user_id")
+    private Long userId;
 
 }

@@ -51,6 +51,10 @@ public class Koi extends BaseEntity{
     private String description;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user; //koi breeder
+
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
