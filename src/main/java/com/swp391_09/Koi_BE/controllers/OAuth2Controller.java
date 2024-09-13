@@ -19,11 +19,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${api.prefix}/autho2")
+@RequestMapping("${api.prefix}/oauth2")
 public class OAuth2Controller {
 
     @Value("${spring.security.oauth2.client.registration.google.clientId}")
@@ -64,6 +66,13 @@ public class OAuth2Controller {
         } catch (Exception e) {
             return ResponseUtils.loginFailed(localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_FAILED, e.getMessage()));
         }
+    }
+    @GetMapping("/google-client-id")
+    public ResponseEntity<Map<String, String>> getGoogleClientId() {
+        Map<String, String> response = new HashMap<>();
+        response.put("clientId", clientId);
+        System.out.println(clientId);
+        return ResponseEntity.ok(response);
     }
 
 }

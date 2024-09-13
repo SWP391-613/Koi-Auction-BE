@@ -72,7 +72,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 Pair.of(String.format("%s/categories", apiPrefix), "GET"),
                 Pair.of(String.format("%s/users/register", apiPrefix), "POST"),
                 Pair.of(String.format("%s/users/login", apiPrefix), "POST"),
-                Pair.of(String.format("%s/autho2", apiPrefix), "POST")
+                Pair.of(String.format("%s/oauth2", apiPrefix), "POST"),
+                Pair.of(String.format("%s/oauth2/google-client-id", apiPrefix), "GET")
         // Pair.of(String.format("%s/products/test/view", apiPrefix), "GET")
         );
         for (Pair<String, String> bypassToken : bypassTokens) {
