@@ -5,6 +5,8 @@ import com.swp391_09.Koi_BE.models.Category;
 import com.swp391_09.Koi_BE.repositories.CategoryRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,8 +26,8 @@ public class CategoryService implements ICategoryService{
     }
 
     @Override
-    public List<Category> getAllCategories() {
-        return categoryRepository.findAll();
+    public Page<Category> getAllCategories(Pageable pageable) {
+        return categoryRepository.findAll(pageable);
     }
 
     @Override
