@@ -9,7 +9,7 @@ import com.swp391_09.Koi_BE.dtos.OAuth2DTO;
 import com.swp391_09.Koi_BE.exceptions.InvalidParamException;
 import com.swp391_09.Koi_BE.responses.LoginResponse;
 import com.swp391_09.Koi_BE.responses.OAuth2Payload;
-import com.swp391_09.Koi_BE.services.IUserService;
+import com.swp391_09.Koi_BE.services.user.IUserService;
 import com.swp391_09.Koi_BE.utils.MessageKeys;
 import com.swp391_09.Koi_BE.utils.ResponseUtils;
 import lombok.RequiredArgsConstructor;

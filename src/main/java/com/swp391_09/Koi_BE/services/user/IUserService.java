@@ -1,4 +1,4 @@
-package com.swp391_09.Koi_BE.services;
+package com.swp391_09.Koi_BE.services.user;
 
 import com.swp391_09.Koi_BE.dtos.UserRegisterDTO;
 import com.swp391_09.Koi_BE.models.User;

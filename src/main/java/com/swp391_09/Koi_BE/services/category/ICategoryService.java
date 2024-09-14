@@ -1,8 +1,7 @@
-package com.swp391_09.Koi_BE.services;
+package com.swp391_09.Koi_BE.services.category;
 
 import com.swp391_09.Koi_BE.dtos.CategoryDTO;
 import com.swp391_09.Koi_BE.models.Category;
-import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

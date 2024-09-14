@@ -6,7 +6,7 @@ import com.swp391_09.Koi_BE.dtos.UserRegisterDTO;
 import com.swp391_09.Koi_BE.models.User;
 import com.swp391_09.Koi_BE.responses.LoginResponse;
 import com.swp391_09.Koi_BE.responses.RegisterResponse;
-import com.swp391_09.Koi_BE.services.IUserService;
+import com.swp391_09.Koi_BE.services.user.IUserService;
 import com.swp391_09.Koi_BE.utils.MessageKeys;
 import com.swp391_09.Koi_BE.utils.ResponseUtils;
 import jakarta.validation.Valid;

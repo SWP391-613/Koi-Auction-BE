@@ -1,7 +1,7 @@
 package com.swp391_09.Koi_BE.controllers;
 
 import com.swp391_09.Koi_BE.models.Category;
-import com.swp391_09.Koi_BE.services.ICategoryService;
+import com.swp391_09.Koi_BE.services.category.ICategoryService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
