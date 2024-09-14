@@ -7,6 +7,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum AuctionType {
 
-    SOLD, ONETIME, UP, DOWN;
+    SOLD(1),
+    ONETIME(2),
+    UP(3),
+    DOWN(4);
+
+    private final int type;
 
 }
