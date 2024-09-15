@@ -7,6 +7,13 @@
 -- Phiên bản máy phục vụ: 9.0.1
 -- Phiên bản PHP: 8.2.23
 
+DROP DATABASE IF EXISTS koi_company;
+-- Nếu cơ sở dữ liệu koi_company chưa tồn tại, thực hiện câu lệnh CREATE DATABASE
+CREATE DATABASE IF NOT EXISTS koi_company;
+
+-- Sử dụng cơ sở dữ liệu koi_company
+USE koi_company;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
@@ -30,7 +37,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `categories` (
   `id` int NOT NULL,
   `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `categories`
@@ -426,7 +433,7 @@ CREATE TABLE `koi_images` (
   `id` bigint NOT NULL,
   `image_url` varchar(300) DEFAULT NULL,
   `koi_id` bigint DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -467,7 +474,7 @@ CREATE TABLE `order_details` (
   `total_money` float NOT NULL,
   `koi_id` bigint DEFAULT NULL,
   `order_id` bigint DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -500,7 +507,7 @@ CREATE TABLE `shippers` (
   `id` int NOT NULL,
   `company_name` varchar(255) DEFAULT NULL,
   `phone_number` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -514,7 +521,7 @@ CREATE TABLE `social_accounts` (
   `name` varchar(150) DEFAULT NULL,
   `provider` varchar(20) NOT NULL,
   `provider_id` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -533,7 +540,7 @@ CREATE TABLE `tokens` (
   `token` varchar(255) DEFAULT NULL,
   `token_type` varchar(50) DEFAULT NULL,
   `user_id` bigint DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -555,7 +562,7 @@ CREATE TABLE `users` (
   `is_active` tinyint(1) DEFAULT NULL,
   `password` varchar(200) DEFAULT NULL,
   `role_id` bigint DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`

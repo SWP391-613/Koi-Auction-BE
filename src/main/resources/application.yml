@@ -22,6 +22,15 @@ spring:
       ddl-auto: update
     show-sql: true
 
+  data:
+    mongodb:
+      username: ${MONGO_DEV_USER:root}
+      password: ${MONGO_DEV_PASSWORD:Luucaohoang1604^^}
+      host: localhost
+      port: 27018
+      database: koi_company
+      authentication-database: admin
+
 server:
   port: 4000
 

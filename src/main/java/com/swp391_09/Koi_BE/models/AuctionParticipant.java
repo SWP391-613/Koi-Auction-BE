@@ -12,14 +12,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name= "auction_participants")
+@Document(collection = "auction_participants")
 public class AuctionParticipant {
 
     @Id

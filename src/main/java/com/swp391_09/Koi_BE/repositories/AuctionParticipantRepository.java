@@ -1,8 +1,8 @@
 package com.swp391_09.Koi_BE.repositories;
 
 import com.swp391_09.Koi_BE.models.AuctionParticipant;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 
-public interface AuctionParticipantRepository extends JpaRepository<AuctionParticipant, Long> {
+public interface AuctionParticipantRepository extends MongoRepository<AuctionParticipant, Long> {
 
 }
