@@ -18,11 +18,10 @@ public class OrderDetail {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
-    @JsonBackReference
     private Order order;
 
     @ManyToOne
-    @JoinColumn(name = "koi_id")
+    @JoinColumn(name = "product_id")
     private Koi koi;
 
     @Column(name = "price", nullable = false)
@@ -34,7 +33,7 @@ public class OrderDetail {
     @Column(name = "total_money", nullable = false)
     private Float totalMoney;
 
-    @Column(name = "color")
-    private String color;
+//    @Column(name = "color")
+//    private String color;
 
 }

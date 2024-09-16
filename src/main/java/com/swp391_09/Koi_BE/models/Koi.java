@@ -19,24 +19,9 @@ public class Koi extends BaseEntity{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //koi properties
     @Column(name = "name", nullable = false, length = 350)
     private String name;
-
-    @Column(name = "price")
-    private Float price;
-
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name="tracking_status")
-    private TrackingStatus trackingStatus;
-
-    @Column(name = "is_display")
-    private int isDisplay;
-
-    @Column(name = "is_sold")
-    private int isSold;
-
-    @Column(name = "thumbnail", length = 300)
-    private String thumbnail;
 
     @Column(name = "sex", length = 10)
     private String sex;
@@ -46,21 +31,39 @@ public class Koi extends BaseEntity{
 
     @Column(name= "age")
     private int age;
+    //koi properties
+
+    @Column(name = "base_price") // Negotiated with Koi Breeder
+    private Float price;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name="tracking_status")
+    private TrackingStatus trackingStatus;
+
+    @Column(name = "is_display")
+    private int isDisplay;
+
+    @Column(name = "thumbnail", length = 300)
+    private String thumbnail;
 
     @Column(name = "description")
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user; //koi breeder
+    @JoinColumn(name = "owner_id")
+    private User owner; //koi breeder
 
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "koi",
-        cascade = CascadeType.ALL,
-        fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "koi")
     private List<KoiImage> koiImages;
+
+    @OneToMany(mappedBy = "koi")
+    private List<AuctionKoi> auctionKoisk;
+
+    @OneToMany(mappedBy = "koi")
+    private List<OrderDetail> orderDetails;
 
 }

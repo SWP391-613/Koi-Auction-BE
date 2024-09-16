@@ -21,9 +21,6 @@ public class KoiDTO {
     @JsonProperty("is_display")
     private int isDisplay;
 
-    @JsonProperty("is_sold")
-    private int isSold;
-
     @JsonProperty("thumbnail")
     private String thumbnail;
 
@@ -43,6 +40,6 @@ public class KoiDTO {
     private int categoryId;
 
     @JsonProperty("user_id")
-    private Long userId;
+    private Long ownerId;
 
 }

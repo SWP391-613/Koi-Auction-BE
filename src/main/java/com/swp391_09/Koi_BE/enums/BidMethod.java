@@ -5,12 +5,12 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum AuctionType {
+public enum BidMethod {
 
-    SOLD(1),
-    ONETIME(2),
-    UP(3),
-    DOWN(4);
+    FIXED_PRICE(1),
+    SEALED_BID(2),
+    ASCENDING_BID(3),
+    DESCENDING_BID(4);
 
     private final int type;
 

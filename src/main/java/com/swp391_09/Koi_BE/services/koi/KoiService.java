@@ -24,9 +24,9 @@ public class KoiService implements IKoiService {
     @Override
     public Koi createKoi(KoiDTO koiDTO) throws DataNotFoundException {
 
-        User existedUser = userRepository.findById(koiDTO.getUserId())
+        User existedUser = userRepository.findById(koiDTO.getOwnerId())
             .orElseThrow(() ->
-                             new DataNotFoundException("User not found: " + koiDTO.getUserId()));
+                             new DataNotFoundException("User not found: " + koiDTO.getOwnerId()));
 
         Category existedCategory = categoryRepository.findById(koiDTO.getCategoryId())
             .orElseThrow(() ->
@@ -37,13 +37,12 @@ public class KoiService implements IKoiService {
             .price(koiDTO.getPrice())
             .trackingStatus(koiDTO.getTrackingStatus())
             .isDisplay(koiDTO.getIsDisplay())
-            .isSold(koiDTO.getIsSold())
             .thumbnail(koiDTO.getThumbnail())
             .sex(koiDTO.getSex())
             .length(koiDTO.getLength())
             .age(koiDTO.getAge())
             .description(koiDTO.getDescription())
-            .user(existedUser)
+            .owner(existedUser)
             .category(existedCategory)
             .build();
         return koiRepository.save(newKoi);

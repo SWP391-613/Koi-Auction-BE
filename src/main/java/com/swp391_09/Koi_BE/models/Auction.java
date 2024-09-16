@@ -5,8 +5,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,7 +28,7 @@ public class Auction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-@Column(name="title")
+    @Column(name="title")
     private String title;
 
     @Column(name = "start_time")
@@ -34,5 +36,11 @@ public class Auction {
 
     @Column(name = "end_time")
     private LocalDateTime endTime;
+
+    @OneToMany(mappedBy = "auction")
+    private List<AuctionKoi> auctionKoisk;
+
+    @OneToMany(mappedBy = "auction")
+    private List<AuctionParticipant> auctionParticipants;
 
 }

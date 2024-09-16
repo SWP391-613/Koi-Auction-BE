@@ -1,7 +1,10 @@
 package com.swp391_09.Koi_BE.models;
 
+import com.swp391_09.Koi_BE.enums.UserStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -50,8 +53,12 @@ public class User extends BaseEntity implements UserDetails {
     @Column(name="password", length = 200)
     private String password;
 
-    @Column(name="is_active", columnDefinition = "TINYINT(1)")
-    private boolean isActive;
+//    @Column(name="is_active", columnDefinition = "TINYINT(1)")
+//    private boolean isActive;
+
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name="status")
+    private UserStatus status;
 
     @Column(name="date_of_birth")
     private Date dob;
@@ -65,6 +72,10 @@ public class User extends BaseEntity implements UserDetails {
     @ManyToOne
     @JoinColumn(name="role_id")
     private Role role;
+
+//    @ManyToOne
+//    @JoinColumn(name = "department_id")
+//    private Department department;
 
     //Spring Security
     @Override

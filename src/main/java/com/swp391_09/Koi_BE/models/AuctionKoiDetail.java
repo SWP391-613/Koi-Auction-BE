@@ -4,8 +4,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,10 +29,15 @@ public class AuctionKoiDetail {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany
-    private List<User> users;
+    private int bidStep; // Optional, if you want to enforce bid increments
+    private LocalDateTime bidTime; // Track when the bid was placed
 
-    @OneToMany
-    private List<AuctionKoi> auctionKois;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User bidder; // Track who placed the bid
+
+    @ManyToOne
+    @JoinColumn(name = "auction_koi_id")
+    private AuctionKoi auctionKoi;
 
 }

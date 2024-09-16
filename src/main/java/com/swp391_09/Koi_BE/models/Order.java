@@ -20,11 +20,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @Column(name = "fullname", length = 100)
+    @Column(name = "full_name", length = 100)
     private String fullName;
 
     @Column(name = "email", length = 100)
@@ -41,10 +37,6 @@ public class Order {
 
     @Column(name="order_date")
     private LocalDate orderDate;
-
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "status")
-    private OrderStatus status;
 
     @Column(name = "total_money")
     private Float totalMoney;
@@ -67,8 +59,19 @@ public class Order {
     @Column(name = "active")
     private Boolean active;//thuộc về admin
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @Enumerated(EnumType.ORDINAL)
+    @Column(name = "status")
+    private OrderStatus status;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @OneToMany(mappedBy = "order")
     private List<OrderDetail> orderDetails;
+
+    @ManyToOne
+    @JoinColumn(name = "shipping_id")
+    private Shipper shipper;
 
 }
