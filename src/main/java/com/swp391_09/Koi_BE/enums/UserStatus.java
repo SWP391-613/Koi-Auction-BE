@@ -4,8 +4,8 @@ public enum UserStatus {
 
     ACTIVE,
     INACTIVE,
-    BANNED,
-    UNVERIFIED,
     VERIFIED,
+    UNVERIFIED,
+    BANNED,
 
 }

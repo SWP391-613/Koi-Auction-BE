@@ -31,8 +31,8 @@ public class Category {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "category")
-    private List<Koi> kois;
+//    @OneToMany(mappedBy = "category")
+//    private List<Koi> kois;
 
 //    @OneToMany(mappedBy = "category")
 //    private Set<Product> products;

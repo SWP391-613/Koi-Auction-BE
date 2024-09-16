@@ -1,41 +1,37 @@
 package com.swp391_09.Koi_BE.models;
 
+import com.swp391_09.Koi_BE.enums.ProviderName;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@Entity
+@Table(name = "providers")
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "roles")
-@Entity
+@NoArgsConstructor
 @Builder
-public class Role {
+public class Provider {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
 
-    @Column(name = "name", columnDefinition = "VARCHAR(20)")
-    private String name;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "name")
+    private ProviderName name;
 
-//    @OneToMany(mappedBy = "role")
-//    private List<User> users;
-
-    public static String MEMBER = "MEMBER";
-    public static String STAFF = "STAFF";
-    public static String BREEDER = "BREEDER";
-    public static String MANAGER = "MANAGER";
 }

@@ -35,7 +35,7 @@ public class KoiService implements IKoiService {
         Koi newKoi = Koi.builder()
             .name(koiDTO.getName())
             .price(koiDTO.getPrice())
-            .trackingStatus(koiDTO.getTrackingStatus())
+//            .trackingStatus(koiDTO.getKoiTrackingStatus())
             .isDisplay(koiDTO.getIsDisplay())
             .thumbnail(koiDTO.getThumbnail())
             .sex(koiDTO.getSex())

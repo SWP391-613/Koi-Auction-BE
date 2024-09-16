@@ -1,6 +1,5 @@
 package com.swp391_09.Koi_BE.models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.swp391_09.Koi_BE.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
@@ -67,11 +66,7 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "order")
-    private List<OrderDetail> orderDetails;
+//    @OneToMany(mappedBy = "order")
+//    private List<OrderDetail> orderDetails;
 
-    @ManyToOne
-    @JoinColumn(name = "shipping_id")
-    private Shipper shipper;
-
-}
+ }

@@ -2,7 +2,7 @@ package com.swp391_09.Koi_BE.enums;
 
 import java.util.Random;
 
-public enum TrackingStatus {
+public enum KoiTrackingStatus {
 
     UNVERIFIED, VERIFIED, REJECTED, DELETED;
 
@@ -12,8 +12,8 @@ public enum TrackingStatus {
     /**
      * Returns a random TrackingStatus value.
      */
-    public static TrackingStatus getRandomStatus() {
-        TrackingStatus[] statuses = values();
+    public static KoiTrackingStatus getRandomStatus() {
+        KoiTrackingStatus[] statuses = values();
         return statuses[RANDOM.nextInt(statuses.length)];
     }
 }

@@ -1,15 +1,14 @@
 package com.swp391_09.Koi_BE.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,13 +22,16 @@ import lombok.Setter;
 @Builder
 @Entity
 @Table(name="auction_kois_details")
-public class AuctionKoiDetail {
+public class BidHistory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "bid_step")
     private int bidStep; // Optional, if you want to enforce bid increments
+
+    @Column(name = "bid_time")
     private LocalDateTime bidTime; // Track when the bid was placed
 
     @ManyToOne

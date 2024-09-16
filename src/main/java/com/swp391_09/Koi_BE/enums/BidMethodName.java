@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum BidMethod {
+public enum BidMethodName {
 
     FIXED_PRICE(1),
     SEALED_BID(2),

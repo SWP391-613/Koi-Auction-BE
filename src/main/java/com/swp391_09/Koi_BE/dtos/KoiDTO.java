@@ -1,7 +1,7 @@
 package com.swp391_09.Koi_BE.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.swp391_09.Koi_BE.enums.TrackingStatus;
+import com.swp391_09.Koi_BE.enums.KoiTrackingStatus;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,7 +16,7 @@ public class KoiDTO {
     private Float price;
 
     @JsonProperty("tracking_status")
-    private TrackingStatus trackingStatus;
+    private KoiTrackingStatus koiTrackingStatus;
 
     @JsonProperty("is_display")
     private int isDisplay;

@@ -1,6 +1,5 @@
 package com.swp391_09.Koi_BE.models;
 
-import com.swp391_09.Koi_BE.enums.TrackingStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,8 +35,8 @@ public class Koi extends BaseEntity{
     @Column(name = "base_price") // Negotiated with Koi Breeder
     private Float price;
 
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name="tracking_status")
+    @ManyToOne
+    @JoinColumn(name = "tracking_id")
     private TrackingStatus trackingStatus;
 
     @Column(name = "is_display")
@@ -57,13 +56,13 @@ public class Koi extends BaseEntity{
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @OneToMany(mappedBy = "koi")
-    private List<KoiImage> koiImages;
-
-    @OneToMany(mappedBy = "koi")
-    private List<AuctionKoi> auctionKoisk;
-
-    @OneToMany(mappedBy = "koi")
-    private List<OrderDetail> orderDetails;
+//    @OneToMany(mappedBy = "koi")
+//    private List<KoiImage> koiImages;
+//
+//    @OneToMany(mappedBy = "koi")
+//    private List<AuctionKoi> auctionKoisk;
+//
+//    @OneToMany(mappedBy = "koi")
+//    private List<OrderDetail> orderDetails;
 
 }
