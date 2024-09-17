@@ -1,6 +1,6 @@
 package com.swp391_09.Koi_BE.models;
 
-import com.swp391_09.Koi_BE.enums.UserStatus;
+import com.swp391_09.Koi_BE.enums.EUserStatus;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -58,9 +58,9 @@ public class User extends BaseEntity implements UserDetails {
 //    @Column(name="is_active", columnDefinition = "TINYINT(1)")
 //    private boolean isActive;
 
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name="status")
-    private UserStatus status;
+    @ManyToOne
+    @JoinColumn(name="status_id")
+    private UserStatus userStatus;
 
     @Column(name="date_of_birth")
     private Date dob;
