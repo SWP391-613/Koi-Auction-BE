@@ -7,11 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum BidMethodName {
 
-    FIXED_PRICE(1),
-    SEALED_BID(2),
-    ASCENDING_BID(3),
-    DESCENDING_BID(4);
-
-    private final int type;
-
+    FIXED_PRICE,
+    SEALED_BID,
+    ASCENDING_BID,
+    DESCENDING_BID;
 }
