@@ -36,8 +36,8 @@ public class Koi extends BaseEntity{
     private Float price;
 
     @ManyToOne
-    @JoinColumn(name = "tracking_id")
-    private TrackingStatus trackingStatus;
+    @JoinColumn(name = "verify_id")
+    private VerifyStatus verifyStatus;
 
     @Column(name = "is_display")
     private int isDisplay;
