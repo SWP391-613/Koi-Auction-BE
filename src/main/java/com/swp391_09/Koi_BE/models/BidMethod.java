@@ -1,6 +1,6 @@
 package com.swp391_09.Koi_BE.models;
 
-import com.swp391_09.Koi_BE.enums.BidMethodName;
+import com.swp391_09.Koi_BE.enums.EBidMethod;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +18,7 @@ public class BidMethod {
     private int id;
 
     @Column(name = "name")
-    @Enumerated(EnumType.ORDINAL)
-    private BidMethodName name;
+    @Enumerated(EnumType.STRING)
+    private EBidMethod name;
 
 }
