@@ -1,6 +1,5 @@
 package com.swp391_09.Koi_BE.models;
 
-import com.swp391_09.Koi_BE.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -58,9 +57,9 @@ public class Order {
     @Column(name = "active")
     private Boolean active;//thuộc về admin
 
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "status")
-    private OrderStatus status;
+    @ManyToOne
+    @JoinColumn(name = "status_id")
+    private OrderStatus orderStatus;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
