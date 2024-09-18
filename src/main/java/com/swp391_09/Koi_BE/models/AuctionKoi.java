@@ -1,5 +1,6 @@
 package com.swp391_09.Koi_BE.models;
 
+import com.swp391_09.Koi_BE.enums.EBidMethod;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import java.util.List;
@@ -32,9 +33,9 @@ public class AuctionKoi {
     @Column(name = "is_sold", nullable = false, columnDefinition = "boolean default false")
     private boolean isSold; // Track if the item has been sold
 
-    @ManyToOne
-    @JoinColumn(name = "bid_method_id")
-    private BidMethod bidMethod;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "bid_method")
+    private EBidMethod bidMethod;
 
     @ManyToOne
     @JoinColumn(name = "auction_id")

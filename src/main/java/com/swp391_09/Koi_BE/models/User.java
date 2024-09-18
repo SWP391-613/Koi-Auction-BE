@@ -58,7 +58,7 @@ public class User extends BaseEntity implements UserDetails {
 //    @Column(name="is_active", columnDefinition = "TINYINT(1)")
 //    private boolean isActive;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column(name="status")
     private UserStatus status;
 

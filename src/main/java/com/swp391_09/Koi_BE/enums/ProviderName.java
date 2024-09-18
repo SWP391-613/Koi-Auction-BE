@@ -7,8 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ProviderName {
 
-    GOOGLE("google"),
-    FACEBOOK("facebook");
+    GOOGLE("GOOGLE"),
+    FACEBOOK("FACEBOOK"),;
 
     private final String providerName;
 

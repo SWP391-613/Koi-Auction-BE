@@ -1,6 +1,6 @@
 package com.swp391_09.Koi_BE.models;
 
-import com.swp391_09.Koi_BE.enums.KoiTrackingStatus;
+import com.swp391_09.Koi_BE.enums.EKoiStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +20,6 @@ public class TrackingStatus {
 
     @Enumerated(EnumType.ORDINAL)
     @Column(name = "name")
-    private KoiTrackingStatus name;
+    private EKoiStatus name;
 
 }

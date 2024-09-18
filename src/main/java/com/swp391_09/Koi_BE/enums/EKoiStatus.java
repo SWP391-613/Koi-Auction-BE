@@ -1,17 +1,18 @@
 package com.swp391_09.Koi_BE.enums;
 
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum UserStatus {
+public enum EKoiStatus {
 
-    ACTIVE("ACTIVE"),
-    INACTIVE("INACTIVE"),
-    VERIFIED("VERIFIED"),
     UNVERIFIED("UNVERIFIED"),
-    BANNED("BANNED");
+    VERIFIED("VERIFIED"),
+    REJECTED("REJECTED"),
+    PENDING("PENDING"),
+    SOLD("SOLD"),;
 
     private final String status;
 

@@ -1,6 +1,7 @@
 package com.swp391_09.Koi_BE.models;
 
 
+import com.swp391_09.Koi_BE.enums.ProviderName;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,9 +23,9 @@ public class SocialAccount {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "provider_id")
-    private Provider provider;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "provider_name")
+    private ProviderName providerName;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -30,7 +30,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `categories` (
   `id` int NOT NULL,
   `name` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `categories`
@@ -426,7 +426,7 @@ CREATE TABLE `koi_images` (
   `id` bigint NOT NULL,
   `image_url` varchar(300) DEFAULT NULL,
   `koi_id` bigint DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -467,7 +467,7 @@ CREATE TABLE `order_details` (
   `total_money` float NOT NULL,
   `koi_id` bigint DEFAULT NULL,
   `order_id` bigint DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -500,7 +500,7 @@ CREATE TABLE `shippers` (
   `id` int NOT NULL,
   `company_name` varchar(255) DEFAULT NULL,
   `phone_number` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -514,7 +514,7 @@ CREATE TABLE `social_accounts` (
   `name` varchar(150) DEFAULT NULL,
   `provider` varchar(20) NOT NULL,
   `provider_id` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -533,7 +533,7 @@ CREATE TABLE `tokens` (
   `token` varchar(255) DEFAULT NULL,
   `token_type` varchar(50) DEFAULT NULL,
   `user_id` bigint DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -555,16 +555,16 @@ CREATE TABLE `users` (
   `is_active` tinyint(1) DEFAULT NULL,
   `password` varchar(200) DEFAULT NULL,
   `role_id` bigint DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
 INSERT INTO `users` (`id`, `created_at`, `updated_at`, `address`, `avatar_url`, `date_of_birth`, `email`, `facebook_account_id`, `fullname`, `google_account_id`, `is_active`, `password`, `role_id`) VALUES
-(1, '2024-09-13 01:09:01.086737', '2024-09-13 01:09:01.086737', 'Da Nang, Viet Nam', 'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg', '1979-10-13 00:00:00.000000', 'duong@gmail.com', 0, 'Duong Nguyen', 0, 0, '$2a$10$XVTbFSnr06K//1KxEakEieOmo1n0BksiqFJs1BF.nzYQ55xsjpszq', 1),
-(2, '2024-09-13 01:09:37.928010', '2024-09-13 01:09:37.928010', 'Tam Ki, Viet Nam', 'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg', '1979-10-13 00:00:00.000000', 'hoangclw@gmail.com', 0, 'Hoang Cao Luu', 0, 0, '$2a$10$ZVU9SOhox1rpkjxXAPviceXkIuIxEUy4nVK5xzLhBopyTcoTenYJW', 1),
-(3, '2024-09-13 01:09:54.556093', '2024-09-13 01:09:54.556093', 'Quang Binh, Viet Nam', 'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg', '1979-10-13 00:00:00.000000', 'son@gmail.com', 0, 'Son Duong', 0, 0, '$2a$10$KgFv0aJ.TWKxX/wn1Px3f.D2T/hbwjW4quAjSY8W.VoVB8U6jZmGy', 1);
+(1, '2024-09-13 01:09:01.086737', '2024-09-13 01:09:01.086737', 'Da Nang, Viet Nam', 'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg', '1979-10-13 00:00:00.000000', 'duong@gmail.com', , 'Duong Nguyen', 0, 0, '$2a$10$XVTbFSnr06K//1KxEakEieOmo1n0BksiqFJs1BF.nzYQ55xsjpszq', 1),
+(2, '2024-09-13 01:09:37.928010', '2024-09-13 01:09:37.928010', 'Tam Ki, Viet Nam', 'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg', '1979-10-13 00:00:00.000000', 'hoangclw@gmail.com', , 'Hoang Cao Luu', 0, 0, '$2a$10$ZVU9SOhox1rpkjxXAPviceXkIuIxEUy4nVK5xzLhBopyTcoTenYJW', 1),
+(3, '2024-09-13 01:09:54.556093', '2024-09-13 01:09:54.556093', 'Quang Binh, Viet Nam', 'https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg', '1979-10-13 00:00:00.000000', 'son@gmail.com', , 'Son Duong', 0, 0, '$2a$10$KgFv0aJ.TWKxX/wn1Px3f.D2T/hbwjW4quAjSY8W.VoVB8U6jZmGy', 1);
 
 --
 -- Chỉ mục cho các bảng đã đổ

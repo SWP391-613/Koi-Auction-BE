@@ -3,10 +3,8 @@ package com.swp391_09.Koi_BE.services.user;
 import com.swp391_09.Koi_BE.components.JwtTokenUtils;
 import com.swp391_09.Koi_BE.dtos.UserRegisterDTO;
 import com.swp391_09.Koi_BE.enums.ProviderName;
-import com.swp391_09.Koi_BE.enums.SocialProvider;
 import com.swp391_09.Koi_BE.exceptions.DataNotFoundException;
 import com.swp391_09.Koi_BE.exceptions.PermissionDeniedException;
-import com.swp391_09.Koi_BE.models.Provider;
 import com.swp391_09.Koi_BE.models.Role;
 import com.swp391_09.Koi_BE.models.SocialAccount;
 import com.swp391_09.Koi_BE.models.User;
@@ -109,10 +107,7 @@ public class UserService implements IUserService {
                     .build();
 
             SocialAccount newSocialAccount = SocialAccount.builder()
-                    .provider(Provider.builder()
-                                  .id(1L)
-                                  .name(ProviderName.GOOGLE)
-                                  .build())
+                    .providerName(ProviderName.GOOGLE)
                     .name(name)
                     .email(email)
                     .build();

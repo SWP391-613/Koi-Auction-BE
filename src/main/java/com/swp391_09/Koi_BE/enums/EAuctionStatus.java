@@ -5,13 +5,11 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum UserStatus {
+public enum EAuctionStatus {
 
+    ONGOING("ONGOING"),
     ACTIVE("ACTIVE"),
-    INACTIVE("INACTIVE"),
-    VERIFIED("VERIFIED"),
-    UNVERIFIED("UNVERIFIED"),
-    BANNED("BANNED");
+    ENDED("ENDED");
 
     private final String status;
 
