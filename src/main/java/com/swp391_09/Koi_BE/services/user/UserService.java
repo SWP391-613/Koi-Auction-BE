@@ -3,6 +3,7 @@ package com.swp391_09.Koi_BE.services.user;
 import com.swp391_09.Koi_BE.components.JwtTokenUtils;
 import com.swp391_09.Koi_BE.dtos.UserRegisterDTO;
 import com.swp391_09.Koi_BE.enums.ProviderName;
+import com.swp391_09.Koi_BE.enums.UserStatus;
 import com.swp391_09.Koi_BE.exceptions.DataNotFoundException;
 import com.swp391_09.Koi_BE.exceptions.PermissionDeniedException;
 import com.swp391_09.Koi_BE.models.Role;
@@ -54,6 +55,7 @@ public class UserService implements IUserService {
                 .email(userRegisterDTO.getEmail())
                 .password(userRegisterDTO.getPassword())
                 .address(userRegisterDTO.getAddress())
+                .status(UserStatus.UNVERIFIED)
                 .dob(userRegisterDTO.getDateOfBirth())
                 .avatarUrl("https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg")
                 .googleAccountId(userRegisterDTO.getGoogleAccountId())
