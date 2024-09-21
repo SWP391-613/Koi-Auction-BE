@@ -78,6 +78,18 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 Pair.of(String.format("%s/categories", apiPrefix), "PUT"), //add security later
                 Pair.of(String.format("%s/categories", apiPrefix), "DELETE"), //add security later
 
+                //StaffController
+                Pair.of(String.format("%s/staffs", apiPrefix), "GET"),
+                Pair.of(String.format("%s/staffs", apiPrefix), "POST"),
+                Pair.of(String.format("%s/staffs", apiPrefix), "PUT"),
+                Pair.of(String.format("%s/staffs", apiPrefix), "DELETE"),
+
+                //ManagerController
+                Pair.of(String.format("%s/managers", apiPrefix), "GET"),
+                Pair.of(String.format("%s/managers", apiPrefix), "POST"),
+                Pair.of(String.format("%s/managers", apiPrefix), "PUT"),
+                Pair.of(String.format("%s/managers", apiPrefix), "DELETE"),
+
                 Pair.of(String.format("%s/users/register", apiPrefix), "POST"),
                 Pair.of(String.format("%s/users/login", apiPrefix), "POST"),
                 Pair.of(String.format("%s/oauth2", apiPrefix), "POST"),

@@ -2,7 +2,7 @@ package com.swp391.koibe.controllers;
 
 import com.swp391.koibe.models.User;
 import com.swp391.koibe.responses.UserResponse;
-import com.swp391.koibe.services.member.IMemberService;
+import com.swp391.koibe.services.user.member.IMemberService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

@@ -1,4 +1,4 @@
-package com.swp391.koibe.services.breeder;
+package com.swp391.koibe.services.user.breeder;
 
 import com.swp391.koibe.exceptions.notfound.DataNotFoundException;
 import com.swp391.koibe.models.User;

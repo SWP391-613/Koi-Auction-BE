@@ -1,4 +1,4 @@
-package com.swp391.koibe.services.member;
+package com.swp391.koibe.services.user.staff;
 
 import com.swp391.koibe.exceptions.notfound.DataNotFoundException;
 import com.swp391.koibe.models.User;
@@ -6,12 +6,12 @@ import com.swp391.koibe.responses.UserResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface IMemberService {
+public interface IStaffService {
 
-    Page<UserResponse> getAllMembers(Pageable pageable);
+    Page<UserResponse> getAllStaffs(Pageable pageable);
     User findById(long id) throws DataNotFoundException;
-    User createMember(User member);
-    User updateMember(long memberId, User member) throws Exception;
-    void deleteMember(long id);
+    User create(User staff);
+    User update(long id, User staff);
+    void delete(long id);
 
 }

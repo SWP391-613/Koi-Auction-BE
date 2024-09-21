@@ -1,6 +1,5 @@
-package com.swp391.koibe.services.member;
+package com.swp391.koibe.services.user.member;
 
-import com.swp391.koibe.enums.RoleName;
 import com.swp391.koibe.exceptions.notfound.DataNotFoundException;
 import com.swp391.koibe.exceptions.notfound.MemberNotFoundException;
 import com.swp391.koibe.models.User;
