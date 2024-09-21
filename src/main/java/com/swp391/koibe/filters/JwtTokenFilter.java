@@ -70,21 +70,41 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 Pair.of(String.format("%s/roles", apiPrefix), "GET"),
                 Pair.of(String.format("%s/kois", apiPrefix), "GET"),
                 Pair.of(String.format("%s/kois", apiPrefix), "POST"),
+
+                //CategoryController
                 Pair.of(String.format("%s/categories", apiPrefix), "GET"),
+                Pair.of(String.format("%s/categories", apiPrefix), "POST"), //add security later
+                Pair.of(String.format("%s/categories", apiPrefix), "GET"), //add security later
+                Pair.of(String.format("%s/categories", apiPrefix), "PUT"), //add security later
+                Pair.of(String.format("%s/categories", apiPrefix), "DELETE"), //add security later
+
                 Pair.of(String.format("%s/users/register", apiPrefix), "POST"),
                 Pair.of(String.format("%s/users/login", apiPrefix), "POST"),
                 Pair.of(String.format("%s/oauth2", apiPrefix), "POST"),
                 Pair.of(String.format("%s/oauth2/google-client-id", apiPrefix), "GET"),
                 Pair.of(String.format("%s/members", apiPrefix), "GET"),
                 Pair.of(String.format("%s/breeders", apiPrefix), "GET")
+
         // Pair.of(String.format("%s/products/test/view", apiPrefix), "GET")
         );
+//        for (Pair<String, String> bypassToken : bypassTokens) {
+//            if (request.getServletPath().contains(bypassToken.getFirst()) &&
+//                    request.getMethod().equals(bypassToken.getSecond())) {
+//                return true;
+//            }
+//        }
+//        return false;
+
+        String servletPath = request.getServletPath();
+        String method = request.getMethod();
+
         for (Pair<String, String> bypassToken : bypassTokens) {
-            if (request.getServletPath().contains(bypassToken.getFirst()) &&
-                    request.getMethod().equals(bypassToken.getSecond())) {
+            String bypassPath = bypassToken.getFirst();
+            if (servletPath.startsWith(bypassPath) && method.equals(bypassToken.getSecond())) {
                 return true;
             }
         }
         return false;
+
     }
 }

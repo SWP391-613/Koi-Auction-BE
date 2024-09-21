@@ -19,11 +19,11 @@ public class LocalizationConfig {
         return messageSource;
     }
 
-    @Bean
-    public LocaleResolver customLocaleResolver() {
-        SessionLocaleResolver slr = new SessionLocaleResolver();
-        slr.setDefaultLocale(Locale.US);
-        return slr;
-    }
+   @Bean
+   public LocaleResolver customLocaleResolver() {
+       SessionLocaleResolver slr = new SessionLocaleResolver();
+       slr.setDefaultLocale(Locale.forLanguageTag("vi"));
+       return slr;
+   }
 
 }

@@ -1,15 +1,20 @@
 package com.swp391.koibe.controllers;
 
-import com.swp391.koibe.models.Category;
+import com.swp391.koibe.dtos.CategoryDTO;
 import com.swp391.koibe.services.category.ICategoryService;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,18 +25,64 @@ public class CategoryController {
     private final ICategoryService categoryService;
 
     @GetMapping("")
-    public ResponseEntity<List<Category>> getAllCategories(
-        @RequestParam("page") int page,
-        @RequestParam("limit") int limit
-    ) {
+    public ResponseEntity<?> getAllCategories() {
         try{
-            PageRequest pageRequest = PageRequest.of(page, limit);
-            Page<Category> categories = categoryService.getAllCategories(pageRequest);
-            return ResponseEntity.ok(categories.getContent());
+            return ResponseEntity.ok(categoryService.getAllCategories());
         }catch (Exception e){
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
 
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCategoryById(@PathVariable int id) {
+        try{
+            return ResponseEntity.ok(categoryService.getById(id));
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PostMapping("")
+    public ResponseEntity<?> createCategory(
+        @Valid @RequestBody CategoryDTO categoryDTO,
+        BindingResult result) {
+
+        if(result.hasErrors()){
+            List<FieldError> fieldErrorList = result.getFieldErrors();
+            List<String> errorMessages = fieldErrorList
+                .stream()
+                .map(FieldError::getDefaultMessage)
+                .toList();
+            return ResponseEntity.badRequest().body(errorMessages);
+        }
+
+        try{
+            categoryService.createCategory(categoryDTO);
+            return ResponseEntity.status(201).body("Category created successfully");
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateCategory(@PathVariable int id, @RequestBody CategoryDTO categoryDTO) {
+        try{
+            categoryService.update(id, categoryDTO);
+            return ResponseEntity.ok().body("Category updated successfully");
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteCategory(@PathVariable int id) {
+        try{
+            categoryService.delete(id);
+            return ResponseEntity.noContent().build();
+        }catch (Exception e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
 
