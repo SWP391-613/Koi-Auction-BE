@@ -46,6 +46,8 @@ public class WebSecurityConfig {
                     // demo api
                     // String.format("%s/products/test/view", apiPrefix)
 
+                    // waiting to enable to add the swagger
+
                     )
                             .permitAll()
 

@@ -95,7 +95,16 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 Pair.of(String.format("%s/oauth2", apiPrefix), "POST"),
                 Pair.of(String.format("%s/oauth2/google-client-id", apiPrefix), "GET"),
                 Pair.of(String.format("%s/members", apiPrefix), "GET"),
-                Pair.of(String.format("%s/breeders", apiPrefix), "GET")
+                Pair.of(String.format("%s/breeders", apiPrefix), "GET"),
+
+                //Swagger
+                Pair.of("/api-docs","GET"),
+                Pair.of("/swagger-resources","GET"),
+                Pair.of("/configuration/ui","GET"),
+                Pair.of("/configuration/security","GET"),
+                Pair.of("/swagger-ui","GET"),
+                Pair.of("/swagger-ui.html", "GET"),
+                Pair.of("/swagger-ui/index.html", "GET")
 
         // Pair.of(String.format("%s/products/test/view", apiPrefix), "GET")
         );
