@@ -8,6 +8,7 @@ import com.swp391_09.Koi_BE.models.User;
 import com.swp391_09.Koi_BE.repositories.CategoryRepository;
 import com.swp391_09.Koi_BE.repositories.KoiRepository;
 import com.swp391_09.Koi_BE.repositories.UserRepository;
+import com.swp391_09.Koi_BE.responses.KoiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -54,8 +55,9 @@ public class KoiService implements IKoiService {
     }
 
     @Override
-    public Page<Koi> getAllKois(Pageable pageable) {
-        return koiRepository.findAll(pageable);
+    public Page<KoiResponse> getAllKois(Pageable pageable) {
+        Page<Koi> kois = koiRepository.findAll(pageable);
+        return kois.map(KoiResponse::convertToDTO);
     }
 
     @Override

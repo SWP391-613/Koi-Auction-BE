@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import com.swp391_09.Koi_BE.dtos.KoiDTO;
 import com.swp391_09.Koi_BE.enums.EKoiStatus;
 import com.swp391_09.Koi_BE.models.Koi;
+import com.swp391_09.Koi_BE.responses.KoiResponse;
 import com.swp391_09.Koi_BE.services.koi.IKoiService;
 import java.util.Arrays;
 import java.util.List;
@@ -77,13 +78,13 @@ public class KoiController {
 
     //pagination kois
     @GetMapping("") //kois/?page=0&limit=10
-    public ResponseEntity<List<Koi>> getAllKois(
+    public ResponseEntity<List<KoiResponse>> getAllKois(
         @RequestParam("page") int page,
         @RequestParam("limit") int limit
     ) {
         try{
             PageRequest pageRequest = PageRequest.of(page, limit);
-            Page<Koi> categories = koiService.getAllKois(pageRequest);
+            Page<KoiResponse> categories = koiService.getAllKois(pageRequest);
             return ResponseEntity.ok(categories.getContent());
         }catch (Exception e){
             return ResponseEntity.badRequest().body(null);
