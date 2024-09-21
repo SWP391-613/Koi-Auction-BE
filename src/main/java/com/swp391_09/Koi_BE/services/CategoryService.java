@@ -19,7 +19,7 @@ public class CategoryService implements ICategoryService{
     }
 
     @Override
-    public Category getCategoryById(long id) {
+    public Category getCategoryById(int id) {
         return null;
     }
 
@@ -29,7 +29,7 @@ public class CategoryService implements ICategoryService{
     }
 
     @Override
-    public Category updateCategory(long categoryId, CategoryDTO category) {
+    public Category updateCategory(long categoryId, Category categoryDTO) {
         return null;
     }
 
