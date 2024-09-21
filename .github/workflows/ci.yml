@@ -6,13 +6,13 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Java CI with Maven
+name: Koi Auction BE CI
 
 on:
   push:
     branches: [ "develop" ]
   pull_request:
-    branches: [ "develop", "main" ]
+    branches: [ "develop" ]
 
 jobs:
   build:
