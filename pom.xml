@@ -8,8 +8,8 @@
 		<version>3.3.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.swp391-09</groupId>
-	<artifactId>Koi-BE</artifactId>
+	<groupId>com.swp391</groupId>
+	<artifactId>koibe</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Koi-BE</name>
 	<description>Koi Selling Backend</description>

@@ -1,4 +1,4 @@
-package com.swp391_09.Koi_BE.services;
+package com.swp391.koibe.services;
 
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,8 +8,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.mockito.InjectMocks;
-import com.swp391_09.Koi_BE.dtos.UserRegisterDTO;
-import com.swp391_09.Koi_BE.models.User;
+import com.swp391.koibe.dtos.UserRegisterDTO;
+import com.swp391.koibe.models.User;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
