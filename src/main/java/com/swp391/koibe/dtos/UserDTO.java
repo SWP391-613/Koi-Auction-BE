@@ -1,7 +1,9 @@
-package com.swp391.koibe.responses;
+package com.swp391.koibe.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.swp391.koibe.models.User;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserResponse {
+public class UserDTO {
 
     @JsonProperty("id")
     private Long id;
@@ -24,12 +26,14 @@ public class UserResponse {
     private String phoneNumber;
 
     @JsonProperty("email")
+    @Email(message = "Email should be valid")
     private String email;
 
     @JsonProperty("address")
     private String address;
 
     @JsonProperty("password")
+    @NotBlank(message = "Password cannot be blank")
     private String password;
 
     @JsonProperty("status_name")
@@ -45,6 +49,7 @@ public class UserResponse {
     private int googleAccountId;
 
     @JsonProperty("role_name")
+    @NotNull(message = "Role name is required")
     private String roleName;
 
     @JsonProperty("wallet_id")

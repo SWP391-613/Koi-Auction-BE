@@ -2,6 +2,7 @@ package com.swp391.koibe.controllers;
 
 import com.swp391.koibe.models.User;
 import com.swp391.koibe.responses.UserResponse;
+import com.swp391.koibe.services.breeder.IBreederService;
 import com.swp391.koibe.services.member.IMemberService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,30 +17,30 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("${api.prefix}/members")
-public class MemberController {
+@RequestMapping("${api.prefix}/breeders")
+public class BreederController {
 
-    private final IMemberService memberService;
+    private final IBreederService breederService;
 
     @GetMapping("")
-    public ResponseEntity<List<UserResponse>> getAllMembers(
+    public ResponseEntity<List<UserResponse>> getAllBreeders(
         @RequestParam("page") int page,
         @RequestParam("limit") int limit
     ) {
         try {
             PageRequest pageRequest = PageRequest.of(page, limit);
-            Page<UserResponse> members = memberService.getAllMembers(pageRequest);
-            return ResponseEntity.ok(members.getContent());
+            Page<UserResponse> breeders = breederService.getAllBreeders(pageRequest);
+            return ResponseEntity.ok(breeders.getContent());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(null);
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getMember(@PathVariable long id) {
+    public ResponseEntity<?> getBreeder(@PathVariable long id) {
         try {
-            User member = memberService.findById(id);
-            return ResponseEntity.ok(member);
+            User breeder = breederService.findById(id);
+            return ResponseEntity.ok(breeder);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }

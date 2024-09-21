@@ -54,20 +54,4 @@ public class KoiResponse {
     @JsonProperty("category_id")
     private int categoryId;
 
-    public static KoiResponse convertToDTO(Koi koi) {
-        return KoiResponse.builder()
-            .id(koi.getId())
-            .name(koi.getName())
-            .sex(koi.getSex())
-            .length(koi.getLength())
-            .age(koi.getAge())
-            //.basePrice(koi.getBasePrice())
-            .statusName(koi.getStatus() != null ? koi.getStatus().getStatus() : null)
-            .idDisplay(koi.getIsDisplay())
-            .thumbnail(koi.getThumbnail())
-            .description(koi.getDescription())
-            .ownerId(koi.getOwner().getId())
-            .categoryId(koi.getCategory().getId())
-            .build();
-    }
 }

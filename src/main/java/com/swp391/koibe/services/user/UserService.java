@@ -3,7 +3,7 @@ package com.swp391.koibe.services.user;
 import com.swp391.koibe.components.JwtTokenUtils;
 import com.swp391.koibe.dtos.UserRegisterDTO;
 import com.swp391.koibe.enums.ProviderName;
-import com.swp391.koibe.exceptions.DataNotFoundException;
+import com.swp391.koibe.exceptions.notfound.DataNotFoundException;
 import com.swp391.koibe.exceptions.PermissionDeniedException;
 import com.swp391.koibe.models.Role;
 import com.swp391.koibe.models.SocialAccount;
