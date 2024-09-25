@@ -60,6 +60,7 @@ public class UserService implements IUserService {
                 .dob(userRegisterDTO.getDateOfBirth())
                 .avatarUrl("https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg")
                 .googleAccountId(userRegisterDTO.getGoogleAccountId())
+                .accountBalance(0L) //new user has 0 money when register
                 .build();
 
         newUser.setRole(role);
@@ -107,6 +108,7 @@ public class UserService implements IUserService {
                     .googleAccountId(1)
                     .avatarUrl(avatarUrl)
                     .role(memberRole)
+                    .accountBalance(0L)
                     .build();
 
             SocialAccount newSocialAccount = SocialAccount.builder()
@@ -114,6 +116,7 @@ public class UserService implements IUserService {
                     .name(name)
                     .email(email)
                     .build();
+
 
             user = userRepository.save(newUser);
             socialAccountRepository.save(newSocialAccount);

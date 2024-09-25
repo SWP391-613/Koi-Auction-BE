@@ -82,8 +82,8 @@ public class User extends BaseEntity implements UserDetails {
     @JoinColumn(name="role_id")
     private Role role;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    private Wallet wallet;
+    @Column(name="account_balance")
+    private long accountBalance;
 
 //    @ManyToOne
 //    @JoinColumn(name = "department_id")
