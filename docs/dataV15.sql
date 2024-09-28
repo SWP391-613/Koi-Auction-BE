@@ -7,6 +7,13 @@
 -- Phiên bản máy phục vụ: 9.0.1
 -- Phiên bản PHP: 8.2.23
 
+DROP DATABASE IF EXISTS koi_company_dev;
+-- Nếu cơ sở dữ liệu koi_company_dev chưa tồn tại, thực hiện câu lệnh CREATE DATABASE
+CREATE DATABASE IF NOT EXISTS koi_company_dev;
+
+-- Sử dụng cơ sở dữ liệu koi_company_dev
+USE koi_company_dev;
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
