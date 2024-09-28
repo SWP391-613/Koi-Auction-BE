@@ -144,12 +144,6 @@
       <artifactId>spring-boot-starter-mail</artifactId>
       <version>3.3.2</version>
     </dependency>
-    <!-- https://mvnrepository.com/artifact/io.github.cdimascio/dotenv-java -->
-    <dependency>
-      <groupId>io.github.cdimascio</groupId>
-      <artifactId>dotenv-java</artifactId>
-      <version>3.0.1</version>
-    </dependency>
   </dependencies>
 
   <build>

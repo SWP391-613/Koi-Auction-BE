@@ -1,6 +1,5 @@
 package com.swp391.koibe.configs;
 
-import io.github.cdimascio.dotenv.Dotenv;
 import java.util.Properties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -10,8 +9,6 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 @Configuration
 public class MailConfig {
-
-    Dotenv dotenv = Dotenv.load();
 
     @Value("${spring.mail.username}")
     private String username;
