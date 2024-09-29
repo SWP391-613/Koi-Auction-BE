@@ -1,8 +1,8 @@
 name: CI for Koi-Auction-BE
 
 on:
-  push:
-    branches: [ "develop", "feature/no-issue/handle-ci" ]
+#  push:
+#    branches: [ "develop", "feature/no-issue/handle-ci" ]
   pull_request:
     branches: [ "develop", "feature/no-issue/handle-ci" ]
 
