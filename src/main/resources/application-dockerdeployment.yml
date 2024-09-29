@@ -1,0 +1,69 @@
+spring:
+  datasource:
+    url: jdbc:mysql://mysql_db_koi_deployment:3306/koi_auction_dev
+    username: ${SPRING_DATASOURCE_USERNAME:lcaohoanq}
+    password: ${SPRING_DATASOURCE_PASSWORD:Luucaohoang1604^^}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: lvhhoangg1@gmail.com
+    password: ojlx ohfr qxwd llxx
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: 1093656938461-fod9qlmrd68m0otn7mhrggi pp15b8cnj.apps.googleusercontent.com
+            clientSecret: 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
+
+server:
+  port: 8088
+
+api:
+  prefix: /api/v1
+
+jwt:
+  expiration: 2592000 #30 days = 30 * 24 * 60 * 60
+  expiration-refresh-token: 5184000 #60 days = 60 * 24 * 60 * 60
+  secretKey: TaqlmGv1iEDMRiFp/pHuID1+T84IABfuA0xXh4GhiUI=
+
+logging:
+  level:
+    org.springframework: DEBUG
+    springframework.security: DEBUG
+    org.hibernate: DEBUG
+
+# swagger-ui custom path
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+  api-docs:
+    path: /api-docs
+  show-actuator: true
+
+#health check
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      base-path: /api/v1/actuator
+      exposure:
+        #include: "health"
+        include: "health, info"
+
+# 3rd party
+unsplash:
+  api:
+    root: https://api.unsplash.com
+    clientId: 2Me57Gt0_US3pizvMojZYoV55q_TinbMvYVmwEUqoOI

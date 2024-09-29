@@ -6,6 +6,10 @@ services:
   mysql:
     image: lcaohoanq/sample-mysql-db:2.0
     container_name: mysql_db_koi_development
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      timeout: 20s
+      retries: 10
     networks:
       - koi_networks
     environment:
