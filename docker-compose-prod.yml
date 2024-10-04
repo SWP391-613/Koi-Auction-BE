@@ -1,5 +1,5 @@
 networks:
-  mysql_connector:
+  koi_networks_production:
     driver: bridge
 
 services:
@@ -7,7 +7,7 @@ services:
     image: phpmyadmin:5
     container_name: phpmyadmin_ui
     networks:
-      - mysql_connector
+      - koi_networks_production
     environment:
       PMA_HOST: azdb-koiauction.mysql.database.azure.com
       PMA_PORT: 3306
@@ -17,6 +17,32 @@ services:
     ports:
       - "81:80"                                           # Expose phpMyAdmin on port 81
 
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus-container
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+    volumes:
+      - ./config/prometheus:/etc/prometheus
+    networks:
+      - koi_networks_production
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana-container
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - koi_networks_production
+
 volumes:
   mysql_data:
+    driver: local
+  grafana_data:
     driver: local

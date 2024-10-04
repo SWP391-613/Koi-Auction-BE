@@ -52,15 +52,18 @@ springdoc:
 
 #health check
 management:
-  endpoint:
-    health:
-      show-details: always
   endpoints:
     web:
       base-path: /api/v1/actuator
       exposure:
-        #include: "health"
-        include: "health, info"
+        include: "health,info,prometheus"
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
 
 # 3rd party
 unsplash:
