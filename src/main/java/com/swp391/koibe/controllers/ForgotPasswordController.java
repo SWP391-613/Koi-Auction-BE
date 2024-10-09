@@ -7,6 +7,7 @@ import com.swp391.koibe.responses.ForgotPasswordResponse;
 import com.swp391.koibe.repositories.UserRepository;
 import com.swp391.koibe.services.mail.MailService;
 import com.swp391.koibe.utils.OTPUtils;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class ForgotPasswordController {
     private final MailService mailService;
 
     @PutMapping("")
-    public ResponseEntity<ForgotPasswordResponse> forgotPassword(@RequestParam @Validated String email_phone) {
+    public ResponseEntity<ForgotPasswordResponse> forgotPassword(@RequestParam @Validated String email_phone) throws MessagingException {
         User user = (User) request.getAttribute("validatedAccount");
 
         String name = user.getFirstName();

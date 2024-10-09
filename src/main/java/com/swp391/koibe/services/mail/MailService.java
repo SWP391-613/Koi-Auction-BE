@@ -18,7 +18,7 @@ public class MailService implements IMailService {
     private final SpringTemplateEngine templateEngine;
 
     @Override
-    public void sendMail(String to, String subject, String templateName, Context context) {
+    public void sendMail(String to, String subject, String templateName, Context context) throws MessagingException {
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
@@ -30,6 +30,7 @@ public class MailService implements IMailService {
             log.info("Mail send successfully to {}", to);
         } catch (MessagingException e) {
             log.error("Failed to send mail to {}: {}", to, e.getMessage());
+            throw new MessagingException("Failed to send mail to " + to);
         }
     }
 

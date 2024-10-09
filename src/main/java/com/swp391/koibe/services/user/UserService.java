@@ -25,6 +25,7 @@ import com.swp391.koibe.services.otp.OtpService;
 import com.swp391.koibe.utils.MessageKeys;
 import com.swp391.koibe.utils.OTPUtils;
 
+import jakarta.mail.MessagingException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +35,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.retry.annotation.Backoff;
+import org.springframework.retry.annotation.Retryable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -300,13 +303,36 @@ public class UserService implements IUserService {
         return userRepository.save(user);
     }
 
+    @Transactional
+    @Retryable(
+        retryFor = { MessagingException.class },  // Retry only for specific exceptions
+        maxAttempts = 3,                       // Maximum retry attempts
+        backoff = @Backoff(delay = 2000)       // 2 seconds delay between retries
+    )
     @Override
     public void updateAccountBalance(Long userId, Long payment) throws Exception {
         User existingUser = userRepository.findById(userId)
-                .orElseThrow(() -> new DataNotFoundException(
-                        localizationUtils.getLocalizedMessage(MessageKeys.USER_NOT_FOUND)
-                ));
+            .orElseThrow(() -> new DataNotFoundException(
+                localizationUtils.getLocalizedMessage(MessageKeys.USER_NOT_FOUND)
+            ));
         existingUser.setAccountBalance(existingUser.getAccountBalance() + payment);
+
+        Context context = new Context();
+        context.setVariable("name", existingUser.getFirstName());
+        context.setVariable("amount", payment);
+
+        try {
+            mailService.sendMail(
+                existingUser.getEmail(),
+                "Account balance updated",
+                EmailCategoriesEnum.BALANCE_FLUCTUATION.getType(),
+                context
+            );
+        } catch (MessagingException e) {
+            log.error("Failed to send email to {}", existingUser.getEmail(), e);
+            throw new MessagingException(String.format("Failed to send email to %s", existingUser.getEmail()));
+        }
+
         log.info("User {} balance updated. New balance: {}", userId, existingUser.getAccountBalance());
         userRepository.save(existingUser);
     }
