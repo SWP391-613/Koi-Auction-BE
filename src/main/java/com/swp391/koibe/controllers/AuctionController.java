@@ -57,8 +57,8 @@ public class AuctionController {
         }
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<?> testAuction(){
+    @GetMapping("/notify/upcoming")
+    public ResponseEntity<?> notifyAllUserUpcomingAuction(){
         try{
             auctionMailService.notifyUsersAboutUpcomingAuctions();
             return ResponseEntity.ok("Success");
