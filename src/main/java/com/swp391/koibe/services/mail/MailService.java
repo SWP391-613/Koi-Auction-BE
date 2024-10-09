@@ -1,7 +1,16 @@
 package com.swp391.koibe.services.mail;
 
+import com.swp391.koibe.exceptions.base.DataNotFoundException;
+import com.swp391.koibe.models.Auction;
+import com.swp391.koibe.responses.AuctionResponse;
+import com.swp391.koibe.responses.UserResponse;
+import com.swp391.koibe.services.auction.AuctionService;
+import com.swp391.koibe.services.auction.IAuctionService;
+import com.swp391.koibe.services.auctionparticipant.IAuctionParticipantService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import java.util.Optional;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,6 +26,8 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 public class MailService implements IMailService {
     private final JavaMailSender mailSender;
     private final SpringTemplateEngine templateEngine;
+    private final IAuctionParticipantService auctionParticipantService;
+    private final IAuctionService auctionService;
 
     @Override
     @Async
@@ -35,5 +46,7 @@ public class MailService implements IMailService {
             throw new MessagingException("Failed to send mail to " + to);
         }
     }
+
+
 
 }

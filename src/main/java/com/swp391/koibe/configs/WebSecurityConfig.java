@@ -91,6 +91,16 @@ public class WebSecurityConfig {
                                          String.format("%s/auction-participant**", apiPrefix))  .permitAll()
                             .requestMatchers(DELETE,
                                          String.format("%s/auction-participant**", apiPrefix))  .permitAll()
+
+                            .requestMatchers(GET,
+                                    String.format("%s/auction-mail**", apiPrefix))  .permitAll()
+                            .requestMatchers(POST,
+                                         String.format("%s/auction-mail**", apiPrefix))  .permitAll()
+                            .requestMatchers(PUT,
+                                            String.format("%s/auction-mail**", apiPrefix))  .permitAll()
+                            .requestMatchers(DELETE,
+                                            String.format("%s/auction-mail**", apiPrefix))  .permitAll()
+
                             .anyRequest().authenticated();
 
 
