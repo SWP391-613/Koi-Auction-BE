@@ -1,11 +1,11 @@
 package com.swp391.koibe.controllers;
 
 import com.swp391.koibe.constants.EmailSubject;
-import com.swp391.koibe.models.User;
 import com.swp391.koibe.enums.EmailCategoriesEnum;
-import com.swp391.koibe.responses.ForgotPasswordResponse;
+import com.swp391.koibe.models.User;
 import com.swp391.koibe.repositories.UserRepository;
-import com.swp391.koibe.services.mail.MailService;
+import com.swp391.koibe.responses.ForgotPasswordResponse;
+import com.swp391.koibe.services.mail.IMailService;
 import com.swp391.koibe.utils.OTPUtils;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,7 +26,7 @@ public class ForgotPasswordController {
 
     private final UserRepository userRepository;
     private final HttpServletRequest request;
-    private final MailService mailService;
+    private final IMailService mailService;
 
     @PutMapping("")
     public ResponseEntity<ForgotPasswordResponse> forgotPassword(@RequestParam @Validated String email_phone) throws MessagingException {

@@ -7,7 +7,7 @@ import com.swp391.koibe.enums.UserStatus;
 import com.swp391.koibe.models.Otp;
 import com.swp391.koibe.models.User;
 import com.swp391.koibe.responses.MailResponse;
-import com.swp391.koibe.services.mail.MailService;
+import com.swp391.koibe.services.mail.IMailService;
 import com.swp391.koibe.services.otp.IOtpService;
 import com.swp391.koibe.utils.OTPUtils;
 import jakarta.mail.MessagingException;
@@ -27,7 +27,7 @@ import org.thymeleaf.context.Context;
 @RequiredArgsConstructor
 public class MailController {
 
-    private final MailService mailService;
+    private final IMailService mailService;
     private final HttpServletRequest request;
     private final IOtpService otpService;
 

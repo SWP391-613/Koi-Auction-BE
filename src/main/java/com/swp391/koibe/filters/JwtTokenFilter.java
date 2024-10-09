@@ -119,6 +119,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 //Otp
                 Pair.of(String.format("%s/otp/send", apiPrefix), "GET"),
 
+                Pair.of(String.format("%s/auction-participant", apiPrefix), "GET"),
+                Pair.of(String.format("%s/auction-participant", apiPrefix), "POST"),
+                Pair.of(String.format("%s/auction-participant", apiPrefix), "PUT"),
+                Pair.of(String.format("%s/auction-participant", apiPrefix), "DELETE"),
+
                 //Swagger
                 Pair.of("/api-docs","GET"),
                 Pair.of("/swagger-resources","GET"),

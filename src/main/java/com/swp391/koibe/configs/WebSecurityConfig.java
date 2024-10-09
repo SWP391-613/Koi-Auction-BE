@@ -82,6 +82,15 @@ public class WebSecurityConfig {
                             .requestMatchers(DELETE,
                                     String.format("%s/categories/**", apiPrefix))
                             .hasAnyRole(Role.MANAGER)
+
+                            .requestMatchers(GET,
+                                    String.format("%s/auction-participant**", apiPrefix))  .permitAll()
+                            .requestMatchers(POST,
+                                         String.format("%s/auction-participant**", apiPrefix))  .permitAll()
+                            .requestMatchers(PUT,
+                                         String.format("%s/auction-participant**", apiPrefix))  .permitAll()
+                            .requestMatchers(DELETE,
+                                         String.format("%s/auction-participant**", apiPrefix))  .permitAll()
                             .anyRequest().authenticated();
 
 
