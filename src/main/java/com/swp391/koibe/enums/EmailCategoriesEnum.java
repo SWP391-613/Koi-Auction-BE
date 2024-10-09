@@ -11,7 +11,10 @@ public enum EmailCategoriesEnum {
     FORGOT_PASSWORD("forgotPassword"),
     RETRY_BLOCK_ALERT("retryBlockAlert"),
     BALANCE_FLUCTUATION("balanceFluctuation"),
-    AUCTION_CLOSED("auctionClosed");
+    AUCTION_STARTED("auctionStarted"),
+    AUCTION_CLOSED("auctionClosed"),
+    AUCTION_UPCOMING("auctionUpcoming"),
+    AUCTION_WINNER("auctionWinner"),;
 
     private final String type;
 }

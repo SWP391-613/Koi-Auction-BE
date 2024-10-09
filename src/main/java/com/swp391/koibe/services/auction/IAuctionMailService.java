@@ -8,4 +8,5 @@ public interface IAuctionMailService {
                                          String subject,
                                          String templateName,
                                          Context context) throws MessagingException;
+    void notifyUsersAboutUpcomingAuctions() throws MessagingException;
 }

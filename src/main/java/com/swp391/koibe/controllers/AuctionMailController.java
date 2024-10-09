@@ -23,11 +23,6 @@ public class AuctionMailController {
     private final IAuctionMailService auctionMailService;
     private final AuctionService auctionService;
 
-    @Retryable(
-        retryFor = { MessagingException.class },  // Retry only for specific exceptions
-        maxAttempts = 3,                       // Maximum retry attempts
-        backoff = @Backoff(delay = 2000)       // 2 seconds delay between retries
-    )
     @GetMapping("/end/{auctionId}")
     public void sendAuctionClosedEmailToAllUser(
         @PathVariable
