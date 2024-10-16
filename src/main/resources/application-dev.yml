@@ -81,3 +81,14 @@ unsplash:
   api:
     root: https://api.unsplash.com
     clientId: 2Me57Gt0_US3pizvMojZYoV55q_TinbMvYVmwEUqoOI
+
+vnpay:
+  api:
+    vnp_Version: 2.0.0
+    vnp_Command: pay
+    vnp_OrderType: "billpayment"
+    vnp_PayUrl: "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"
+    vnp_Returnurl: "http://localhost:4000/api/v1/payment/vnpay/payment_return"
+    vnp_TmnCode: "XM1B4C8V"
+    vnp_HashSecret: "JC3DPNWE1FO1PE8441MVDMCB77N16S71"
+    vnp_apiUrl: "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction"
