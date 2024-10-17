@@ -31,6 +31,8 @@
   <properties>
     <java.version>17</java.version>
     <kotlin.version>2.0.0</kotlin.version>
+    <aspectj.version>1.9.19</aspectj.version>
+    <allure.version>2.24.0</allure.version>
   </properties>
   <dependencies>
     <dependency>
@@ -279,8 +281,13 @@
       <artifactId>aspectjweaver</artifactId>
       <version>1.9.22.1</version>
     </dependency>
+    <dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-junit5</artifactId>
+      <version>${allure.version}</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
-
   <build>
     <plugins>
 
@@ -320,16 +327,29 @@
                 <suiteXmlFile>suites/SuiteLoginTest.xml</suiteXmlFile>
               </suiteXmlFiles>
               <argLine>
-                -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/1.9.22.1/aspectjweaver-1.9.22.1.jar"
+                -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
               </argLine>
+              <systemProperties>
+                <property>
+                  <name>allure.results.directory</name>
+                  <value>${project.build.directory}/allure-results</value>
+                </property>
+              </systemProperties>
               <testFailureIgnore>true</testFailureIgnore>
               <systemPropertyVariables>
-                <!--Đường dẫn xuất ra report-->
                 <allure.results.directory>target/allure-results</allure.results.directory>
+                <!--Đường dẫn xuất ra report-->
               </systemPropertyVariables>
             </configuration>
           </execution>
         </executions>
+        <dependencies>
+          <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+          </dependency>
+        </dependencies>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
