@@ -28,34 +28,34 @@ services:
     networks:
       - koi_networks_production
 
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus-container
-    ports:
-      - "9090:9090"
-    restart: unless-stopped
-    volumes:
-      - ./config/prometheus:/etc/prometheus
-    networks:
-      - koi_networks_production
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-
-  grafana:
-    image: grafana/grafana
-    container_name: grafana-container
-    ports:
-      - "3001:3000"
-    environment:
-      - GF_SECURITY_ADMIN_USER=admin
-      - GF_SECURITY_ADMIN_PASSWORD=admin
-    volumes:
-      - grafana_data:/var/lib/grafana
-    networks:
-      - koi_networks_production
+#  prometheus:
+#    image: prom/prometheus
+#    container_name: prometheus-container
+#    ports:
+#      - "9090:9090"
+#    restart: unless-stopped
+#    volumes:
+#      - ./config/prometheus:/etc/prometheus
+#    networks:
+#      - koi_networks_production
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#
+#  grafana:
+#    image: grafana/grafana
+#    container_name: grafana-container
+#    ports:
+#      - "3001:3000"
+#    environment:
+#      - GF_SECURITY_ADMIN_USER=admin
+#      - GF_SECURITY_ADMIN_PASSWORD=admin
+#    volumes:
+#      - grafana_data_production:/var/lib/grafana
+#    networks:
+#      - koi_networks_production
 
 volumes:
   mysql_data_production:
     driver: local
-  grafana_data_production:
-    driver: local
+#  grafana_data_production:
+#    driver: local
