@@ -94,13 +94,20 @@ public class WebSecurityConfig {
                     .requestMatchers(GET,
                                      String.format("%s/auctions**", apiPrefix))
                     .permitAll()
+                    // Explicitly allow `GET /auctions/{id}`
+                    .requestMatchers(GET, String.format("%s/auctions/{id:\\d+}", apiPrefix)).permitAll()
                     //******************************8
 
                     //AuctionKoiController******************
                     .requestMatchers(GET,
                                      String.format("%s/auctionkois**", apiPrefix))
                     .permitAll()
-
+                    .requestMatchers(GET,
+                                     String.format("%s/auctionkois/auction/{id:\\d+}", apiPrefix))
+                    .permitAll()
+                    .requestMatchers(GET,
+                                     String.format("%s/auctionkois/{aid:\\d+}/{id:\\d+}", apiPrefix))
+                    .permitAll()
                     ///get-kois-by-keyword
                     .requestMatchers(GET,
                                      String.format("%s/auctionkois/get-kois-by-keyword",
@@ -116,10 +123,11 @@ public class WebSecurityConfig {
                     .permitAll()
 
                     .requestMatchers(GET,
+                                     String.format("%s/kois/{id:\\d+}", apiPrefix))
+                    .permitAll()
+                    .requestMatchers(GET,
                                      String.format("%s/kois/get-kois-by-keyword", apiPrefix))
                     .hasAnyRole(Role.BREEDER)
-
-                    //get-unverified-kois-by-keyword
                     .requestMatchers(GET,
                                      String.format("%s/kois/get-unverified-kois-by-keyword", apiPrefix))
                     .hasAnyRole(Role.MANAGER, Role.STAFF)

@@ -47,13 +47,15 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         specialCasePatterns.add(Pair.of("GET", Pattern.compile(
                 String.format("%s/auctions/\\d+", apiPrefix))));
         specialCasePatterns.add(Pair.of("GET", Pattern.compile(
+            String.format("%s/kois/\\d+", apiPrefix))));
+        specialCasePatterns.add(Pair.of("GET", Pattern.compile(
                 String.format("%s/auctionkois/auction/\\d+", apiPrefix))));
         specialCasePatterns.add(Pair.of("GET", Pattern.compile(
                 String.format("%s/auctionkois/\\d+/\\d+", apiPrefix))));
         specialCasePatterns.add(Pair.of("GET", Pattern.compile(
                 String.format("%s/bidding/\\d+", apiPrefix))));
-        specialCasePatterns.add(Pair.of("POST", Pattern.compile(
-                String.format("%s/bidding/bid/\\d+", apiPrefix))));
+//        specialCasePatterns.add(Pair.of("POST", Pattern.compile(
+//                String.format("%s/bidding/bid/\\d+", apiPrefix))));
         specialCasePatterns.add(Pair.of("GET", Pattern.compile(
                 String.format("%s/bidding/\\d+/\\d+", apiPrefix))));
         // Add WebSocket connection pattern
@@ -72,8 +74,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             log.debug("Request path: {}, Method: {}", request.getServletPath(),
                     request.getMethod());
             if (isBypassToken(request)) {
-                log.debug("Bypass token: {}", isBypassToken(request));
-
+                log.debug("Bypass token: {}", request.getRequestURI());
                 filterChain.doFilter(request, response); // enable bypass
                 return;
             }
