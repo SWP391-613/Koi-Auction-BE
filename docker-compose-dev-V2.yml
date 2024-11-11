@@ -1,0 +1,93 @@
+networks:
+  koi_networks:
+    driver: bridge
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_koi_development
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: Luucaohoang1604^^
+      POSTGRES_DB: koi_company_dev
+    networks:
+      - koi_networks
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin_koi_development
+    environment:
+      PGADMIN_DEFAULT_EMAIL: hoangclw@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    networks:
+      - koi_networks
+    ports:
+      - "80:80"
+    depends_on:
+      - postgres
+
+#  pgloader:
+#    image: dimitri/pgloader:latest
+#    container_name: pgloader_koi_development
+#    networks:
+#      - koi_networks
+#    volumes:
+#      - ./docs/mysql_to_postgres.load:/tmp/mysql_to_postgres.load  # Updated path
+#    command: pgloader /tmp/mysql_to_postgres.load
+#    depends_on:
+#      - postgres
+#    healthcheck:
+#      test: [ "CMD-SHELL", "pg_isready -U admin" ]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 5
+
+  redis-container:
+    image: docker.io/redis:7.2.3
+    container_name: redis_koi_development
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis-data:/data # Mount a volume for Redis data persistence
+    networks:
+      - koi_networks
+
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus_koi_development
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+    volumes:
+      - ./config/prometheus:/etc/prometheus
+    networks:
+      - koi_networks
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  # connection Prometheus server URL
+  # http://prometheus:9090(prometheus is the service name)
+  # not use localhost because localhost refer to grafana itself
+  grafana:
+    image: grafana/grafana
+    container_name: grafana_koi_development
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=sysadmin
+      - GF_SECURITY_ADMIN_PASSWORD=sysadmin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - koi_networks
+
+volumes:
+  postgres_data:
+    driver: local
+  grafana_data:
+    driver: local

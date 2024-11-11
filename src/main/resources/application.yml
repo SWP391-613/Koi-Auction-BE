@@ -4,33 +4,9 @@ spring:
   output:
     ansi:
       enabled: ALWAYS
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
 
-  datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3305/koi_company?useSSL=false&serverTimezone=UTC}
-    username: dev
-    password: ${MYSQL_DEV_PASSWORD:Helloworld123^^}
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
-  jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
-    hibernate:
-      ddl-auto: validate
-    show-sql: true
-
-  jwt:
-    secret: your_jwt_secret_key
-    access:
-      expiration: 600000
-    refresh:
-      expiration: 1209600000
-
-server:
-  port: 8080
-
-api:
-  prefix: /api/v1
-
-logging:
-  level:
-    org.springframework: DEBUG
-    org.hibernate: DEBUG
+  profiles:
+    active: prod

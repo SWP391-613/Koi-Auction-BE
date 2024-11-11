@@ -1,0 +1,401 @@
+variety,image_url,breeder,length,sex,age,price
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Shinoda%20Doitsu%20Showa%2026cm%20tosai.png,Shinoda,26cm,Unknown,Tosai (1y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Isa%20Showa%20Tosai%2026cm.png,Isa,26cm,Unknown,Tosai (1y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Isa%20Showa%20Tosai%2027cm.png,Isa,27cm,Unknown,Tosai (1y),Unknown
+Ginrin Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Torazo%20Ginrin%20Kohaku%2029cm%20Tosai.png,Torazo,29cm,Unknown,Tosai (1y),Unknown
+Ginrin Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Torazo%20Ginrin%20Kohaku%20Tosai%2022cm.png,Torazo,22cm,Unknown,Tosai (1y),Unknown
+Karashigoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Marudo%20Karashigoi%20Tosai%2022cm.png,Marudo,22cm,Unknown,Tosai (1y),$25 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Marudo%20Shiro%20Utsuri%20Tosai%2032cm.png,Marudo,32cm,Unknown,Tosai (1y),$50 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Marudo%20Shiro%20Utsuri%20Tosai%20.png,Marudo,25cm,Unknown,Tosai (1y),$50 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Marudo%20Shiro%20Utsuri%20%20tosai%2021cm.png,Marudo,21cm,Female,Tosai (1y),$50 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/NND%20Showa%2022cm%20tosai.png,NND,22cm,Unknown,Tosai (1y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Marudo%20Shiro%20Utsuri%20%2030cm.png,Marudo,30cm,Unknown,Tosai (1y),$50 
+Yamabuki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/NND%20Yamabuki%20Tosai%2018cm.png,NND,18cm,Unknown,Tosai (1y),Unknown
+Dark Ochiba,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Shinoda%20Dark%20Ochiba%2023cm%20tosai.png,Shinoda,23cm,Unknown,Tosai (1y),Unknown
+Ginrin Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Shinoda%20Ginrin%20Showa%20Tosai%2031cm.png,Shinoda,31cm,Unknown,Tosai (1y),$50 
+Ginrin Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Shinoda%20Ginrin%20Showa%20tosai%2021cm.png,Isa,21cm,Unknown,Tosai (1y),Unknown
+Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Shinoda%20Hi%20Utsuri%2033cm.png,Shinoda,33cm,Unknown,Tosai (1y),Unknown
+Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Shinoda%20Hi%20Utsuri%20Tosai%2028cm.png,Shinoda,28cm,Unknown,Tosai (1y),$50 
+Ginrin Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Torazo%20Ginrin%20Kohaku%2018cm.png,Torazo,18cm,Unknown,Tosai (1y),$50 
+Ginrin Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Torazo%20GinRin%20Kohaku%20Tosai%2017cm.png,Torazo,17cm,Unknown,Tosai (1y),$50 
+Ginrin Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Torazo%20Ginrin%20Kohaku%20Tosai%2026cm%20.png,Torazo,26cm,Unknown,Tosai (1y),Unknown
+Ginrin Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Shinoda%20Ginrin%20Showa%20tosai%2033cm.png,Shinoda,33cm,Unknown,Tosai (1y),Unknown
+Doitsu Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Shinoda%20Doitsu%20Kohaku%20Tosai%2031.png,Shinoda,31cm,Unknown,Tosai (1y),Unknown
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Torazo%20Kohaku%20Tosai%2021cm.png,Torazo,21cm,Unknown,Tosai (1y),$50 
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Torazo%20Kohaku%2023cm%20tosai%20.png,Torazo,23cm,Unknown,Tosai (1y),$50 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Marudo%20Shiro%20Utsuri%20Tosai%2022cm.png,Marudo,22cm,Unknown,Tosai (1y),$50 
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Torazo%20Kohaku%20Tosai%2021cm%202.png,Torazo,21cm,Unknown,Tosai (1y),$50 
+Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Shinoda%20Hi%20Utsuri%2033cm%20Nisai%20png.png,Shinoda,33cm,Unknown,Tosai (1y),$50 
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Hiroi%20Doitsu%20Showa%2034cm%20Nisai.png,Hiroi,34cm,Unknown,Nisai (2y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Isa%20Showa%20Nisai%2036cm.png,Isa,36cm,Unknown,Nisai (2y),Unknown
+Doitsu Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Hiroi%20Doitsu%20Sanke%2040cm%20Nisai.png,Hiroi,40cm,Unknown,Nisai (2y),Unknown
+Ginrin Matsukawabake,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Iwashita%20Ginrin%20Matsukawabake%2034cm%20Nisai.png,Iwashita,34cm,Unknown,Nisai (2y),$50 
+Ai Goromo,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Izumiya%20Ai%20Goromo%2033cm%20Nisai.png,Izumiya,33cm,Unknown,Nisai (2y),$50 
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Izumiya%20Kohaku%20nisai%2035cm.png,Izumiya,35cm,Unknown,Nisai (2y),$50 
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Izumiya%20Sanke%2031cm%20Nisai.png,Izumiya,31cm,Unknown,Nisai (2y),$50 
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Izumiya%20Sanke%2035cm%20Nisai.png,Izumiya,35cm,Unknown,Nisai (2y),$50 
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Izumiya%20Sanke%20Nisai%2033cm.png,Izumiya,33cm,Unknown,Nisai (2y),Unknown
+Ginrin Goshiki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Kanno%20Ginrin%20Goshiki%20Nisai%2048cm.png,Kanno,48cm,Female,Nisai (2y),Unknown
+Tancho Goshiki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Kanno%20Tancho%20Goshiki%20Nisai%2039cm.png,Kanno,39cm,Unknown,Nisai (2y),Unknown
+Bekko,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Marudo%20Bekko%20Nisai%2027cm.png,Marudo,27cm,Unknown,Nisai (2y),$50 
+Ochiba,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Marudo%20Ochiba%20Nisai%2044cm.png,Marudo,44cm,Unknown,Nisai (2y),Unknown
+Goshiki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Kanno%20Goshiki%20Nisai%2037cm.png,Kanno,37cm,Unknown,Nisai (2y),Unknown
+Doitsu Aragoke Ginrin Chagoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Marudo%20Doitsu%20Aragoke%20Ginrin%20Chagoi%20Nisai%2042cm.png,Marudo,42cm,Unknown,Nisai (2y),$50 
+Ginrin Ochiba,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Marudo%20Ginrin%20Ochiba%20Nisai%2044cm.png,Marudo,44cm,Unknown,Nisai (2y),$50 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Izumiya%20Showa%20nisai%2040cm.png,Sekiguchi,40cm,Unknown,Nisai (2y),Unknown
+Soragoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Marudo%20Soragoi%20Nisai%2040cm.png,Marudo,40cm,Unknown,Nisai (2y),Unknown
+Asagi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Maruhiro%20Asagi%20Nisai%2038cm.png,Maruhiro,38cm,Unknown,Nisai (2y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/NND%20Shiro%20Utsuri%2046cm%20Nisai.png,NND,46cm,Unknown,Nisai (2y),Unknown
+Budo Goromo,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Ootsuka%20Budo%20Goromo%20Nisai.png,Ootsuka,28cm,Unknown,Nisai (2y),$50 
+Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Shinoda%20Hi%20Utsuri%20Nisai%2030cm.png,Shinoda,30cm,Unknown,Nisai (2y),$50 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Izumiya%20Showa%20Nisai%2028cm.png,Izumiya,28cm,Unknown,Nisai (2y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Izumiya%20Showa%20Nisai%2042cm.png,Marudo,42cm,Unknown,Nisai (2y),$50 
+Ginrin Aragoke Chagoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Marudo%20Ginrin%20Aragoke%20Chagoi.png,Marudo,33cm,Unknown,Nisai (2y),Unknown
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Izumiya%20Sanke%20sansai%2047cm.png,Izumiya,47cm,Unknown,Sansai (3y),$50 
+Red Karashigoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Marudo%20Karashigoi%20Sansai%2060cm.png,Marusei,60cm,Unknown,Sansai (3y),$200 
+Magoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Hirashin%20Magoi%20Sansai%2049cm.png,Hirashin,49cm,Unknown,Sansai (3y),$25 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Sekiguchi%20Showa%20Sansai%2058cm.png,Sekiguchi,58cm,Female,Sansai (3y),Unknown
+Magoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/3/photos/Hirashin%20Magoi%20Sansai%2048cm.png,Hirashin,48cm,Unknown,Sansai (3y),Unknown
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Torazo%20Kohaku%2015cm%20Tosai.png,Torazo,15cm,Unknown,Tosai (1y),Unknown
+Ginrin Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Torazo%20Ginrin%20Kohaku%2015cm%20Tosai.png,Torazo,15cm,Unknown,Tosai (1y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2018cm.png,Omosako,18cm,Unknown,Tosai (1y),$50 
+Ginrin Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Torazo%20Ginrin%20Kohaku%2018cm%20Tosai.png,Torazo,18cm,Unknown,Tosai (1y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2019cm.png,Omosako,19cm,Unknown,Tosai (1y),$50 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/ISA%20Showa%2019cm%20Tosai.png,Isa,19cm,Unknown,Tosai (1y),$50 
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Torazo%20Kohaku%2020cm%20Tosai%20,Torazo,20cm,Unknown,Tosai (1y),Unknown
+Tancho Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Torazo%20Tancho%20Sanke%2020cm%20Tosai.png,Torazo,20cm,Unknown,Tosai (1y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2021cm%202.png,Omosako,21cm,Unknown,Tosai (1y),$50 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2021cm%203.png,Omosako,21cm,Unknown,Tosai (1y),$50 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2021cm.png,Omosako,21cm,Unknown,Tosai (1y),$50 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/ISA%20Showa%2021cm%20Tosai.png,Isa,21cm,Unknown,Tosai (1y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/ISA%20Showa%2022cm%20Tosai.png,Isa,22cm,Unknown,Tosai (1y),$50 
+Yamabuki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/NND%20Yamibuki%20Tosai%2022cm%20.png,NND,22cm,Unknown,Tosai (1y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2022cm%203.png,Omosako,22cm,Unknown,Tosai (1y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2022cm%205.png,Omosako,22cm,Unknown,Tosai (1y),$50 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2022cm%206.png,Omosako,22cm,Unknown,Tosai (1y),$50 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2022cm%204.png,Omosako,22cm,Unknown,Tosai (1y),$50 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2022cm%207.png,Omosako,22cm,Unknown,Tosai (1y),$50 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2022cm.png,Omosako,22cm,Unknown,Tosai (1y),$50 
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Yellow_Monkey_22cm_Tosai.png,Dainichi,22cm,Unknown,Tosai (1y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/ISA%20Showa%2023cm%20Tosai%20,Isa,23cm,Unknown,Tosai (1y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/ISA%20Showa%2023cm%20Tosai.png,Isa,23cm,Unknown,Tosai (1y),$50 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2023cm%202.png,Omosako,23cm,Unknown,Tosai (1y),$50 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2023cm.png,Omosako,23cm,Unknown,Tosai (1y),Unknown
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Dainichi%20Ginrin%20Chagoi%2023cm%20Tosai.png,Dainichi,23cm,Unknown,Tosai (1y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/ISA%20Showa%2024cm%20Tosai.png,Isa,24cm,Unknown,Tosai (1y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2024cm%203.png,Omosako,24cm,Unknown,Tosai (1y),$50 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2024cm%204.png,Omosako,24cm,Unknown,Tosai (1y),$50 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2024cm.png,Omosako,24cm,Unknown,Tosai (1y),$50 
+Kujaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Kujaku_24cm_Tosai.png,Dainichi,24cm,Unknown,Tosai (1y),Unknown
+Ginrin Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Torazo%20Ginrin%20Kohaku%20Tosai%2025cm.png,Torazo,25cm,Unknown,Tosai (1y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2025cm%202.png,Omosako,25cm,Unknown,Tosai (1y),$50 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2025cm.png,Omosako,25cm,Unknown,Tosai (1y),$50 
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Dainichi%20Gin%20Rin%20Chagoi%2025cm%20Tosai.png,Dainichi,25cm,Unknown,Tosai (1y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2026cm%202.png,Omosako,26cm,Unknown,Tosai (1y),$50 
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Izumiya%20Showa%2026cm%20Nisai.png,Izumiya,26cm,Unknown,Nisai (2y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2026cm.png,Omosako,26cm,Unknown,Tosai (1y),$50 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Shiro%20Utsuri%2028cm.png,Omosako,28cm,Unknown,Tosai (1y),$50 
+Doitsu Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Omosako%20Tosai%20Doitsu%20Shiro%20Utsuri%2028cm.png,Omosako,28cm,Unknown,Tosai (1y),Unknown
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Dainichi%20Gin%20Rin%20Chagoi%2028cm%20Tosai.png,Dainichi,28cm,Unknown,Tosai (1y),Unknown
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Izumiya%20Sanke%2029cm%20Nisai.png,Izumiya,29cm,Unknown,Nisai (2y),Unknown
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Dainichi%20Gin%20Rin%20Chagoi%2029cm%20Tosai.png,Dainichi,29cm,Unknown,Tosai (1y),Unknown
+Doitsu Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Shinoda%20Doitsu%20Sanke%2030cm%20Tosai.png,Shinoda,30cm,Unknown,Tosai (1y),Unknown
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Dainichi%20Gin%20Rin%20Chagoi%2032cm%20Tosai.png,Dainichi,32cm,Unknown,Tosai (1y),Unknown
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Dainichi%20Gin%20Rin%20Chagoi%2033cm%20tosai.png,Dainichi,33cm,Unknown,Tosai (1y),Unknown
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/4/photos/Dainichi%20Gin%20Rin%20Chagoi%20Tosai%2033cm.png,Dainichi,33cm,Unknown,Tosai (1y),Unknown
+Ginrin Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/8-37%20Gin%20Rin%20Showa.png,Marushin,37cm,Unknown,Nisai (2y),$210 
+Ginrin Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/9-46%20Gin%20Rin%20Showa.png,Marushin,46cm,Unknown,Nisai (2y),Unknown
+Doitsu Tancho Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/13-41%20Doitsu%20Tancho%20Showa.png,Marushin,41cm,Unknown,Nisai (2y),Unknown
+Ginrin Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/10-40%20Gin%20Rin%20Showa.png,Marushin,40cm,Unknown,Nisai (2y),Unknown
+Doitsu Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/12-41%20Doitsu%20Shiro%20Utsuri.png,Marushin,41cm,Unknown,Nisai (2y),$210 
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/15-42%20Doitsu%20Showa.png,Marushin,42cm,Unknown,Nisai (2y),$210 
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/16-40%20Doitsu%20Showa.png,Marushin,40cm,Unknown,Nisai (2y),Unknown
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/17-44%20Doitsu%20Showa.png,Marushin,44cm,Unknown,Nisai (2y),Unknown
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/19-42%20Doitsu%20Showa.png,Marushin,42cm,Unknown,Nisai (2y),$210 
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/21-45%20Doitsu%20Showa.png,Marushin,45cm,Unknown,Nisai (2y),Unknown
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/22-40%20Doitsu%20Showa.png,Marushin,40cm,Unknown,Nisai (2y),$210 
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/24-44%20Doitsu%20Showa.png,Marushin,44cm,Unknown,Nisai (2y),$210 
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/27-40%20Doitsu%20Showa.png,Marushin,40cm,Unknown,Nisai (2y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/32-65%20Showa.png,Marushin,65cm,Female,Yonsai (4y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/4-44%20Showa.png,Marushin,44cm,Unknown,Nisai (2y),$210 
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/20-42%20Doitsu%20Showa.png?t=2023-11-03T14%3A52%3A53.891Z,Marushin,42cm,Unknown,Nisai (2y),Unknown
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/25-35%20Doitsu%20Showa.png?t=2023-11-03T14%3A58%3A23.649Z,Marushin,35cm,Unknown,Nisai (2y),$210 
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/29-46%20Doitsu%20Showa.png,Marushin,46cm,Unknown,Nisai (2y),$210 
+Ginrin Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/31-55%20Gin%20Rin%20Showa.png,Marushin,55cm,Female,Sansai (3y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/1-44%20Showa.png,Marushin,44cm,Unknown,Nisai (2y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/2-43%20Showa.png,Marushin,43cm,Unknown,Nisai (2y),$210 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/3-46%20Showa.png,Marushin,46cm,Unknown,Nisai (2y),$210 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/5-47%20Showa.png,Marushin,47cm,Unknown,Nisai (2y),Unknown
+Tancho Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/6-42%20Tacnho%20Kohaku.png,Marushin,42cm,Unknown,Nisai (2y),Unknown
+Ginrin Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/7-47%20Gin%20Rin%20Showa.png,Marushin,47cm,Unknown,Nisai (2y),Unknown
+Ginrin Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/11-39%20Gin%20Rin%20Showa.png,Marushin,39cm,Unknown,Nisai (2y),Unknown
+Doitsu Tancho Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/14-45%20Tancho%20Doitsu%20Showa.png,Marushin,45cm,Unknown,Nisai (2y),Unknown
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/18-38%20Doitsu%20Showa.png,Marushin,38cm,Unknown,Nisai (2y),$210 
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/23-42%20Doitsu%20Showa.png,Marushin,42cm,Unknown,Nisai (2y),$210 
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/26-41%20Doitsu%20Showa.png,Marushin,41cm,Unknown,Nisai (2y),Unknown
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/28-42%20Doitsu%20Showa.png,Marushin,42cm,Unknown,Nisai (2y),$210 
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/5/photos2/30-46%20Doitsu%20Showa.png,Marushin,46cm,Unknown,Nisai (2y),Unknown
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/6/photos/No1%202y%20Kohaku%20Female%2042cm.png,Marujyu,42cm,Female,Nisai (2y),Unknown
+Platinum Ogon,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/6/photos/No2%202y%20Plutinum%2056cm%20Female.png,Marujyu,56cm,Female,Nisai (2y),Unknown
+Karashigoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/6/photos/No3%202y%20Karashi%2055cm%20Female.png,Marujyu,55cm,Female,Nisai (2y),$540 
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/6/photos/No4%204y%20Kohaku%2071cm%20Female.png?t=2023-11-03T15%3A57%3A14.528Z,Marujyu,71cm,Female,Yonsai (4y),Unknown
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/6/photos/No5%202y%20Sanke%2042cm%20Male.png,Marujyu,42cm,Male,Nisai (2y),$410 
+Ginrin Tancho Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/6/photos/No6%202y%20Ginrin%20Tancho%2042cm%20Female.png,Marujyu,42cm,Female,Nisai (2y),$540 
+Metallic Doitsu Karasugoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/6/photos/No7%203y%20Metallic%20Doitsu%20Karasugoi%2055cm%20Female.png?t=2023-11-03T18%3A02%3A30.791Z,Marujyu,55cm,Female,Sansai (3y),$540 
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/6/photos/No8%202y%20Kohaku%2050cm%20Female.png,Marujyu,50cm,Female,Nisai (2y),Unknown
+Koromo Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/6/photos/No9%202y%20Koromo%20Showa%2043cm%20Female.png,Marujyu,43cm,Female,Nisai (2y),$340 
+Tancho Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/6/photos/No10%202y%20Tancho%20kohaku%2050cm%20Female.png?t=2023-11-03T18%3A30%3A50.742Z,Marujyu,50cm,Female,Nisai (2y),Unknown
+Tancho Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/6/photos/No11%202y%20Tancho%20Sanke%2046cm%20Male.png,Marujyu,46cm,Male,Nisai (2y),$410 
+Yamabuki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Yamibuki.png,Marudo,60cm,Female,Sansai (3y),$680 
+Ginrin Chagoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Gin%20Rin%20Chagoi%206.png,Marudo,58cm,Female,Sansai (3y),$410 
+Ginrin Chagoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Gin%20Rin%20Chagoi%20kole%20Updated%20601.png,Marudo,59cm,Female,Sansai (3y),Unknown
+Yamabuki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Yamibuki%202.png,Marudo,57cm,Female,Sansai (3y),$540 
+Ginrin Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Gin%20Rin%20Showa.png,Marudo,49cm,Female,Sansai (3y),Unknown
+Ginrin Karashigoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Gin%20Rin%20Karashigoi%202.png,Marudo,70cm,Unknown,Sansai (3y),Unknown
+Ginrin Karashigoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Gin%20Rin%20Karashigoi.png,Marudo,64cm,Female,Sansai (3y),Unknown
+Ginrin Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Gin%20Rin%20Shiro%20Utsuri.png,Marudo,48cm,Female,Nisai (2y),Unknown
+Yamabuki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Yamabuki%205.png,Marudo,58cm,Female,Sansai (3y),$540 
+Orenji Ogon,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Orenji%20Ogon.png,Marudo,51cm,Unknown,Nisai (2y),Unknown
+Orenji Ogon,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Orenji%20Ogon%202.png,Marudo,48cm,Unknown,Nisai (2y),$280 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Showa%203.png,Marudo,47cm,Female,Nisai (2y),$680 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Showa%202.png,Marudo,49cm,Female,Nisai (2y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Showa.png,Marudo,49cm,Female,Nisai (2y),$680 
+Yamabuki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Yamibuki%203.png,Marudo,62cm,Unknown,Sansai (3y),$540 
+Yamabuki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Yamibuki%204.png,Marudo,52cm,Female,Nisai (2y),$420 
+Ginrin Karashigoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Gin%20Rin%20Karashigoi%203.png,Marudo,38cm,Female,Nisai (2y),$150 
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Kohaku%202.png,Marudo,47cm,Female,Nisai (2y),$680 
+Ginrin Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Gin%20Rin%20Kohaku.png,Marudo,55cm,Female,Nisai (2y),"$1,010 "
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Kohaku%203%20updated%20618.png,Marudo,53cm,Female,Nisai (2y),Unknown
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Kohaku%206.png,Marudo,49cm,Female,Nisai (2y),$960 
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Kohaku%205%20updated.png,Marudo,46cm,Female,Nisai (2y),"$1,010 "
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Kohaku%204.png,Marudo,48cm,Female,Nisai (2y),$680 
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Kohaku%209%20Updated%20622.png,Marudo,51cm,Female,Nisai (2y),Unknown
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Kohaku%2010%20updated%20623.png,Marudo,47cm,Female,Nisai (2y),"$1,200 "
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Kohaku%207.png,Marudo,47cm,Female,Nisai (2y),$960 
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Kohaku%208.png,Marudo,54cm,Female,Nisai (2y),Unknown
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Kohaku.png,Marudo,49cm,Female,Nisai (2y),$680 
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Kohaku%2012%20updated.png,Marudo,75cm,Female,Yonsai (4y),Unknown
+Maruten Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Kohaku%2011.png,Marudo,50cm,Male,Nisai (2y),$960 
+Maruten Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Maruten%20Kohaku%20updated.png?t=2023-11-15T15%3A01%3A37.654Z,Marudo,75cm,Female,Yonsai (4y),"$6,800 "
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Sanke.png,Marudo,46cm,Female,Nisai (2y),Unknown
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Showa%205.png,Marudo,45cm,Female,Nisai (2y),"$1,010 "
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Sanke%202.png,Marudo,43cm,Female,Nisai (2y),$960 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Showa%204.png,Marudo,46cm,Female,Nisai (2y),$540 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Showa%207%20updated%20634.png,Marudo,57cm,Female,Nisai (2y),$680 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Showa%206.png,Marudo,52cm,Female,Nisai (2y),Unknown
+Tancho Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Tancho%20Showa%20updated%20636.png,Marudo,48cm,Female,Nisai (2y),"$1,400 "
+Ginrin Karashigoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Gin%20Rin%20Chagoi%204.png,Marudo,34cm,Female,Nisai (2y),$140 
+Ginrin Karashigoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/7/thumbs/Gin%20Rin%20Chagoi%202%205.png,Marudo,36cm,Female,Nisai (2y),$210 
+Ginrin Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/8/thumbs/Gin%20Rin%20Hi%20Utsuri%20Female%20......%2061cm.png,Maruhiro,61cm,Female,Nisai (2y),Unknown
+Ginrin Ki Matsuba,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/8/thumbs/Gin%20Rin%20Ki%20Matsuba%20Female%20Nisai%2056cm.png,Maruhiro,56cm,Female,Nisai (2y),Unknown
+Ginrin Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/8/thumbs/Gin%20Rin%20Kohaku%20Female%20Nisai%2048cm.png,Maruhiro,48cm,Female,Nisai (2y),Unknown
+Ginrin Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/8/thumbs/Gin%20Rin%20Showa%202%20Female%20Nisai%2051cm.png,Maruhiro,51cm,Female,Nisai (2y),$680 
+Ginrin Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/8/thumbs/Gin%20Rin%20Showa%203%20Female%20Nisai%2048cm.png,Maruhiro,48cm,Female,Nisai (2y),$680 
+Ginrin Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/8/thumbs/HI%20Utsuri%20Female%20Nisai%20...2cm.png,Maruhiro,50cm,Female,Nisai (2y),$680 
+Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/8/photos/Hi%20Utsuri%20Female%20Nisai%2056cm%20646.png,Maruhiro,56cm,Female,Nisai (2y),Unknown
+Ki Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/8/thumbs/Ki%20Utsuri%20Female%20Naisai%2056cm.png,Maruhiro,56cm,Female,Nisai (2y),$680 
+Kin Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/8/thumbs/Kin%20%20Hi%20Utsuri%20Female%20Nisai%2062cm.png,Maruhiro,62cm,Female,Nisai (2y),$680 
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/8/thumbs/Kohaku%20Female%20Nisai%2052cm.png,Maruhiro,52cm,Female,Nisai (2y),$680 
+Kujaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/8/thumbs/Kujaku%20Female%20Nisai%2051cm.png,Maruhiro,51cm,Female,Nisai (2y),$680 
+Ochiba,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/8/thumbs/Ochiba%20Female%20Nisai%2055cm.png,Maruhiro,55cm,Female,Nisai (2y),$680 
+Ogana Ochiba,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/8/thumbs/Ogona%20Ochiba%20Female%20Nisai%2058cm.png,Maruhiro,58cm,Female,Nisai (2y),$680 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/8/thumbs/Showa%20Female%20Nisai%2050cm.png,Maruhiro,50cm,Female,Nisai (2y),$680 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/8/thumbs/Showa%20Female%20Nisai%2053cm.png,Maruhiro,53cm,Female,Nisai (2y),$680 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/8/thumbs/Showa%20Female%20Nisai%2058cm.png,Maruhiro,58cm,Female,Nisai (2y),Unknown
+Ginrin Karashigoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/8/thumbs/Yamibuki%20Female%20Nisai%2056cm.png,Maruhiro,56cm,Female,Nisai (2y),Unknown
+Aka Matsuba,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/8/thumbs/Aka%20Matsuba.png,Maruhiro,51cm,Female,Nisai (2y),$680 
+Ginrin Soragoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/1%20Ginrin%20Soragoi%2038cm%20edited.png,Kanno,38cm,Female,Nisai (2y),Unknown
+Ai Goromo,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/2%20Koromo%2037cm%20edited.png,Kanno,37cm,Unknown,Nisai (2y),Unknown
+Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/3%20Hi%20Utsuri%2038cm%20edited.png,Kanno,38cm,Unknown,Nisai (2y),Unknown
+Ochiba,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/5%20Ochiba%2034cm%20edited.png,Kanno,34cm,Unknown,Nisai (2y),Unknown
+Kin Ki Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/6%20Kin%20Ki%20Utsuri%2045cm%20edited.png,Kanno,45cm,Unknown,Nisai (2y),Unknown
+Ginrin Ochiba,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/7%20Ginrin%20Ochiba%2035cm%20edited.png,Kanno,35cm,Unknown,Nisai (2y),Unknown
+Kin Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/8%20Kin%20Showa%2033cm%20edited.png,Kanno,33cm,Female,Nisai (2y),$210 
+Tancho Goshiki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/4%20Tancho%20Goshiki%2033cm%20edited.png,Kanno,33cm,Unknown,Nisai (2y),Unknown
+Ginrin Goshiki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/9%20Ginrin%20Goshiki%2031cm%20edited.png,Kanno,31cm,Female,Nisai (2y),Unknown
+Ai Goromo,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/10%20Koromo%2039cm%20edited.png,Kanno,39cm,Female,Nisai (2y),Unknown
+Ginrin Chagoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/11%20Ginrin%20Chagoi%2036cm%20edited.png,Kanno,36cm,Female,Nisai (2y),Unknown
+Tancho Goshiki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/12%20Tancho%20Goshiki%20Edited.png,Kanno,32cm,Unknown,Nisai (2y),Unknown
+Ginrin Goshiki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/13%20Ginrin%20Goshiki%2035cm%20edited.png,Kanno,35cm,Female,Nisai (2y),Unknown
+Kikusui,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/14%20Kikusui%2035cm%20edited.png,Kanno,35cm,Female,Nisai (2y),$210 
+Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/15%20Hi%20Utsuri%2038cm%20edited.png,Kanno,38cm,Female,Nisai (2y),Unknown
+Ochiba,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/16%20Ochiba%2038cm%20edited.png,Kanno,38cm,Female,Nisai (2y),$210 
+Tancho Goshiki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/17%20Tancho%20Goshiki%2030cm%20edited.png,Kanno,30cm,Unknown,Nisai (2y),Unknown
+Goshiki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/18%20Goshiki%2036cm%20edited.png,Kanno,36cm,Female,Nisai (2y),Unknown
+Goshiki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/19%20Gohiski%2033cm%20edited.png,Kanno,33cm,Female,Nisai (2y),Unknown
+Goshiki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/20%20Goshiki%2037cm%20edited.png,Kanno,37cm,Unknown,Nisai (2y),Unknown
+Goshiki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/9/photos2/21%20Goshiki%2048cm%20edited.png,Kanno,48cm,Female,Nisai (2y),Unknown
+Ginrin Ochiba,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/10/photos/Gin%20Rin%20Ochiba%2053cm%20Tank%204%205.png,Maruhiro,53cm,Female,Sansai (3y),"$2,000 "
+Doitsu Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/10/photos/Doitsu%20Showa%2055cm%20Tank%204%205.png,Shinoda,55cm,Female,Sansai (3y),"$2,500 "
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/10/photos/Showa%2067cm%20Tank%204%205.png,Shintaro,47cm,Female,Sansai (3y),"$1,000 "
+Maruten Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/10/photos/Maruten%20Showa%2067cm%20Tank%204%205.png,Isa,67cm,Female,Yonsai (4y),"$2,500 "
+Kujaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/10/photos/Kujaku%2070cm%20Tank%204%205.png,Yagenji,70cm,Female,Yonsai (4y),Unknown
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/10/photos/Sanke%2058cm%20Tank%204%205.png,Shintaro,58cm,Female,Sansai (3y),Unknown
+Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/10/photos/Hi%20Utsuri%2051cm%20Tank%204%205%202.0.png,Shinoda,51cm,Female,Nisai (2y),Unknown
+Sakura Ogon,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/10/photos/Sakura%20Ogon%2055cm%20Tank%204%205.png,Maruhiro,55cm,Female,Sansai (3y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/10/photos/Shiro%20Utsuri%2049cm%20Tank%204%205.png,Yagenji,49cm,Female,Sansai (3y),Unknown
+Tancho Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/10/photos/Tancho%20Showa%2070cm%20Tank%204%205%202.0.png,Maruhiro,70cm,Female,Gosai (5y),Unknown
+Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/11/photos/Hi%20Utsuri%2035cm%20Tank%206.png,Shinoda,35cm,Unknown,Nisai (2y),$150 
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/11/photos/Karashigoi%2027cm%20Tank%206.png,Dainichi,27cm,Female,Nisai (2y),Unknown
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/11/photos/Kohaku%2025cm%20Tank%206%201.2.png,Torazo,25cm,Unknown,Nisai (2y),$100 
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/11/photos/Sanke%2035cm%20Tank%206%201.2.png,Izumiya,35cm,Unknown,Nisai (2y),$200 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/11/photos/Shiro%20Utsuri%2028cm%20Tank%206.png,Omosako,28cm,Unknown,Nisai (2y),Unknown
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/12/photos/Sanke%2041cm%20Tank%206%201.4.png,Izumiya,41cm,Unknown,Nisai (2y),Unknown
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/12/photos/Kohaku%2030cm%20Tank%206%201.3.png,Torazo,30cm,Unknown,Nisai (2y),Unknown
+Ginrin Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/13/photos/Gin-Rin%20Kohaku%2022cm%201.2.png,Torazo,22cm,Unknown,Nisai (2y),Unknown
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/13/photos/Sanke%2035cm%20Tank%206%202.5.png,Izumiya,35cm,Unknown,Nisai (2y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/14/photos/Showa%2036cm.png,Isa,36cm,Unknown,Nisai (2y),Unknown
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/14/photos/Yellow%20Monkey%20yellow%2036cm.png,Dainichi,36cm,Female,Nisai (2y),Unknown
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/14/photos/Sanke%2036cm0.png,Izumiya,36cm,Female,Nisai (2y),$150 
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/15/photos/Yellow%20Monkey%20orange%2036cm.png,Dainichi,36cm,Female,Nisai (2y),$300 
+Ai Goromo,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/15/photos/Ai%20Goromo%2041cm.png,Izumiya,43cm,Female,Sansai (3y),Unknown
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/15/photos/AJ.png,Torazo,35cm,Female,Nisai (2y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/16/photos/Showa%2044cm.png,Isa,44cm,Female,Nisai (2y),Unknown
+Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/16/photos/Hi%20Utsuri%2038cm.png,Shinoda,38cm,Female,Nisai (2y),Unknown
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/16/photos/Kohaku%2038cm.png,Torazo,38cm,Unknown,Nisai (2y),Unknown
+Red Karashigoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/17/photos/Red%20Karashigoi%2064cm2.png,Marusei,64cm,Female,Sansai (3y),"$1,000 "
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/17/photos/Sanke%2032cm.png,Izumiya,32cm,Female,Nisai (2y),$100 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/17/photos/Shiro%20Utsuri%2027cm.png,Omosako,27cm,Female,Nisai (2y),Unknown
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/18/photos/Sanke%2037cm.png,Izumiya,37cm,Female,Nisai (2y),$150 
+Doitsu Aragoke Black Diamond,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/18/photos/Aragoke%20Doitsu%20Black%20Diamond%2051cm.png,Maruhiro,51cm,Female,Sansai (3y),$500 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/18/photos/Showa%2040cm.png,Isa,40cm,Female,Nisai (2y),Unknown
+Beni Kumonryu,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/19/photos/Beni%20Kumonryu%2034cm.png,Miyatora,34cm,Unknown,Nisai (2y),$250 
+Ai Goromo,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/19/photos/Ai%20Goromo%2037cm2%20no%20beni%20kumonryu.png,Izumiya,37cm,Unknown,Nisai (2y),$300 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/19/photos/Shiro%20Utsuri%2030cm.png,Omosako,30cm,Female,Nisai (2y),$150 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/20/photos/Showa%2045cm0.png,Isa,45cm,Female,Nisai (2y),Unknown
+Black Diamond,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/20/photos/Black%20Diamond%2040cm.png,Dainichi,40cm,Female,Sansai (3y),Unknown
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/20/photos/Sanke%2035cm.png,Izumiya,35cm,Unknown,Nisai (2y),$150 
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/21/photos/Kohaku%2041.png,Izumiya,41cm,Female,Sansai (3y),$200 
+Doitsu Aka Matsuba,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/21/photos/Doitsu%20Aka%20Matsuba%2037cm.png,Miyatora,37cm,Female,Nisai (2y),$250 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/21/photos/Showa%2036.png,Isa,36cm,Female,Nisai (2y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/22/photos/Showa%2035cm.png,Isa,35cm,Female,Nisai (2y),Unknown
+Ginrin Chagoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/22/photos/gin-rin%20chagoi%2037cm.png,Dainichi,37cm,Female,Nisai (2y),$300 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/22/photos/Shiro%20UTsuri%2030cm.png,Omosako,30cm,Unknown,Nisai (2y),Unknown
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/23/photos/Kohaku%2025cm%20Tank%206%201.2.png,Torazo,25cm,Unknown,Nisai (2y),$100 
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/23/photos/Yellow%20Monkey%20orange%2036cm.png,Dainichi,36cm,Female,Nisai (2y),Unknown
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/23/photos/Sanke%2036cm0.png,Izumiya,36cm,Female,Nisai (2y),Unknown
+Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/24/photos/Hi%20Utsuri%2035cm%20Tank%206.png,Shinoda,35cm,Unknown,Nisai (2y),$150 
+Ai Goromo,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/24/photos/Ai%20Goromo%2037cm2%20no%20beni%20kumonryu.png,Izumiya,37cm,Unknown,Nisai (2y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/24/photos/Shiro%20Utsuri%2030cm.png,Omosako,30cm,Female,Nisai (2y),Unknown
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/25/photos/Kohaku%2041.png,Izumiya,41cm,Female,Sansai (3y),Unknown
+Beni Kumonryu,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/25/photos/Beni%20Kumonryu%2034cm.png,Miyatora,34cm,Unknown,Nisai (2y),Unknown
+Red Karashigoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/25/photos/Red%20Karashigoi%2064cm2.png,Marusei,64cm,Female,Sansai (3y),"$1,000 "
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/26/photos/Showa%2040cm.png,Isa,40cm,Unknown,Nisai (2y),$300 
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/26/photos/Yellow%20Monkey%2035cm.png,Dainichi,35cm,Female,Nisai (2y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/26/photos/Shiro%20Utsuri%2026cm.png,Omosako,26cm,Unknown,Nisai (2y),Unknown
+Ai Goromo,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/27/photos/Ai%20Goromo%2043cm.png,Izumiya,43cm,Unknown,Nisai (2y),Unknown
+Black Diamond,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/27/photos/Black%20Diamond%2040cm.png,Dainichi,40cm,Female,Sansai (3y),Unknown
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/27/photos/Sanke%2041cm.png,Izumiya,41cm,Unknown,Nisai (2y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/28/photos/Showa%2035cm.png,Isa,35cm,Unknown,Nisai (2y),$350 
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/28/photos/Yellow%20Monkey%2032cm.png,Dainichi,32cm,Female,Nisai (2y),$300 
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/28/photos/Sanke%2039cm.png,Izumiya,39cm,Unknown,Nisai (2y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/29/photos/Showa%2040cm.png,Isa,40cm,Unknown,Nisai (2y),Unknown
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/29/photos/Yellow%20Monkey%2032cm.png,Dainichi,32cm,Female,Nisai (2y),$300 
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/29/photos/Kohaku%2025cm%20Tank%206%201.2.png,Torazo,25cm,Unknown,Nisai (2y),$100 
+Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/30/photos/Hi%20Utsuri%2035cm%20Tank%206.png,Shinoda,35cm,Unknown,Nisai (2y),Unknown
+Asagi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/30/photos/Asgai%2046cm.png,Maruhiro,46cm,Unknown,Sansai (3y),Unknown
+Doitsu Aka Matsuba,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/30/photos/Doitsu%20Aka%20Matsuba%2037cm.png,Miyatora,37cm,Female,Nisai (2y),$250 
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/20/photos/Sanke%2035cm.png,Izumiya,35cm,Unknown,Nisai (2y),$150 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/28/photos/Showa%2035cm.png,Isa,35cm,Unknown,Nisai (2y),$350 
+Ginrin Chagoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/22/photos/gin-rin%20chagoi%2037cm.png,Dainichi,37cm,Female,Nisai (2y),$300 
+Black Diamond,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/20/photos/Black%20Diamond%2040cm.png,Dainichi,42cm,Female,Sansai (3y),Unknown
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/32/photos/Sanke%2042cm.png,Izumiya,42cm,Unknown,Sansai (3y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/32/photos/Shiro%20Utsuri%2032cm.png,Omosako,32cm,Unknown,Nisai (2y),Unknown
+Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/33/photos/Hi%20Utsuri%2044cm.png,Shinoda,44cm,Unknown,Sansai (3y),$200 
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/33/photos/red%20Yellow%20Monkey%2028cm.png,Dainichi,28cm,Female,Nisai (2y),$300 
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/18/photos/Sanke%2037cm.png,Izumiya,37cm,Female,Nisai (2y),$150 
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/17/photos/Sanke%2032cm.png,Izumiya,33cm,Female,Nisai (2y),$100 
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/14/photos/Yellow%20Monkey%20yellow%2036cm.png,Dainichi,32cm,Female,Nisai (2y),Unknown
+Ai Goromo,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/34/photos/Ai%20Goromo%2042cm.png,Izumiya,42cm,Unknown,Nisai (2y),$200 
+Red Karashigoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/17/photos/Red%20Karashigoi%2064cm2.png,Marusei,64cm,Female,Sansai (3y),"$1,000 "
+Black Diamond,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/35/photos/Black%20Diamond%2032cm.png,Dainichi,32cm,Female,Nisai (2y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/35/photos/Showa%2037cm.png,Marudo,37cm,Unknown,Nisai (2y),$350 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/36/photos/Showa%2043cm.png,Marudo,43cm,Female,Sansai (3y),$300 
+Ginrin Chagoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/36/photos/Gin-Rin%20Chagoi%2041cm0.png,Marudo,41cm,Female,Nisai (2y),$300 
+Kujaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/36/photos/Kujaku%2034cm.png,Miyatora,34cm,Female,Nisai (2y),$300 
+Ai Goromo,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/37/photos/Ai%20Goromo%2040cm.png,Izumiya,40cm,Unknown,Nisai (2y),$300 
+Black Diamond,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/37/photos/Black%20Diamond%2036cm.png,Dainichi,36cm,Female,Nisai (2y),$300 
+Ginrin Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/37/photos/Gin-Rin%20Showa%2034cm.png,Isa,34cm,Unknown,Nisai (2y),Unknown
+Black Diamond,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/27/photos/Black%20Diamond%2040cm.png,Dainichi,40cm,Female,Nisai (2y),$300 
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/38/photos/Showa%2052cm.png,Marudo,52cm,Female,Sansai (3y),$500 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/38/photos/Shiro%20Utsuri%2027cm.png,Omosako,27cm,Unknown,Nisai (2y),$150 
+Black Diamond,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/35/photos/Black%20Diamond%2032cm.png,Dainichi,34cm,Female,Nisai (2y),$300 
+Ai Goromo,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/34/photos/Ai%20Goromo%2042cm.png,Izumiya,42cm,Unknown,Nisai (2y),$200 
+Ginrin Chagoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/22/photos/gin-rin%20chagoi%2037cm.png,Dainichi,37cm,Female,Nisai (2y),$300 
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/18/photos/Sanke%2037cm.png,Izumiya,35cm,Unknown,Nisai (2y),$150 
+Doitsu Aka Matsuba,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/21/photos/Doitsu%20Aka%20Matsuba%2037cm.png,Miyatora,37cm,Female,Nisai (2y),$250 
+Black Diamond,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/20/photos/Black%20Diamond%2040cm.png,Dainichi,38cm,Female,Nisai (2y),$300 
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/11/photos/Kohaku%2025cm%20Tank%206%201.2.png,Torazo,26cm,Unknown,Nisai (2y),$100 
+Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/33/photos/Hi%20Utsuri%2044cm.png,Shinoda,44cm,Unknown,Sansai (3y),Unknown
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/14/photos/Yellow%20Monkey%20yellow%2036cm.png,Dainichi,35cm,Female,Nisai (2y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/36/photos/Showa%2043cm.png,Marudo,43cm,Female,Sansai (3y),Unknown
+Kujaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/36/photos/Kujaku%2034cm.png,Miyatora,34cm,Female,Nisai (2y),$300 
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/20/photos/Sanke%2035cm.png,Izumiya,35cm,Unknown,Nisai (2y),$150 
+Doitsu Maruten Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/43/photos/Doitsu%20Sanke%2038cm.png,Hiroi,38cm,Unknown,Nisai (2y),$300 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/43/photos/Shiro%20Utsuri%2037cm.png,Omosako,37cm,Unknown,Nisai (2y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/43/photos/Showa%2025cm.png,Torazo,25cm,Unknown,Nisai (2y),Unknown
+Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/44/photos/Hi%20Utsuri%2037cm.png,Shinoda,37cm,Unknown,Nisai (2y),Unknown
+Kujaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/44/photos/Kujaku%2039cm.png,Ootsuka,39cm,Female,Nisai (2y),$300 
+Black Diamond,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/44/photos/Black%20Diamond%2046cm.png,Dainichi,46cm,Female,Nisai (2y),$300 
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/45/photos/Kohaku%20dot%2048cm.png,Yamamatsu,48cm,Male,Nisai (2y),Unknown
+Kage Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/45/photos/Kage%20Shiro%20Utsuri%2046cm.png,Ootsuka,46cm,Female,Nisai (2y),$500 
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/45/photos/Kohaku%2048cm0.png,Yamamatsu,48cm,Female,Nisai (2y),Unknown
+Golden Corn,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/46/photos/Golden%20Corn%2044cm.png,Taniguchi,44cm,Female,Sansai (3y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/46/photos/Showa%2052cm.png,Marudo,52cm,Female,Sansai (3y),"$1,000 "
+Karashigoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/46/photos/Karashigoi%2047cm.png,Dainichi,47cm,Female,Sansai (3y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/47/photos/Shiro%20Utsuri%2028cm.png,Omosako,28cm,Unknown,Nisai (2y),$150 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/47/photos/Showa%2044cm.png,Izumiya,44cm,Unknown,Nisai (2y),Unknown
+Yellow Monkey,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/47/photos/Yellow%20Monkey%2030cm.png,Dainichi,30cm,Female,Nisai (2y),Unknown
+Ginrin Chagoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/49/photos/Gin-Rin%20Chagoi%2034cm.png,Dainichi,34cm,Female,Nisai (2y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/49/photos/Shiro%20Utsuri%2035cm.png,Omosako,35cm,Unknown,Nisai (2y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/49/photos/Showa%2043cm.png,Isa,43cm,Unknown,Nisai (2y),Unknown
+Black Diamond,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/48/photos/Black%20Diamond%2039cm.png,Dainichi,39cm,Female,Nisai (2y),Unknown
+Kujaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/48/photos/Kujaku%2040cm.png,Miyatora,40cm,Female,Nisai (2y),$200 
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/48/photos/Sanke%2040cm.png,Izumiya,40cm,Unknown,Nisai (2y),Unknown
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/38/photos/Sanke%2052.png,Marudo,52cm,Female,Sansai (3y),$500 
+Ai Goromo,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/34/photos/Ai%20Goromo%2042cm.png,Izumiya,42cm,Unknown,Nisai (2y),$200 
+Ginrin Chagoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/36/photos/Gin-Rin%20Chagoi%2041cm0.png,Dainichi,41cm,Female,Nisai (2y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/38/photos/Shiro%20Utsuri%2027cm.png,Omosako,27cm,Unknown,Nisai (2y),$150 
+Kujaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/44/photos/Kujaku%2039cm.png,Ootsuka,39cm,Female,Nisai (2y),$300 
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/44/photos/Sanke%2040cm.png,Izumiya,40cm,Female,Nisai (2y),$200 
+Kage Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/45/photos/Kage%20Shiro%20Utsuri%2046cm.png,Ootsuka,46cm,Female,Nisai (2y),$500 
+Doitsu Maruten Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/43/photos/Doitsu%20Sanke%2038cm.png,Hiroi,38cm,Unknown,Nisai (2y),$300 
+Black Diamond,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/35/photos/Black%20Diamond%2032cm.png,Dainichi,34cm,Female,Nisai (2y),$300 
+Red Karashigoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/25/photos/Red%20Karashigoi%2064cm2.png,Marusei,64cm,Female,Sansai (3y),"$1,000 "
+Doitsu Aka Matsuba,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/30/photos/Doitsu%20Aka%20Matsuba%2037cm.png,Miyatora,37cm,Female,Nisai (2y),Unknown
+Kujaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/36/photos/Kujaku%2034cm.png,Miyatora,34cm,Female,Nisai (2y),$300 
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/55/photos/Sanke%2039cm.png,Izumiya,39cm,Female,Nisai (2y),Unknown
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/55/photos/Shiro%20Utsuri%2032cm.png,Omosako,32cm,Unknown,Nisai (2y),$150 
+Ginrin Chagoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/55/photos/Gin-Rin%20Chagoi%2035cm.png,Dainichi,35cm,Female,Nisai (2y),$300 
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/56/photos/Sanke%2044cm.png,Izumiya,44cm,Female,Nisai (2y),Unknown
+Chagoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/56/photos/Chagoi%2036cm.png,Dainichi,36cm,Female,Nisai (2y),$300 
+Shiro Muji,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/56/photos/Shiro%20Muji%2034cm.png,Omosako,34cm,Unknown,Nisai (2y),$200 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/57/photos/Showa%2036cm.png,Isa,36cm,Female,Nisai (2y),$200 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/57/photos/Showa%2037.png,Isa,37cm,Female,Nisai (2y),Unknown
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/57/photos/Showa%2043cm.png,Isa,43cm,Female,Nisai (2y),$250 
+Orenji Ogon,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/58/photos/Orenji%20Ogon%2027cm%20F.png,Marudo,27cm,Female,Tosai (1y),$150 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/58/photos/Showa%2046cm%20F.png,Isa,46cm,Female,Nisai (2y),Unknown
+Ginrin Chagoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/58/photos/Gin-Rin%20Chagoi%2033cm%20F.png,Dainichi,33cm,Female,Nisai (2y),$350 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/46/photos/Showa%2052cm.png,Marudo,52cm,Female,Sansai (3y),"$1,000 "
+Black Diamond,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/44/photos/Black%20Diamond%2046cm.png,Dainichi,46cm,Female,Nisai (2y),$300 
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/11/photos/Kohaku%2025cm%20Tank%206%201.2.png,Torazo,28cm,Unknown,Nisai (2y),Unknown
+Ai Goromo,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/60/photos/Ai%20Goromo%2044cm%20M.png,Izumiya,44cm,Male,Nisai (2y),$150 
+Sanke,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/60/photos/Sanke%2043cm%20U.png,Izumiya,43cm,Unknown,Nisai (2y),Unknown
+Hi Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/60/photos/Hi%20Utsuri%2045cm%20U.png,Shinoda,45cm,Unknown,Nisai (2y),$200 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/61/photos/Showa%2036cm%20F.png,Isa,36cm,Female,Nisai (2y),$300 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/61/photos/Shiro%20Utsuri%2036cm%20F.png,Omosako,30cm,Female,Nisai (2y),$150 
+Kujaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/48/photos/Kujaku%2040cm.png,Miyatora,40cm,Female,Nisai (2y),$200 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/62/photos/Showa%2062cm%20F.png,Dainichi,62cm,Female,Sansai (3y),Unknown
+Ochiba,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/62/photos/Ochiba%2037cm%20M.png,Kanno,37cm,Male,Nisai (2y),$450 
+Tancho Goshiki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/62/photos/Tancho%20Goshiki%2034cm%20F.png,Ootsuka,34cm,Female,Nisai (2y),$300 
+Kikusui,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/63/photos/Kikusui%2033cm%20F.png,Marusada,33cm,Female,Nisai (2y),$200 
+Gin-Rin Beni Matsukawabake,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/63/photos/Matsukawabake%2044cm%20F.png,Kaneko,44cm,Female,Sansai (3y),$300 
+Yamabuki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/63/photos/Yamibuki%2027cm%20F.png,Sekiguchi,27cm,Female,Nisai (2y),$200 
+Ginrin Chagoi,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/64/photos/Gin-Rin%20Chagoi%2034cm%20M.png,Dainichi,34cm,Male,Nisai (2y),$300 
+Shiro Utsuri,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/64/photos/Shiro%20Utsuri%2035cm%20M.png,Omosako,35cm,Male,Nisai (2y),$200 
+Showa,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/35/photos/Showa%2037cm.png,Marudo,37cm,Unknown,Nisai (2y),Unknown
+Goshiki,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/65%20Big%20Auction/photos/Goshiki%20auction.png,Kanno,41cm,Unknown,Nisai (2y),"$1,000 "
+Golden Corn,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/65%20Big%20Auction/photos/Golden%20Corn%2048cm.png,Taniguchi,54cm,Female,Nisai (2y),"$2,000 "
+Ochiba,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/65%20Big%20Auction/photos/Ochiba%2035cm%202.png,Kanno,39cm,Male,Nisai (2y),"$1,000 "
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/65%20Big%20Auction/photos/KOhaku%20dianichi.png,Dainichi,59cm,Female,Nisai (2y),Unknown
+Kohaku,https://mjjlqhnswgbzvxfujauo.supabase.co/storage/v1/object/public/auctions/65%20Big%20Auction/photos/kOHAKU%20Dainichi.png,Dainichi,61cm,Female,Nisai (2y),"$1,000 "

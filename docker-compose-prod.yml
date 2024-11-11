@@ -1,0 +1,61 @@
+networks:
+  koi_networks_production:
+    driver: bridge
+
+services:
+  phpmyadmin:
+    image: phpmyadmin:5
+    container_name: phpmyadmin_ui
+    networks:
+      - koi_networks_production
+    environment:
+      PMA_HOST: azdb-koiauction.mysql.database.azure.com
+      PMA_PORT: 3306
+      PMA_USER: lcaohoanq
+      PMA_PASSWORD: 8N3v6'Z}=v$0
+      PMA_SSL: require
+    ports:
+      - "81:80"                                           # Expose phpMyAdmin on port 81
+
+  redis-container:
+    image: docker.io/redis:7.2.3
+    container_name: redis-container
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis-data:/data # Mount a volume for Redis data persistence
+    networks:
+      - koi_networks_production
+
+#  prometheus:
+#    image: prom/prometheus
+#    container_name: prometheus-container
+#    ports:
+#      - "9090:9090"
+#    restart: unless-stopped
+#    volumes:
+#      - ./config/prometheus:/etc/prometheus
+#    networks:
+#      - koi_networks_production
+#    extra_hosts:
+#      - "host.docker.internal:host-gateway"
+#
+#  grafana:
+#    image: grafana/grafana
+#    container_name: grafana-container
+#    ports:
+#      - "3001:3000"
+#    environment:
+#      - GF_SECURITY_ADMIN_USER=admin
+#      - GF_SECURITY_ADMIN_PASSWORD=admin
+#    volumes:
+#      - grafana_data_production:/var/lib/grafana
+#    networks:
+#      - koi_networks_production
+
+volumes:
+  mysql_data_production:
+    driver: local
+#  grafana_data_production:
+#    driver: local
