@@ -23,11 +23,10 @@ import com.swp391.koibe.responses.UserResponse;
 import com.swp391.koibe.services.token.TokenService;
 import com.swp391.koibe.services.user.IUserService;
 import com.swp391.koibe.utils.DTOConverter;
-import com.swp391.koibe.utils.MessageKeys;
+import com.swp391.koibe.utils.MessageKey;
 import io.micrometer.core.annotation.Timed;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +36,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,14 +77,14 @@ public class UserController {
             throw new MethodArgumentNotValidException(result);
         }
 
-        String token = userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
+        String token = userService.login(userLoginDTO.email(), userLoginDTO.password());
         String userAgent = request.getHeader("User-Agent");
         User userDetail = userService.getUserDetailsFromToken(token);
         Token jwtToken = tokenService.addToken(userDetail, token, isMobileDevice(userAgent));
         log.info("User logged in successfully");
         return ResponseEntity.ok(LoginResponse.builder()
                                      .message(localizationUtils.getLocalizedMessage(
-                                         MessageKeys.LOGIN_SUCCESSFULLY))
+                                         MessageKey.LOGIN_SUCCESSFULLY))
                                      .token(jwtToken.getToken())
                                      .tokenType(jwtToken.getTokenType())
                                      .refreshToken(jwtToken.getRefreshToken())
@@ -161,7 +159,7 @@ public class UserController {
             log.info("New user registered successfully");
             return ResponseEntity.status(HttpStatus.CREATED).body(
                 RegisterResponse.builder()
-                    .message(localizationUtils.getLocalizedMessage(MessageKeys.REGISTER_SUCCESSFULLY))
+                    .message(localizationUtils.getLocalizedMessage(MessageKey.REGISTER_SUCCESSFULLY))
                     .statusCode(HttpStatus.CREATED.value())
                     .isSuccess(true)
                     .singleData(DTOConverter.convertToUserDTO(user))
@@ -169,7 +167,7 @@ public class UserController {
         } catch (DataWrongFormatException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 RegisterResponse.builder()
-                    .message(localizationUtils.getLocalizedMessage(MessageKeys.WRONG_FORMAT))
+                    .message(localizationUtils.getLocalizedMessage(MessageKey.WRONG_FORMAT))
                     .statusCode(HttpStatus.BAD_REQUEST.value())
                     .isSuccess(false)
                     .reason(e.getMessage())
@@ -177,7 +175,7 @@ public class UserController {
         } catch (MalformBehaviourException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 RegisterResponse.builder()
-                    .message(localizationUtils.getLocalizedMessage(MessageKeys.MALFORMED_BEHAVIOUR))
+                    .message(localizationUtils.getLocalizedMessage(MessageKey.MALFORMED_BEHAVIOUR))
                     .statusCode(HttpStatus.BAD_REQUEST.value())
                     .isSuccess(false)
                     .reason(e.getMessage())
@@ -186,7 +184,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(
                 RegisterResponse.builder()
                     .message(
-                        localizationUtils.getLocalizedMessage(MessageKeys.EMAIL_ALREADY_EXISTS))
+                        localizationUtils.getLocalizedMessage(MessageKey.EMAIL_ALREADY_EXISTS))
                     .statusCode(HttpStatus.CONFLICT.value())
                     .isSuccess(false)
                     .reason(e.getMessage())
@@ -194,7 +192,7 @@ public class UserController {
         } catch (PermissionDeniedException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
                 RegisterResponse.builder()
-                    .message(localizationUtils.getLocalizedMessage(MessageKeys.PERMISSION_DENIED))
+                    .message(localizationUtils.getLocalizedMessage(MessageKey.PERMISSION_DENIED))
                     .statusCode(HttpStatus.FORBIDDEN.value())
                     .isSuccess(false)
                     .reason(e.getMessage())
@@ -202,7 +200,7 @@ public class UserController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
                 RegisterResponse.builder()
-                    .message(localizationUtils.getLocalizedMessage(MessageKeys.REGISTER_FAILED))
+                    .message(localizationUtils.getLocalizedMessage(MessageKey.REGISTER_FAILED))
                     .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
                     .isSuccess(false)
                     .reason(e.getMessage())
@@ -232,7 +230,7 @@ public class UserController {
             }
             User updatedUser = userService.updateUser(userId, updatedUserDTO);
             updateUserResponse.setMessage(
-                localizationUtils.getLocalizedMessage(MessageKeys.UPDATE_USER_SUCCESSFULLY));
+                localizationUtils.getLocalizedMessage(MessageKey.UPDATE_USER_SUCCESSFULLY));
             updateUserResponse.setUserResponse(DTOConverter.convertToUserDTO(updatedUser));
             return ResponseEntity.ok(updateUserResponse);
         } catch (Exception e) {
@@ -272,11 +270,11 @@ public class UserController {
             User user = userService.getUserDetailsFromToken(extractedToken);
             userService.verifyOtpToVerifyUser(user.getId(), String.valueOf(otp));
             otpResponse.setMessage(
-                localizationUtils.getLocalizedMessage(MessageKeys.VERIFY_USER_SUCCESSFULLY));
+                localizationUtils.getLocalizedMessage(MessageKey.VERIFY_USER_SUCCESSFULLY));
             return ResponseEntity.ok().body(otpResponse);
         } catch (Exception e) {
             otpResponse.setMessage(
-                localizationUtils.getLocalizedMessage(MessageKeys.VERIFY_USER_FAILED));
+                localizationUtils.getLocalizedMessage(MessageKey.VERIFY_USER_FAILED));
             otpResponse.setReason(e.getMessage());
             return ResponseEntity.badRequest().body(otpResponse);
         }
@@ -301,11 +299,11 @@ public class UserController {
             User user = userService.getUserByEmail(verifyUserDTO.email());
             userService.verifyOtpToVerifyUser(user.getId(), verifyUserDTO.otp());
             otpResponse.setMessage(
-                localizationUtils.getLocalizedMessage(MessageKeys.VERIFY_USER_SUCCESSFULLY));
+                localizationUtils.getLocalizedMessage(MessageKey.VERIFY_USER_SUCCESSFULLY));
             return ResponseEntity.ok().body(otpResponse);
         } catch (Exception e) {
             otpResponse.setMessage(
-                localizationUtils.getLocalizedMessage(MessageKeys.VERIFY_USER_FAILED));
+                localizationUtils.getLocalizedMessage(MessageKey.VERIFY_USER_FAILED));
             otpResponse.setReason(e.getMessage());
             return ResponseEntity.badRequest().body(otpResponse);
         }
@@ -326,11 +324,11 @@ public class UserController {
             User user = userService.getUserDetailsFromToken(extractedToken);
             tokenService.deleteToken(extractedToken, user); //revoke token
             logoutResponse.setMessage(
-                localizationUtils.getLocalizedMessage(MessageKeys.LOGOUT_SUCCESSFULLY));
+                localizationUtils.getLocalizedMessage(MessageKey.LOGOUT_SUCCESSFULLY));
             return ResponseEntity.ok().body(logoutResponse);
         } catch (Exception e) {
             logoutResponse.setMessage(
-                localizationUtils.getLocalizedMessage(MessageKeys.LOGOUT_FAILED));
+                localizationUtils.getLocalizedMessage(MessageKey.LOGOUT_FAILED));
             logoutResponse.setReason(e.getMessage());
             return ResponseEntity.badRequest().body(logoutResponse);
         }

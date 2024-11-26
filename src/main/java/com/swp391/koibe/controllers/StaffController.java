@@ -5,15 +5,12 @@ import com.swp391.koibe.dtos.UserDTO;
 import com.swp391.koibe.exceptions.InvalidApiPathVariableException;
 import com.swp391.koibe.exceptions.MethodArgumentNotValidException;
 import com.swp391.koibe.exceptions.PermissionDeniedException;
-import com.swp391.koibe.models.User;
 import com.swp391.koibe.responses.StaffResponse;
-import com.swp391.koibe.responses.UserResponse;
-import com.swp391.koibe.responses.pagination.StaffPaginationResponse;
-import com.swp391.koibe.responses.pagination.UserPaginationResponse;
+import com.swp391.koibe.responses.base.ApiResponse;
+import com.swp391.koibe.responses.base.PageResponse;
 import com.swp391.koibe.services.user.staff.IStaffService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,80 +34,73 @@ public class StaffController {
 
     @GetMapping("")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_STAFF')")
-    public ResponseEntity<StaffPaginationResponse> getAllStaffs(
-        @RequestParam("page") int page,
-        @RequestParam("limit") int limit
+    public ResponseEntity<PageResponse<StaffResponse>> getAllStaffs(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "10") int limit
     ) {
-        try {
-            PageRequest pageRequest = PageRequest.of(page, limit);
-            Page<StaffResponse> staffs = staffService.getAllStaffs(pageRequest);
-
-            StaffPaginationResponse response = new StaffPaginationResponse();
-            response.setItem(staffs.getContent());
-            response.setTotalPage(staffs.getTotalPages());
-            response.setTotalItem(staffs.getTotalElements());
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
-        }
+        return ResponseEntity.ok(staffService.getAllStaffs(PageRequest.of(page, limit)));
     }
-    //findAllStaffWithActive
 
     @GetMapping("/active")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_STAFF')")
-    public ResponseEntity<StaffPaginationResponse> getAllStaffsWithActive(
-        @RequestParam("page") int page,
-        @RequestParam("limit") int limit
+    public ResponseEntity<PageResponse<StaffResponse>> getAllStaffsWithActive(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "0") int limit
     ) {
-        try {
-            PageRequest pageRequest = PageRequest.of(page, limit);
-            Page<StaffResponse> staffs = staffService.findAllStaffWithActive(pageRequest);
-
-            StaffPaginationResponse response = new StaffPaginationResponse();
-            response.setItem(staffs.getContent());
-            response.setTotalPage(staffs.getTotalPages());
-            response.setTotalItem(staffs.getTotalElements());
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
-        }
+        return ResponseEntity.ok(staffService.findAllStaffWithActive(PageRequest.of(page, limit)));
     }
 
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER')")
-    public ResponseEntity<?> getStaffById(@PathVariable long id) {
-        UserResponse staff = staffService.findById(id);
-        return ResponseEntity.ok(staff);
+    public ResponseEntity<ApiResponse<StaffResponse>> getStaffById(@PathVariable long id) {
+        return ResponseEntity.ok(ApiResponse.<StaffResponse>builder()
+                                     .message("Get staff by id successfully")
+                                     .statusCode(200)
+                                     .isSuccess(true)
+                                     .data(staffService.findById(id))
+                                     .build());
     }
 
     @PostMapping("")
     @PreAuthorize("hasRole('ROLE_MANAGER')")
-    public ResponseEntity<?> createStaff(
+    public ResponseEntity<ApiResponse<StaffResponse>> createStaff(
         @Valid @RequestBody StaffRegisterDTO staff,
         BindingResult result
     ) throws PermissionDeniedException {
         if (result.hasErrors()) {
             throw new MethodArgumentNotValidException(result);
         }
-        return ResponseEntity.ok(staffService.createNewStaff(staff));
+        return ResponseEntity.ok(ApiResponse.<StaffResponse>builder()
+                                    .message("Create staff successfully")
+                                    .statusCode(200)
+                                    .isSuccess(true)
+                                    .data(staffService.createNewStaff(staff))
+                                    .build());
     }
 
     //update an existing member to staff
     @PutMapping("/new/{id}")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_STAFF')")
-    public ResponseEntity<?> createNewStaff(
+    public ResponseEntity<ApiResponse<StaffResponse>> updateMemberToStaff(
         @PathVariable long id
     ) {
         if (id <= 0) {
             throw new InvalidApiPathVariableException("Staff id must be greater than 0");
         }
-        User newStaff = staffService.updateMemberToStaff(id);
-        return ResponseEntity.ok(newStaff);
+
+        return ResponseEntity.ok(
+            ApiResponse.<StaffResponse>builder()
+                .message("Update member to staff successfully")
+                .statusCode(200)
+                .isSuccess(true)
+                .data(staffService.updateMemberToStaff(id))
+                .build()
+        );
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_STAFF')")
-    public ResponseEntity<?> updateStaff(
+    public ResponseEntity<ApiResponse<StaffResponse>> updateStaff(
         @PathVariable long id,
         @Valid @RequestBody UserDTO staff,
         BindingResult result) {
@@ -119,14 +109,29 @@ public class StaffController {
             throw new MethodArgumentNotValidException(result);
         }
 
-        return ResponseEntity.ok(staffService.update(id, staff));
+        return ResponseEntity.ok(
+            ApiResponse.<StaffResponse>builder()
+                .message("Update staff successfully")
+                .statusCode(200)
+                .isSuccess(true)
+                .data(staffService.update(id, staff))
+                .build()
+        );
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER')")
-    public ResponseEntity<?> deleteStaff(@PathVariable long id) {
+    public ResponseEntity<ApiResponse<StaffResponse>> deleteStaff(@PathVariable long id) {
+
         staffService.delete(id);
-        return ResponseEntity.ok("Delete staff successfully");
+
+        return ResponseEntity.ok(
+            ApiResponse.<StaffResponse>builder()
+                .message("Delete staff successfully")
+                .statusCode(200)
+                .isSuccess(true)
+                .build()
+        );
     }
 
 }

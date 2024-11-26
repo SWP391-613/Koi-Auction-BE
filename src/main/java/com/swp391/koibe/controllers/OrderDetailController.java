@@ -7,7 +7,7 @@ import com.swp391.koibe.models.OrderDetail;
 import com.swp391.koibe.responses.order.OrderDetailResponse;
 import com.swp391.koibe.services.orderdetail.IOrderDetailService;
 import com.swp391.koibe.utils.DTOConverter;
-import com.swp391.koibe.utils.MessageKeys;
+import com.swp391.koibe.utils.MessageKey;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
@@ -89,7 +89,7 @@ public class OrderDetailController {
         orderDetailService.deleteById(id);
         return ResponseEntity.ok()
             .body(localizationUtils
-                      .getLocalizedMessage(MessageKeys.DELETE_ORDER_DETAIL_SUCCESSFULLY));
+                      .getLocalizedMessage(MessageKey.DELETE_ORDER_DETAIL_SUCCESSFULLY));
     }
 
 }

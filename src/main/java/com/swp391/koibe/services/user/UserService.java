@@ -22,8 +22,8 @@ import com.swp391.koibe.repositories.UserRepository;
 import com.swp391.koibe.services.mail.IMailService;
 import com.swp391.koibe.services.otp.OtpService;
 import com.swp391.koibe.services.role.RoleService;
-import com.swp391.koibe.utils.MessageKeys;
-import com.swp391.koibe.utils.OTPUtils;
+import com.swp391.koibe.utils.MessageKey;
+import com.swp391.koibe.utils.OtpUtils;
 import jakarta.mail.MessagingException;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -144,7 +144,7 @@ public class UserService implements IUserService {
     public String login(String email, String password) throws Exception {
         Optional<User> optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isEmpty()) {
-            throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKeys.WRONG_PHONE_PASSWORD));
+            throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKey.WRONG_PHONE_PASSWORD));
         }
         User existingUser = optionalUser.get();
         if (existingUser.getGoogleAccountId() == 0) {
@@ -154,7 +154,7 @@ public class UserService implements IUserService {
         }
 
         if (!optionalUser.get().isActive()) {
-            throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKeys.USER_IS_LOCKED));
+            throw new DataNotFoundException(localizationUtils.getLocalizedMessage(MessageKey.USER_IS_LOCKED));
         }
 
         UsernamePasswordAuthenticationToken authenticationToken =
@@ -207,7 +207,7 @@ public class UserService implements IUserService {
     public User getUserById(long id) throws DataNotFoundException {
         return userRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException(
-                    localizationUtils.getLocalizedMessage(MessageKeys.USER_NOT_FOUND)));
+                    localizationUtils.getLocalizedMessage(MessageKey.USER_NOT_FOUND)));
     }
 
     @Override
@@ -227,7 +227,7 @@ public class UserService implements IUserService {
         // Find the existing user by userId
         User existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new DataNotFoundException(
-                        localizationUtils.getLocalizedMessage(MessageKeys.USER_NOT_FOUND)
+                        localizationUtils.getLocalizedMessage(MessageKey.USER_NOT_FOUND)
                 ));
 
         // Check if the email is being changed and if it already exists for another user
@@ -311,7 +311,7 @@ public class UserService implements IUserService {
     public User updateUserBalance(Long userId, Long payment) throws Exception {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new DataNotFoundException(
-                        localizationUtils.getLocalizedMessage(MessageKeys.USER_NOT_FOUND)
+                        localizationUtils.getLocalizedMessage(MessageKey.USER_NOT_FOUND)
                 ));
 
         if (user.getAccountBalance() < payment) {
@@ -333,7 +333,7 @@ public class UserService implements IUserService {
     public void updateAccountBalance(Long userId, Long payment) throws Exception {
         User existingUser = userRepository.findById(userId)
             .orElseThrow(() -> new DataNotFoundException(
-                localizationUtils.getLocalizedMessage(MessageKeys.USER_NOT_FOUND)
+                localizationUtils.getLocalizedMessage(MessageKey.USER_NOT_FOUND)
             ));
         existingUser.setAccountBalance(existingUser.getAccountBalance() + payment);
 
@@ -371,7 +371,7 @@ public class UserService implements IUserService {
             return user.get();
         } else {
             throw new Exception(
-                    localizationUtils.getLocalizedMessage(MessageKeys.USER_NOT_FOUND)
+                    localizationUtils.getLocalizedMessage(MessageKey.USER_NOT_FOUND)
             );
         }
     }
@@ -381,12 +381,12 @@ public class UserService implements IUserService {
     public void verifyOtpToVerifyUser(Long userId, String otp) throws Exception {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new DataNotFoundException(
-                        localizationUtils.getLocalizedMessage(MessageKeys.USER_NOT_FOUND)
+                        localizationUtils.getLocalizedMessage(MessageKey.USER_NOT_FOUND)
                 ));
 
         if (user.getStatus() == UserStatus.VERIFIED) {
             throw new DataNotFoundException(
-                    localizationUtils.getLocalizedMessage(MessageKeys.USER_ALREADY_VERIFIED)
+                    localizationUtils.getLocalizedMessage(MessageKey.USER_ALREADY_VERIFIED)
             );
         }
 
@@ -401,7 +401,7 @@ public class UserService implements IUserService {
             otpEntity.setExpired(true);
             otpService.disableOtp(otpEntity.getId());
             throw new DataNotFoundException(
-                    localizationUtils.getLocalizedMessage(MessageKeys.OTP_EXPIRED)
+                    localizationUtils.getLocalizedMessage(MessageKey.OTP_EXPIRED)
             );
         }
 
@@ -425,7 +425,7 @@ public class UserService implements IUserService {
             otpEntity.setExpired(true);
             otpService.disableOtp(otpEntity.getId());
             throw new DataNotFoundException(
-                localizationUtils.getLocalizedMessage(MessageKeys.OTP_EXPIRED)
+                localizationUtils.getLocalizedMessage(MessageKey.OTP_EXPIRED)
             );
         }
 
@@ -444,7 +444,7 @@ public class UserService implements IUserService {
     public void bannedUser(Long userId) throws DataNotFoundException {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new DataNotFoundException(
-                        localizationUtils.getLocalizedMessage(MessageKeys.USER_NOT_FOUND)
+                        localizationUtils.getLocalizedMessage(MessageKey.USER_NOT_FOUND)
                 ));
 
         user.setStatus(UserStatus.BANNED);
@@ -456,11 +456,11 @@ public class UserService implements IUserService {
     public void updatePassword(UpdatePasswordDTO updatePasswordDTO) throws Exception {
         User existingUser = userRepository.findByEmail(updatePasswordDTO.email())
                 .orElseThrow(() -> new DataNotFoundException(
-                        localizationUtils.getLocalizedMessage(MessageKeys.USER_NOT_FOUND)
+                        localizationUtils.getLocalizedMessage(MessageKey.USER_NOT_FOUND)
                 ));
 
         if(!existingUser.isActive()){
-            throw new MalformBehaviourException(MessageKeys.USER_NOT_FOUND);
+            throw new MalformBehaviourException(MessageKey.USER_NOT_FOUND);
         }
 
         if(existingUser.getStatus() != UserStatus.VERIFIED){
@@ -519,7 +519,7 @@ public class UserService implements IUserService {
     public void blockOrEnable(Long userId, Boolean active) throws DataNotFoundException {
         User existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new DataNotFoundException(
-                        localizationUtils.getLocalizedMessage(MessageKeys.USER_NOT_FOUND)
+                        localizationUtils.getLocalizedMessage(MessageKey.USER_NOT_FOUND)
                 ));
         existingUser.setActive(active);
         userRepository.save(existingUser);

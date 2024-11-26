@@ -8,17 +8,21 @@ import com.swp391.koibe.exceptions.PermissionDeniedException;
 import com.swp391.koibe.exceptions.StaffNotFoundException;
 import com.swp391.koibe.exceptions.base.DataAlreadyExistException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
+import com.swp391.koibe.metadata.PaginationMeta;
 import com.swp391.koibe.models.Role;
 import com.swp391.koibe.models.User;
 import com.swp391.koibe.repositories.RoleRepository;
 import com.swp391.koibe.repositories.UserRepository;
 import com.swp391.koibe.responses.StaffResponse;
 import com.swp391.koibe.responses.UserResponse;
+import com.swp391.koibe.responses.base.PageResponse;
 import com.swp391.koibe.services.mail.IMailService;
 import com.swp391.koibe.services.otp.IOtpService;
 import com.swp391.koibe.utils.DTOConverter;
 import com.swp391.koibe.utils.DateTimeUtils;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -38,20 +42,36 @@ public class StaffService implements IStaffService {
     private final DTOConverter dtoConverter;
 
     @Override
-    public Page<StaffResponse> getAllStaffs(Pageable pageable) {
+    public PageResponse<StaffResponse> getAllStaffs(Pageable pageable) {
         Page<User> staffs = userRepository.findAllStaff(pageable);
-        return staffs.map(dtoConverter::convertToStaffDTO);
+
+        List<StaffResponse> staffResponses = staffs.getContent().stream()
+            .map(dtoConverter::convertToStaffDTO)
+            .toList();
+
+        return PageResponse.<StaffResponse>pageBuilder()
+            .message("Get all staffs successfully")
+            .statusCode(200)
+            .isSuccess(true)
+            .data(staffResponses)
+            .pagination(PaginationMeta.builder()
+                            .totalPages(staffs.getTotalPages())
+                            .totalItems(staffs.getTotalElements())
+                            .currentPage(pageable.getPageNumber())
+                            .pageSize(pageable.getPageSize())
+                            .build())
+            .build();
     }
 
     @Override
-    public UserResponse findById(long id) throws DataNotFoundException {
-        return DTOConverter.convertToUserDTO(userRepository
+    public StaffResponse findById(long id) throws DataNotFoundException {
+        return dtoConverter.convertToStaffDTO(userRepository
                          .findStaffById(id)
                          .orElseThrow(() -> new StaffNotFoundException(String.format("Staff with id %d not found", id))));
     }
 
     @Override
-    public User createNewStaff(StaffRegisterDTO staff) throws PermissionDeniedException {
+    public StaffResponse createNewStaff(StaffRegisterDTO staff) throws PermissionDeniedException {
         String email = staff.email();
         Optional<User> optionalUser = userRepository.findByEmail(email);
         if (optionalUser.isPresent()) {
@@ -91,11 +111,11 @@ public class StaffService implements IStaffService {
             .accountBalance(0L) //new staff has 0 money when register
             .build();
         newUser.setRole(role);
-        return userRepository.save(newUser);
+        return dtoConverter.convertToStaffDTO(userRepository.save((newUser)));
     }
 
     @Override
-    public User updateMemberToStaff(long id) {
+    public StaffResponse updateMemberToStaff(long id) {
         Optional<User> user = userRepository.findById(id);
         if(user.isEmpty())
             throw new DataNotFoundException("User not found");
@@ -105,13 +125,13 @@ public class StaffService implements IStaffService {
         User newStaff = user.get();
         newStaff.setRole(new Role(2L, UserRole.STAFF));
 
-        return userRepository.save(newStaff);
+        return dtoConverter.convertToStaffDTO(userRepository.save((newStaff)));
     }
 
     //manager will update staff here, the email and
     //phone number will be readonly on client side
     @Override
-    public User update(long id, UserDTO staff) {
+    public StaffResponse update(long id, UserDTO staff) {
         Optional<User> existingStaff = userRepository.findStaffById(id);
         if(existingStaff.isEmpty())
             throw new DataNotFoundException(String.format("Staff with id %d not found", id));
@@ -137,7 +157,7 @@ public class StaffService implements IStaffService {
         staffToUpdate.setGoogleAccountId(staff.googleAccountId());
         staffToUpdate.setAccountBalance(staff.accountBalance());
 
-        return userRepository.save(staffToUpdate);
+        return dtoConverter.convertToStaffDTO(userRepository.save(staffToUpdate));
     }
 
     @Override
@@ -154,8 +174,24 @@ public class StaffService implements IStaffService {
     }
 
     @Override
-    public Page<StaffResponse> findAllStaffWithActive(Pageable pageable) {
+    public PageResponse<StaffResponse> findAllStaffWithActive(Pageable pageable) {
         Page<User> staffs = userRepository.findAllStaffWithActive(pageable);
-        return staffs.map(dtoConverter::convertToStaffDTO);
+
+        List<StaffResponse> staffResponses = staffs.getContent().stream()
+            .map(dtoConverter::convertToStaffDTO)
+            .toList();
+
+        return PageResponse.<StaffResponse>pageBuilder()
+            .data(staffResponses)
+            .pagination(PaginationMeta.builder()
+                            .totalPages(staffs.getTotalPages())
+                            .totalItems(staffs.getTotalElements())
+                            .currentPage(pageable.getPageNumber())
+                            .pageSize(pageable.getPageSize())
+                            .build())
+            .statusCode(200)
+            .isSuccess(true)
+            .message("Get all staffs successfully")
+            .build();
     }
 }

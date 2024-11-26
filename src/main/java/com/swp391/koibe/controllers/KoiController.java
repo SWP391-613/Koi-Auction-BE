@@ -80,7 +80,7 @@ public class KoiController {
     @GetMapping("") //kois/?page=0&limit=10
     public ResponseEntity<KoiPaginationResponse> getAllKois(
         @RequestParam(defaultValue = "0") int page,
-        @RequestParam("limit") int limit
+        @RequestParam(defaultValue = "0") int limit
     ) {
 
         KoiPaginationResponse response = new KoiPaginationResponse();

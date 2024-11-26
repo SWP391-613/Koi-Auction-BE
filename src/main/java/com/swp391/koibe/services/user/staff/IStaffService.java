@@ -8,18 +8,19 @@ import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import com.swp391.koibe.models.User;
 import com.swp391.koibe.responses.StaffResponse;
 import com.swp391.koibe.responses.UserResponse;
+import com.swp391.koibe.responses.base.PageResponse;
 import jakarta.mail.MessagingException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface IStaffService {
 
-    Page<StaffResponse> getAllStaffs(Pageable pageable);
-    UserResponse findById(long id) throws DataNotFoundException;
-    User createNewStaff(StaffRegisterDTO staff) throws PermissionDeniedException;
-    User updateMemberToStaff(long id);
-    User update(long id, UserDTO staff);
+    PageResponse<StaffResponse> getAllStaffs(Pageable pageable);
+    StaffResponse findById(long id) throws DataNotFoundException;
+    StaffResponse createNewStaff(StaffRegisterDTO staff) throws PermissionDeniedException;
+    StaffResponse updateMemberToStaff(long id);
+    StaffResponse update(long id, UserDTO staff);
     void delete(long id);
-    Page<StaffResponse> findAllStaffWithActive(Pageable pageable);
+    PageResponse<StaffResponse> findAllStaffWithActive(Pageable pageable);
 
 }

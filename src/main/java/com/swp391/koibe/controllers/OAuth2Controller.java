@@ -10,7 +10,7 @@ import com.swp391.koibe.exceptions.InvalidParamException;
 import com.swp391.koibe.responses.LoginResponse;
 import com.swp391.koibe.responses.OAuth2Payload;
 import com.swp391.koibe.services.user.IUserService;
-import com.swp391.koibe.utils.MessageKeys;
+import com.swp391.koibe.utils.MessageKey;
 import com.swp391.koibe.utils.ResponseUtils;
 import java.util.Collections;
 import java.util.HashMap;
@@ -66,10 +66,10 @@ public class OAuth2Controller {
 
             log.info("Login via Google successfully");
             return ResponseUtils.loginSuccess(
-                localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_SUCCESSFULLY), token);
+                localizationUtils.getLocalizedMessage(MessageKey.LOGIN_SUCCESSFULLY), token);
         } catch (Exception e) {
             return ResponseUtils.loginFailed(
-                localizationUtils.getLocalizedMessage(MessageKeys.LOGIN_FAILED, e.getMessage()));
+                localizationUtils.getLocalizedMessage(MessageKey.LOGIN_FAILED, e.getMessage()));
         }
     }
 

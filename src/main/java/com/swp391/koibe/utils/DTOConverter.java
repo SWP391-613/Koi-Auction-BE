@@ -20,94 +20,37 @@ public class DTOConverter {
     private final OrderRepository orderRepository;
 
     public static UserResponse convertToUserDTO(User user) {
-        return UserResponse.builder()
-                .id(user.getId())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .phoneNumber(user.getPhoneNumber())
-                .email(user.getEmail())
-                .address(user.getAddress())
-                .password(user.getPassword())
-                .isActive(user.isActive() ? 1 : 0)
-                .isSubscription(user.isSubscription() ? 1 : 0)
-                .statusName(user.getStatus() != null ? user.getStatus().getStatus() : null)
-                .dob(String.valueOf(user.getDob()).split(" ")[0])
-                .avatarUrl(user.getAvatarUrl())
-                .googleAccountId(user.getGoogleAccountId())
-                .roleName(user.getRole() != null ? user.getRole().getUserRole().name() : null)
-                .accountBalance(user.getAccountBalance())
-                .createdAt(user.getCreatedAt() != null ? user.getCreatedAt().format(DateTimeFormatter.ISO_DATE_TIME) : null)
-                .updatedAt(user.getUpdatedAt() != null ? user.getUpdatedAt().format(DateTimeFormatter.ISO_DATE_TIME) : null)
-                .build();
+        return new UserResponse(
+            user.getId(),
+            user.getFirstName(),
+            user.getLastName(),
+            user.getPhoneNumber(),
+            user.getEmail(),
+            user.getAddress(),
+            user.getPassword(),
+            user.isActive() ? 1 : 0,
+            user.isSubscription() ? 1 : 0,
+            user.getStatus() != null ? user.getStatus().getStatus() : null,
+            String.valueOf(user.getDob()).split(" ")[0],
+            user.getAvatarUrl(),
+            user.getGoogleAccountId(),
+            user.getRole() != null ? user.getRole().getUserRole().name() : null,
+            user.getAccountBalance(),
+            user.getCreatedAt() != null ? user.getCreatedAt().format(DateTimeFormatter.ISO_DATE_TIME) : null,
+            user.getUpdatedAt() != null ? user.getUpdatedAt().format(DateTimeFormatter.ISO_DATE_TIME) : null
+        );
     }
 
     public BreederResponse convertToBreederDTO(User user) {
-        return BreederResponse.builder()
-            .id(user.getId())
-            .firstName(user.getFirstName())
-            .lastName(user.getLastName())
-            .phoneNumber(user.getPhoneNumber())
-            .email(user.getEmail())
-            .address(user.getAddress())
-            .password(user.getPassword())
-            .isActive(user.isActive() ? 1 : 0)
-            .isSubscription(user.isSubscription() ? 1 : 0)
-            .statusName(user.getStatus() != null ? user.getStatus().getStatus() : null)
-            .dob(String.valueOf(user.getDob()).split(" ")[0])
-            .avatarUrl(user.getAvatarUrl())
-            .googleAccountId(user.getGoogleAccountId())
-            .roleName(user.getRole() != null ? user.getRole().getUserRole().name() : null)
-            .accountBalance(user.getAccountBalance())
-            .createdAt(user.getCreatedAt() != null ? user.getCreatedAt().format(DateTimeFormatter.ISO_DATE_TIME) : null)
-            .updatedAt(user.getUpdatedAt() != null ? user.getUpdatedAt().format(DateTimeFormatter.ISO_DATE_TIME) : null)
-            .koiCount(koiRepository.countKoisByOwnerId(user.getId()))
-            .build();
+        return new BreederResponse(convertToUserDTO(user), koiRepository.countKoisByOwnerId(user.getId()));
     }
 
     public StaffResponse convertToStaffDTO(User user) {
-        return StaffResponse.builder()
-            .id(user.getId())
-            .firstName(user.getFirstName())
-            .lastName(user.getLastName())
-            .phoneNumber(user.getPhoneNumber())
-            .email(user.getEmail())
-            .address(user.getAddress())
-            .password(user.getPassword())
-            .isActive(user.isActive() ? 1 : 0)
-            .isSubscription(user.isSubscription() ? 1 : 0)
-            .statusName(user.getStatus() != null ? user.getStatus().getStatus() : null)
-            .dob(String.valueOf(user.getDob()).split(" ")[0])
-            .avatarUrl(user.getAvatarUrl())
-            .googleAccountId(user.getGoogleAccountId())
-            .roleName(user.getRole() != null ? user.getRole().getUserRole().name() : null)
-            .accountBalance(user.getAccountBalance())
-            .createdAt(user.getCreatedAt() != null ? user.getCreatedAt().format(DateTimeFormatter.ISO_DATE_TIME) : null)
-            .updatedAt(user.getUpdatedAt() != null ? user.getUpdatedAt().format(DateTimeFormatter.ISO_DATE_TIME) : null)
-            .auctionCount(auctionRepository.countAuctionsByAuctioneerId(user.getId()))
-            .build();
+        return new StaffResponse(convertToUserDTO(user), auctionRepository.countAuctionsByAuctioneerId(user.getId()));
     }
 
     public MemberResponse convertToMemberDTO(User user) {
-        return MemberResponse.builder()
-            .id(user.getId())
-            .firstName(user.getFirstName())
-            .lastName(user.getLastName())
-            .phoneNumber(user.getPhoneNumber())
-            .email(user.getEmail())
-            .address(user.getAddress())
-            .password(user.getPassword())
-            .isActive(user.isActive() ? 1 : 0)
-            .isSubscription(user.isSubscription() ? 1 : 0)
-            .statusName(user.getStatus() != null ? user.getStatus().getStatus() : null)
-            .dob(String.valueOf(user.getDob()).split(" ")[0])
-            .avatarUrl(user.getAvatarUrl())
-            .googleAccountId(user.getGoogleAccountId())
-            .roleName(user.getRole() != null ? user.getRole().getUserRole().name() : null)
-            .accountBalance(user.getAccountBalance())
-            .createdAt(user.getCreatedAt() != null ? user.getCreatedAt().format(DateTimeFormatter.ISO_DATE_TIME) : null)
-            .updatedAt(user.getUpdatedAt() != null ? user.getUpdatedAt().format(DateTimeFormatter.ISO_DATE_TIME) : null)
-            .orderCount(orderRepository.countOrdersByMemberId(user.getId()))
-            .build();
+        return new MemberResponse(convertToUserDTO(user), orderRepository.countOrdersByMemberId(user.getId()));
     }
 
     public CategoryResponse convertToCategoryDTO(Category category) {

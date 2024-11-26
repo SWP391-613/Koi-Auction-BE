@@ -6,7 +6,7 @@ import com.swp391.koibe.models.Otp;
 import com.swp391.koibe.models.User;
 import com.swp391.koibe.services.mail.IMailService;
 import com.swp391.koibe.services.otp.IOtpService;
-import com.swp391.koibe.utils.OTPUtils;
+import com.swp391.koibe.utils.OtpUtils;
 import jakarta.mail.MessagingException;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class ForgotPasswordService implements IForgotPasswordService{
     @Transactional
     public void sendEmailOtp(User existingUser) throws MessagingException {
         Context context = new Context();
-        String otp = OTPUtils.generateOTP();
+        String otp = OtpUtils.generateOtp();
         context.setVariable("name", existingUser.getFirstName());
         context.setVariable("otp", otp);
 

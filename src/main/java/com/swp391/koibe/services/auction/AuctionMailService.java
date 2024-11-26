@@ -118,8 +118,8 @@ public class AuctionMailService implements IAuctionMailService {
         userContext.setVariable("auction_url", baseContext.getVariable("auction_url"));
 
         // Set user-specific variables
-        String name = user.getFirstName();
-        String to = user.getEmail();
+        String name = user.firstName();
+        String to = user.email();
         userContext.setVariable("name", name);
 
         // Send the email using the mail service

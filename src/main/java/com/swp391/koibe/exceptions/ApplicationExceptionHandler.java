@@ -6,11 +6,12 @@ import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import com.swp391.koibe.exceptions.base.DataWrongFormatException;
 import com.swp391.koibe.responses.ExceptionResponse;
 import com.swp391.koibe.responses.base.BaseResponse;
-import com.swp391.koibe.utils.MessageKeys;
+import com.swp391.koibe.utils.MessageKey;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -77,15 +78,14 @@ public class ApplicationExceptionHandler {
                 .build();
     }
 
-    // DataAlreadyExistsException
-    @ExceptionHandler(DataAlreadyExistException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseResponse<Object> handleDataAlreadyExistsException(DataAlreadyExistException e) {
-        return ExceptionResponse.builder()
-                .message(localizationUtils.getLocalizedMessage("exception.data_already_exist"))
-                .reason(e.getMessage())
-                .build();
-    }
+//    @ExceptionHandler(DataAlreadyExistException.class)
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    public BaseResponse<Object> handleDataAlreadyExistsException(DataAlreadyExistException e) {
+//        return ExceptionResponse.builder()
+//                .message(localizationUtils.getLocalizedMessage("exception.data_already_exist"))
+//                .reason(e.getMessage())
+//                .build();
+//    }
 
     @ExceptionHandler(InvalidApiPathVariableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -191,7 +191,16 @@ public class ApplicationExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public BaseResponse<Object> handlePasswordWrongFormatException(DataWrongFormatException e) {
         return ExceptionResponse.builder()
-                .message(localizationUtils.getLocalizedMessage(MessageKeys.WRONG_FORMAT))
+                .message(localizationUtils.getLocalizedMessage(MessageKey.WRONG_FORMAT))
+                .reason(e.getMessage())
+                .build();
+    }
+
+    @ExceptionHandler({DataIntegrityViolationException.class, DataAlreadyExistException.class})
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public BaseResponse<Object> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+        return ExceptionResponse.builder()
+                .message(localizationUtils.getLocalizedMessage("exception.data_integrity_violation"))
                 .reason(e.getMessage())
                 .build();
     }

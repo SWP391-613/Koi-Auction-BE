@@ -16,7 +16,7 @@ import com.swp391.koibe.responses.pagination.OrderPaginationResponse;
 import com.swp391.koibe.services.order.IOrderService;
 import com.swp391.koibe.services.user.IUserService;
 import com.swp391.koibe.utils.DTOConverter;
-import com.swp391.koibe.utils.MessageKeys;
+import com.swp391.koibe.utils.MessageKey;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -166,7 +166,7 @@ public class OrderController {
         try {
             orderService.deleteOrder(id);
             String result = localizationUtils.getLocalizedMessage(
-                MessageKeys.DELETE_ORDER_SUCCESSFULLY, id);
+                MessageKey.DELETE_ORDER_SUCCESSFULLY, id);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
             if (e instanceof DataNotFoundException) {

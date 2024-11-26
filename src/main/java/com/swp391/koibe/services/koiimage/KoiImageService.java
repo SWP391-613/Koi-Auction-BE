@@ -46,10 +46,10 @@ public class KoiImageService implements IKoiImageService {
     }
 
     @Override
-    public KoiImageResponse getKoiImage(long id) throws Exception {
+    public List<KoiImageResponse> getKoiImage(long id) throws Exception {
         koiImageRepository.findById(id)
             .orElseThrow(() -> new Exception("Koi image not found"));
-        return DTOConverter.convertToKoiImageDTO(koiImageRepository.getById(id));
+        return List.of(DTOConverter.convertToKoiImageDTO(koiImageRepository.getById(id)));
     }
 
     @Override

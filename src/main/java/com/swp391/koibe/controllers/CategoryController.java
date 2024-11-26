@@ -37,8 +37,8 @@ public class CategoryController {
 
     @GetMapping("")
     public ResponseEntity<PageResponse<CategoryResponse>> getAllCategories(
-        @RequestParam("page") int page,
-        @RequestParam("limit") int limit
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "0") int limit
     ) {
         try {
             return ResponseEntity.ok(categoryService.getAllCategories(PageRequest.of(page, limit)));

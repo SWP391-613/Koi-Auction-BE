@@ -6,7 +6,7 @@ import com.swp391.koibe.exceptions.MethodArgumentNotValidException;
 import com.swp391.koibe.models.User;
 import com.swp391.koibe.responses.OtpResponse;
 import com.swp391.koibe.services.user.IUserService;
-import com.swp391.koibe.utils.MessageKeys;
+import com.swp391.koibe.utils.MessageKey;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -54,11 +54,11 @@ public class OtpController {
             User user = userService.getUserByEmail(verifyUserDTO.email());
             userService.verifyOtpIsCorrect(user.getId(), verifyUserDTO.otp());
             otpResponse.setMessage(
-                localizationUtils.getLocalizedMessage(MessageKeys.OTP_IS_CORRECT));
+                localizationUtils.getLocalizedMessage(MessageKey.OTP_IS_CORRECT));
             return ResponseEntity.ok().body(otpResponse);
         } catch (Exception e) {
             otpResponse.setMessage(
-                localizationUtils.getLocalizedMessage(MessageKeys.OTP_IS_INCORRECT));
+                localizationUtils.getLocalizedMessage(MessageKey.OTP_IS_INCORRECT));
             otpResponse.setReason(e.getMessage());
             return ResponseEntity.badRequest().body(otpResponse);
         }

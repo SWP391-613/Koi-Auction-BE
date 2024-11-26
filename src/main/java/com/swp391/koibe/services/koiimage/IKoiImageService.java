@@ -13,7 +13,7 @@ public interface IKoiImageService {
 
     void deleteKoiImage(long id) throws Exception;
 
-    KoiImageResponse getKoiImage(long id) throws Exception;
+    List<KoiImageResponse> getKoiImage(long id) throws Exception;
 
     Page<KoiImageResponse> getAllKoiImages(Pageable pageable) throws Exception;
     List<KoiImageResponse> getKoiImagesByKoiId(Long koiId) throws Exception;

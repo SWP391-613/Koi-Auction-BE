@@ -13,7 +13,7 @@ import com.swp391.koibe.responses.MailResponse;
 import com.swp391.koibe.services.mail.IMailService;
 import com.swp391.koibe.services.otp.IOtpService;
 import com.swp391.koibe.services.user.IUserService;
-import com.swp391.koibe.utils.OTPUtils;
+import com.swp391.koibe.utils.OtpUtils;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -76,7 +76,7 @@ public class MailController {
 
         String name = user.getFirstName();
         Context context = new Context();
-        String otp = OTPUtils.generateOTP();
+        String otp = OtpUtils.generateOtp();
         context.setVariable("name", name);
         context.setVariable("otp", otp);
         mailService.sendMail(toEmail, EmailSubject.subjectGreeting(name),
@@ -115,7 +115,7 @@ public class MailController {
         User user = (User) request.getAttribute("validatedEmail");
         String name = user.getFirstName();
         Context context = new Context();
-        String otp = OTPUtils.generateOTP();
+        String otp = OtpUtils.generateOtp();
         context.setVariable("name", name);
         context.setVariable("otp", otp);
         mailService.sendMail(toEmail, EmailSubject.subjectGreeting(name),

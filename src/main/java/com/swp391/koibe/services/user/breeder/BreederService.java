@@ -6,6 +6,7 @@ import com.swp391.koibe.enums.EKoiStatus;
 import com.swp391.koibe.exceptions.BreederNotFoundException;
 import com.swp391.koibe.exceptions.MalformDataException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
+import com.swp391.koibe.metadata.PaginationMeta;
 import com.swp391.koibe.models.Category;
 import com.swp391.koibe.models.Koi;
 import com.swp391.koibe.models.User;
@@ -16,6 +17,7 @@ import com.swp391.koibe.repositories.UserRepository;
 import com.swp391.koibe.responses.BreederResponse;
 import com.swp391.koibe.responses.KoiResponse;
 import com.swp391.koibe.responses.UserResponse;
+import com.swp391.koibe.responses.base.PageResponse;
 import com.swp391.koibe.utils.DTOConverter;
 import com.swp391.koibe.utils.FilterUtils;
 import java.util.List;
@@ -36,9 +38,25 @@ public class BreederService implements IBreederService {
     private final DTOConverter dtoConverter;
 
     @Override
-    public Page<BreederResponse> getAllBreeders(Pageable pageable) {
+    public PageResponse<BreederResponse> getAllBreeders(Pageable pageable) {
         Page<User> breeders = userRepository.findAllBreeder(pageable);
-        return breeders.map(dtoConverter::convertToBreederDTO);
+        List<BreederResponse> breederResponses = breeders.getContent()
+            .stream()
+            .map(dtoConverter::convertToBreederDTO)
+            .toList();
+
+        return PageResponse.<BreederResponse>pageBuilder()
+            .message("Get all breeders successfully")
+            .statusCode(200)
+            .isSuccess(true)
+            .data(breederResponses)
+            .pagination(PaginationMeta.builder()
+                            .totalPages(breeders.getTotalPages())
+                            .totalItems(breeders.getTotalElements())
+                            .currentPage(pageable.getPageNumber())
+                            .pageSize(pageable.getPageSize())
+                            .build())
+            .build();
     }
 
     @Override

@@ -28,8 +28,8 @@ public class MemberController {
     @GetMapping("")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_STAFF')")
     public ResponseEntity<MemberPaginationResponse> getAllMembers(
-        @RequestParam("page") int page,
-        @RequestParam("limit") int limit
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "0") int limit
     ) {
         try {
             PageRequest pageRequest = PageRequest.of(page, limit);
