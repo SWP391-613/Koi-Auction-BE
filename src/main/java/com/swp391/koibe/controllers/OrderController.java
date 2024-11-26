@@ -1,5 +1,6 @@
 package com.swp391.koibe.controllers;
 
+import com.swp391.koibe.components.JwtTokenUtils;
 import com.swp391.koibe.components.LocalizationUtils;
 import com.swp391.koibe.dtos.order.OrderDTO;
 import com.swp391.koibe.dtos.order.UpdateOrderStatusDTO;
@@ -32,7 +33,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,6 +45,7 @@ public class OrderController {
     private final IOrderService orderService;
     private final LocalizationUtils localizationUtils;
     private final IUserService userService;
+    private final JwtTokenUtils jwtTokenUtils;
 
     @PostMapping("")
     @PreAuthorize("hasAnyRole('ROLE_MEMBER')")
@@ -88,10 +89,9 @@ public class OrderController {
     public ResponseEntity<OrderPaginationResponse> searchUserOrdersByKeyword(
         @RequestParam(defaultValue = "", required = false) String keyword,
         @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "10") int limit,
-        @RequestHeader("Authorization") String authorizationHeader) throws Exception {
-        String extractedToken = authorizationHeader.substring(7);
-        User user = userService.getUserDetailsFromToken(extractedToken);
+        @RequestParam(defaultValue = "10") int limit
+    ) throws Exception {
+        User user = jwtTokenUtils.extractUserFromToken();
 
         PageRequest pageRequest = PageRequest.of(page, limit);
         Page<OrderResponse> orders = orderService.searchUserOrders(keyword, user.getId(),

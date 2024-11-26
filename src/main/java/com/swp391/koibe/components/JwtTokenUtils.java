@@ -2,21 +2,24 @@ package com.swp391.koibe.components;
 
 import com.swp391.koibe.exceptions.InvalidParamException;
 import com.swp391.koibe.models.User;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-//import com.example.shopapp.repositories.TokenRepository;
-import io.jsonwebtoken.*;
+import com.swp391.koibe.services.user.IUserService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import java.security.Key;
 import java.security.SecureRandom;
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
@@ -30,7 +33,8 @@ public class JwtTokenUtils {
 
     @Value("${jwt.secretKey}")
     private String secretKey;
-    private static final Logger logger = LoggerFactory.getLogger(JwtTokenUtils.class);
+
+    private final IUserService userService;
 
     //    private final TokenRepository tokenRepository;
     public String generateToken(User user) throws Exception {
@@ -85,6 +89,12 @@ public class JwtTokenUtils {
     public boolean isTokenExpired(String token) {
         Date expirationDate = this.extractClaim(token, Claims::getExpiration);
         return expirationDate.before(new Date());
+    }
+
+    public User extractUserFromToken () throws Exception{
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+        return userService.findByUsername(userDetails.getUsername());
     }
 
     public String extractEmail(String token) {

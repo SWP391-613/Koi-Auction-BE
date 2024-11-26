@@ -24,6 +24,8 @@ public interface IUserService {
 
     List<User> getAllUsers();
 
+    User findByUsername(String username) throws DataNotFoundException;
+
     Page<User> findAll(String keyword, Pageable pageable) throws Exception;
 
     void blockOrEnable(Long userId, Boolean active) throws DataNotFoundException;

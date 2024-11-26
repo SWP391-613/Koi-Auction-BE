@@ -1,5 +1,6 @@
 package com.swp391.koibe.controllers;
 
+import com.swp391.koibe.components.JwtTokenUtils;
 import com.swp391.koibe.dtos.auctionkoi.AuctionKoiDTO;
 import com.swp391.koibe.dtos.auctionkoi.UpdateAuctionKoiDTO;
 import com.swp391.koibe.exceptions.GenerateDataException;
@@ -29,6 +30,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,6 +44,7 @@ public class AuctionKoiController {
     private final IAuctionKoiService auctionKoiService;
     private final IUserService userService;
     private final IKoiRedisService koiRedisService;
+    private final JwtTokenUtils jwtTokenUtils;
 
     @GetMapping("/count-by-bid-method")
     public ResponseEntity<BidMethodQuantityResponse> countAuctionKoiByBidMethod() {
@@ -102,11 +106,10 @@ public class AuctionKoiController {
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_STAFF', 'ROLE_BREEDER')")
     public ResponseEntity<AuctionKoiResponse> createAuctionKoi(
         @Valid @RequestBody AuctionKoiDTO auctionKoiDTO,
-        BindingResult result,
-        @RequestHeader("Authorization") String authorizationHeader
+        BindingResult result
     ) throws Exception {
-        String extractedToken = authorizationHeader.substring(7);
-        User user = userService.getUserDetailsFromToken(extractedToken);
+        User user = jwtTokenUtils.extractUserFromToken();
+
         if (result.hasErrors()) {
             throw new MethodArgumentNotValidException(result);
         }

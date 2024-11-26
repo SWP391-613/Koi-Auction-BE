@@ -8,8 +8,8 @@ import com.swp391.koibe.enums.EKoiGender;
 import com.swp391.koibe.enums.EKoiStatus;
 import com.swp391.koibe.exceptions.InvalidParamException;
 import com.swp391.koibe.exceptions.MalformBehaviourException;
-import com.swp391.koibe.exceptions.MalformDataException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
+import com.swp391.koibe.metadata.PaginationMeta;
 import com.swp391.koibe.models.Category;
 import com.swp391.koibe.models.Koi;
 import com.swp391.koibe.models.KoiImage;
@@ -21,14 +21,13 @@ import com.swp391.koibe.repositories.UserRepository;
 import com.swp391.koibe.responses.KoiGenderResponse;
 import com.swp391.koibe.responses.KoiResponse;
 import com.swp391.koibe.responses.KoiStatusResponse;
+import com.swp391.koibe.responses.base.PageResponse;
 import com.swp391.koibe.services.auctionkoi.AuctionKoiService;
 import com.swp391.koibe.services.mail.IMailService;
 import com.swp391.koibe.utils.DTOConverter;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.schedulers.Schedulers;
-import jakarta.mail.MessagingException;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -96,9 +95,24 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
     }
 
     @Override
-    public Page<KoiResponse> getAllKois(Pageable pageable) {
+    public PageResponse<KoiResponse> getAllKois(Pageable pageable) {
         Page<Koi> kois = koiRepository.findAllKoiByIsDisplayIsTrue(pageable);
-        return kois.map(DTOConverter::convertToKoiDTO);
+
+        List<KoiResponse> koiResponses =
+            kois.getContent().stream().map(DTOConverter::convertToKoiDTO).toList();
+
+        return PageResponse.<KoiResponse>pageBuilder()
+            .data(koiResponses)
+            .pagination(PaginationMeta.builder()
+                            .totalPages(kois.getTotalPages())
+                            .totalItems(kois.getTotalElements())
+                            .currentPage(pageable.getPageNumber())
+                            .pageSize(pageable.getPageSize())
+                            .build())
+            .statusCode(200)
+            .isSuccess(true)
+            .message("Get all koi successfully")
+            .build();
     }
 
     @Override
@@ -173,22 +187,36 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
     }
 
     @Override
-    public Page<KoiResponse> getKoiByStatus(Pageable pageable, EKoiStatus status) {
-        return koiRepository
-            .findByStatus(status, pageable)
-            .map(DTOConverter::convertToKoiDTO);
+    public PageResponse<KoiResponse> getKoiByStatus(Pageable pageable, EKoiStatus status) {
+        Page<Koi> kois = koiRepository.findByStatus(status, pageable);
+
+        List<KoiResponse> koiResponses =
+            kois.getContent().stream().map(DTOConverter::convertToKoiDTO).toList();
+
+        return PageResponse.<KoiResponse>pageBuilder()
+            .data(koiResponses)
+            .pagination(PaginationMeta.builder()
+                            .totalPages(kois.getTotalPages())
+                            .totalItems(kois.getTotalElements())
+                            .currentPage(pageable.getPageNumber())
+                            .pageSize(pageable.getPageSize())
+                            .build())
+            .statusCode(200)
+            .isSuccess(true)
+            .message("Get all koi by status successfully")
+            .build();
     }
 
     @Override
-    public Page<KoiResponse> getBreederKoiByStatus(Pageable pageable, long breederId,
+    public PageResponse<KoiResponse> getBreederKoiByStatus(Pageable pageable, long breederId,
                                                    EKoiStatus status) {
         return null;
     }
 
     @Override
-    public Single<Void> updateKoiStatus(long id, UpdateKoiStatusDTO updateKoiStatusDTO) {
+    public void updateKoiStatus(long id, UpdateKoiStatusDTO updateKoiStatusDTO) {
         EKoiStatus eKoiStatus = EKoiStatus.valueOf(updateKoiStatusDTO.trackingStatus());
-        return Single.fromCallable(() -> {
+        Single.fromCallable(() -> {
             Koi existingKoi = koiRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Koi not found: " + id));
 
@@ -212,18 +240,67 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
     }
 
     @Override
-    public Page<Koi> findKoiByKeyword(String keyword, long breederId, Pageable pageable) {
-        return koiRepository.findKoiByKeyword(keyword, breederId,  pageable);
+    public PageResponse<KoiResponse> findKoiByKeyword(String keyword, long breederId, Pageable pageable) {
+        Page<Koi> kois = koiRepository.findKoiByKeyword(keyword, breederId,  pageable);
+
+        List<KoiResponse> koiResponses =
+            kois.getContent().stream().map(DTOConverter::convertToKoiDTO).toList();
+
+        return PageResponse.<KoiResponse>pageBuilder()
+            .data(koiResponses)
+            .pagination(PaginationMeta.builder()
+                            .totalPages(kois.getTotalPages())
+                            .totalItems(kois.getTotalElements())
+                            .currentPage(pageable.getPageNumber())
+                            .pageSize(pageable.getPageSize())
+                            .build())
+            .statusCode(200)
+            .isSuccess(true)
+            .message("Find koi by keyword successfully")
+            .build();
     }
 
     @Override
-    public Page<Koi> findUnverifiedKoiByKeyword(String keyword, Pageable pageable) {
-        return koiRepository.findUnverifiedKoiByKeyword(keyword,  pageable);
+    public PageResponse<KoiResponse> findUnverifiedKoiByKeyword(String keyword, Pageable pageable) {
+
+        Page<Koi> kois = koiRepository.findUnverifiedKoiByKeyword(keyword,  pageable);
+
+        List<KoiResponse> koiResponses =
+            kois.getContent().stream().map(DTOConverter::convertToKoiDTO).toList();
+
+        return PageResponse.<KoiResponse>pageBuilder()
+            .data(koiResponses)
+            .pagination(PaginationMeta.builder()
+                            .totalPages(kois.getTotalPages())
+                            .totalItems(kois.getTotalElements())
+                            .currentPage(pageable.getPageNumber())
+                            .pageSize(pageable.getPageSize())
+                            .build())
+            .statusCode(200)
+            .isSuccess(true)
+            .message("Find unverified koi by keyword successfully")
+            .build();
     }
 
     @Override
-    public Page<Koi> findAllKoiByKeyword(String keyword, Pageable pageable) {
-        return koiRepository.findAllKoiByKeyword(keyword,  pageable);
+    public PageResponse<KoiResponse> findAllKoiByKeyword(String keyword, Pageable pageable) {
+        Page<Koi> kois = koiRepository.findAllKoiByKeyword(keyword,  pageable);
+
+        List<KoiResponse> koiResponses =
+            kois.getContent().stream().map(DTOConverter::convertToKoiDTO).toList();
+
+        return PageResponse.<KoiResponse>pageBuilder()
+            .data(koiResponses)
+            .pagination(PaginationMeta.builder()
+                            .totalPages(kois.getTotalPages())
+                            .totalItems(kois.getTotalElements())
+                            .currentPage(pageable.getPageNumber())
+                            .pageSize(pageable.getPageSize())
+                            .build())
+            .statusCode(200)
+            .isSuccess(true)
+            .message("Find all koi by keyword successfully")
+            .build();
     }
 
     @Override

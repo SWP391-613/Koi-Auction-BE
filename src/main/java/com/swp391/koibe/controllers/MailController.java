@@ -22,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,15 +49,14 @@ public class MailController {
     @PreAuthorize("hasAnyRole('ROLE_MEMBER')")
     @SkipEmailValidation
     public ResponseEntity<?> sendOtp(
-        @RequestHeader("Authorization") String authorizationHeader,
         @RequestParam EUpdateRole updateRole,
         @Valid @RequestBody UpdateRolePurposeDTO updateRolePurposeDTO,
         BindingResult result
     ) throws Exception {
         if(result.hasErrors()) throw new MethodArgumentNotValidException(result);
 
-        String extractedToken = authorizationHeader.substring(7);
-        User user = userService.getUserDetailsFromToken(extractedToken);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.findByUsername(userDetails.getUsername());
         Context context = new Context();
         context.setVariable("name", user.getFirstName());
         context.setVariable("sendFromEmail", user.getEmail());

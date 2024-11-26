@@ -1,6 +1,7 @@
 package com.swp391.koibe.controllers;
 
 import com.swp391.koibe.annotations.RetryAndBlock;
+import com.swp391.koibe.components.JwtTokenUtils;
 import com.swp391.koibe.components.LocalizationUtils;
 import com.swp391.koibe.dtos.UpdateUserDTO;
 import com.swp391.koibe.dtos.UserLoginDTO;
@@ -15,11 +16,11 @@ import com.swp391.koibe.exceptions.base.DataWrongFormatException;
 import com.swp391.koibe.models.Token;
 import com.swp391.koibe.models.User;
 import com.swp391.koibe.responses.LoginResponse;
-import com.swp391.koibe.responses.LogoutResponse;
 import com.swp391.koibe.responses.OtpResponse;
 import com.swp391.koibe.responses.RegisterResponse;
 import com.swp391.koibe.responses.UpdateUserResponse;
 import com.swp391.koibe.responses.UserResponse;
+import com.swp391.koibe.responses.base.ApiResponse;
 import com.swp391.koibe.services.token.TokenService;
 import com.swp391.koibe.services.user.IUserService;
 import com.swp391.koibe.utils.DTOConverter;
@@ -35,6 +36,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +45,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -55,6 +57,8 @@ public class UserController {
     private final IUserService userService;
     private final LocalizationUtils localizationUtils;
     private final TokenService tokenService;
+    private final HttpServletRequest request;
+    private final JwtTokenUtils jwtTokenUtils;
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getUserById(
@@ -105,17 +109,9 @@ public class UserController {
 
     @PostMapping("/details")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_MEMBER', 'ROLE_STAFF', 'ROLE_BREEDER')")
-    public ResponseEntity<UserResponse> takeUserDetailsFromToken(
-        @RequestHeader("Authorization") String authorizationHeader
-    ) {
-        try {
-            String extractedToken = authorizationHeader.substring(
-                7); // Loại bỏ "Bearer " từ chuỗi token
-            User user = userService.getUserDetailsFromToken(extractedToken);
-            return ResponseEntity.ok(DTOConverter.convertToUserDTO(user));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<UserResponse> takeUserDetailsFromToken() throws Exception {
+        return ResponseEntity.ok(
+            DTOConverter.convertToUserDTO(jwtTokenUtils.extractUserFromToken()));
     }
 
     // PUT: localhost:4000/api/v1/users/4/deposit/100
@@ -159,7 +155,8 @@ public class UserController {
             log.info("New user registered successfully");
             return ResponseEntity.status(HttpStatus.CREATED).body(
                 RegisterResponse.builder()
-                    .message(localizationUtils.getLocalizedMessage(MessageKey.REGISTER_SUCCESSFULLY))
+                    .message(
+                        localizationUtils.getLocalizedMessage(MessageKey.REGISTER_SUCCESSFULLY))
                     .statusCode(HttpStatus.CREATED.value())
                     .isSuccess(true)
                     .singleData(DTOConverter.convertToUserDTO(user))
@@ -213,7 +210,6 @@ public class UserController {
     public ResponseEntity<?> updateUserDetails(
         @PathVariable Long userId,
         @Valid @RequestBody UpdateUserDTO updatedUserDTO,
-        @RequestHeader("Authorization") String authorizationHeader,
         BindingResult result
     ) {
         if (result.hasErrors()) {
@@ -222,8 +218,7 @@ public class UserController {
 
         UpdateUserResponse updateUserResponse = new UpdateUserResponse();
         try {
-            String extractedToken = authorizationHeader.substring(7);
-            User user = userService.getUserDetailsFromToken(extractedToken);
+            User user = jwtTokenUtils.extractUserFromToken();
             // Ensure that the user making the request matches the user being updated
             if (!Objects.equals(user.getId(), userId)) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -261,13 +256,12 @@ public class UserController {
     @PutMapping("/verify/{otp}")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_MEMBER', 'ROLE_STAFF', 'ROLE_BREEDER')")
     public ResponseEntity<OtpResponse> verifiedUser(
-        @PathVariable int otp,
-        @RequestHeader("Authorization") String authorizationHeader
+        @PathVariable int otp
     ) {
         OtpResponse otpResponse = new OtpResponse();
         try {
-            String extractedToken = authorizationHeader.substring(7);
-            User user = userService.getUserDetailsFromToken(extractedToken);
+            User user = jwtTokenUtils.extractUserFromToken();
+
             userService.verifyOtpToVerifyUser(user.getId(), String.valueOf(otp));
             otpResponse.setMessage(
                 localizationUtils.getLocalizedMessage(MessageKey.VERIFY_USER_SUCCESSFULLY));
@@ -315,22 +309,37 @@ public class UserController {
         description = "Track logout request count")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_MEMBER', 'ROLE_STAFF', 'ROLE_BREEDER')")
     @PostMapping("/logout")
-    public ResponseEntity<LogoutResponse> logout(
-        @RequestHeader("Authorization") String authorizationHeader
-    ) {
-        LogoutResponse logoutResponse = new LogoutResponse();
-        try {
-            String extractedToken = authorizationHeader.substring(7);
-            User user = userService.getUserDetailsFromToken(extractedToken);
-            tokenService.deleteToken(extractedToken, user); //revoke token
-            logoutResponse.setMessage(
-                localizationUtils.getLocalizedMessage(MessageKey.LOGOUT_SUCCESSFULLY));
-            return ResponseEntity.ok().body(logoutResponse);
-        } catch (Exception e) {
-            logoutResponse.setMessage(
-                localizationUtils.getLocalizedMessage(MessageKey.LOGOUT_FAILED));
-            logoutResponse.setReason(e.getMessage());
-            return ResponseEntity.badRequest().body(logoutResponse);
+    public ResponseEntity<ApiResponse<Objects>> logout() {
+
+        String authorizationHeader = request.getHeader("Authorization");
+
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+            User user = userService.findByUsername(userDetails.getUsername());
+
+            tokenService.deleteToken(token, user); //revoke token
+
+            return ResponseEntity.ok().body(
+                ApiResponse.<Objects>builder()
+                    .message(
+                        localizationUtils.getLocalizedMessage(
+                            MessageKey.LOGOUT_SUCCESSFULLY))
+                    .statusCode(HttpStatus.OK.value())
+                    .isSuccess(true)
+                    .build());
+        }else{
+            return ResponseEntity.badRequest().body(
+                ApiResponse.<Objects>builder()
+                    .message(
+                        localizationUtils.getLocalizedMessage(
+                            MessageKey.LOGOUT_FAILED))
+                    .reason("Authorization header is missing")
+                    .statusCode(HttpStatus.BAD_REQUEST.value())
+                    .isSuccess(false)
+                    .build());
         }
     }
 

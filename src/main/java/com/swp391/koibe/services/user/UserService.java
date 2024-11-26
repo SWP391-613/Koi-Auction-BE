@@ -221,6 +221,14 @@ public class UserService implements IUserService {
         return userRepository.findAll();
     }
 
+    @Override
+    public User findByUsername(String username) throws DataNotFoundException {
+        return userRepository.findByEmail(username)
+                .orElseThrow(() -> new DataNotFoundException(
+                        localizationUtils.getLocalizedMessage(MessageKey.USER_NOT_FOUND)
+                ));
+    }
+
     @Transactional
     @Override
     public User updateUser(Long userId, UpdateUserDTO updatedUserDTO) throws Exception {

@@ -3,6 +3,7 @@ package com.swp391.koibe.repositories
 import com.swp391.koibe.enums.EKoiStatus
 import com.swp391.koibe.models.Koi
 import com.swp391.koibe.responses.KoiInAuctionResponse
+import com.swp391.koibe.responses.base.PageResponse
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
@@ -83,7 +84,10 @@ interface KoiRepository : JpaRepository<Koi, Long> {
                 "OR k.description LIKE CONCAT('%', :keyword, '%') " +
                 "OR k.category.name LIKE CONCAT('%', :keyword, '%')))"
     )
-    fun findUnverifiedKoiByKeyword(keyword: String, pageable: Pageable): Page<Koi>
+    fun findUnverifiedKoiByKeyword(
+        @Param("keyword") keyword: String,
+        pageable: Pageable
+    ): Page<Koi>
 
     @Query(
         "SELECT k FROM Koi k WHERE (k.name LIKE CONCAT('%', :keyword, '%') " +
