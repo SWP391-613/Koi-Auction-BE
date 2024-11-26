@@ -1,5 +1,6 @@
 package com.swp391.koibe.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.swp391.koibe.enums.EKoiGender;
 import com.swp391.koibe.enums.EKoiStatus;
 import com.swp391.koibe.models.listener.KoiListener;
@@ -13,6 +14,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,7 +33,10 @@ import lombok.Setter;
 public class Koi extends BaseEntity{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "kois_seq", sequenceName = "kois_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "kois_seq")
+    @Column(name="id", unique=true, nullable=false)
+    @JsonProperty("id")
     private Long id;
 
     //koi properties

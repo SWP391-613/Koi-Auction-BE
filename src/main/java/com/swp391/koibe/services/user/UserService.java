@@ -459,6 +459,14 @@ public class UserService implements IUserService {
                         localizationUtils.getLocalizedMessage(MessageKeys.USER_NOT_FOUND)
                 ));
 
+        if(!existingUser.isActive()){
+            throw new MalformBehaviourException(MessageKeys.USER_NOT_FOUND);
+        }
+
+        if(existingUser.getStatus() != UserStatus.VERIFIED){
+            throw new MalformBehaviourException("User do not verified their account");
+        }
+
         if(existingUser.getRole().getId() == 4){
             throw new PermissionDeniedException("Cannot change password for this account");
         }

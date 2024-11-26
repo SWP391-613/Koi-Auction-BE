@@ -16,14 +16,13 @@ spring:
 
   datasource:
     url: ${SPRING_DATASOURCE_URL:PROD_SPRING_DATASOURCE_URL}
-    username: ${MYSQL_DEV_USER:PROD_DB_DEV_USER}
-    password: ${MYSQL_DEV_PASSWORD:PROD_DB_DEV_PASSWORD}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${POSTGRES_USER:PROD_DB_DEV_USER}
+    password: ${POSTGRES_PASSWORD:PROD_DB_DEV_PASSWORD}
 
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     show-sql: true
 
   mail:

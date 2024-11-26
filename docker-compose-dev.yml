@@ -3,24 +3,32 @@ networks:
     driver: bridge
 
 services:
-  mysql:
-    image: lcaohoanq/sample-mysql-db:2.0
-    container_name: mysql_db_koi_development
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
-      timeout: 20s
-      retries: 10
+  postgres:
+    image: postgres:latest
+    container_name: postgres_web_development
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: Iloveyou123!
+      POSTGRES_DB: web_company_dev
     networks:
       - koi_networks
-    environment:
-      MYSQL_ROOT_PASSWORD: Luucaohoang1604^^
-      MYSQL_DATABASE: koi_company_dev
-      MYSQL_USER: lcaohoanq
-      MYSQL_PASSWORD: Luucaohoang1604^^
-    volumes: 
-      - mysql_data:/var/lib/mysql        # Persist MySQL data
     ports:
-      - "3306:3306"
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin_web_development
+    environment:
+      PGADMIN_DEFAULT_EMAIL: hoangclw@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    networks:
+      - koi_networks
+    ports:
+      - "80:80"
+    depends_on:
+      - postgres
 
   redis-container:
     image: docker.io/redis:7.2.3
@@ -32,18 +40,6 @@ services:
       - ./redis-data:/data # Mount a volume for Redis data persistence
     networks:
       - koi_networks
-
-  phpmyadmin:
-    image: phpmyadmin:5
-    container_name: phpmyadmin_ui_koi_development
-    networks:
-      - koi_networks
-    environment:
-      PMA_HOST: mysql_db_koi_development                 # Hostname of the MySQL service (container name)
-      PMA_USER: root                     # MySQL root user
-      PMA_PASSWORD: Luucaohoang1604^^    # MySQL root password
-    ports:
-      - "81:80"                        # Expose phpMyAdmin on port 81
 
   prometheus:
     image: prom/prometheus
@@ -75,7 +71,7 @@ services:
       - koi_networks
 
 volumes:
-  mysql_data:
+  postgres_data:
     driver: local
   grafana_data:
     driver: local

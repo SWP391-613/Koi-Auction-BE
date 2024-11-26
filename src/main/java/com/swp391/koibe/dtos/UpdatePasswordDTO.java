@@ -1,8 +1,10 @@
 package com.swp391.koibe.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.swp391.koibe.constants.Regex;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record UpdatePasswordDTO(
@@ -12,7 +14,7 @@ public record UpdatePasswordDTO(
     String email,
 
     @JsonProperty("new_password")
-    @Size(min = 8, max=200, message = "New password must be at least 8 characters long and at most 200 characters long")
+    @Pattern(regexp = Regex.PASSWORD_REGEX, message = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character")
     @NotBlank(message = "New password must not be blank")
     String newPassword
 ) {}

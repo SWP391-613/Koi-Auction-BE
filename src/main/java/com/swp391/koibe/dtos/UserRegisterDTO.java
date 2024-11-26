@@ -1,9 +1,11 @@
 package com.swp391.koibe.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.swp391.koibe.constants.Regex;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import java.util.Date;
 import lombok.Builder;
 
@@ -29,6 +31,7 @@ public record UserRegisterDTO(
     String address,
 
     @JsonProperty("password")
+    @Pattern(regexp = Regex.PASSWORD_REGEX, message = "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character")
     @NotBlank(message = "Password is required") String password,
 
     @JsonProperty("confirm_password")
