@@ -108,7 +108,8 @@ public class AuctionKoiController {
         @Valid @RequestBody AuctionKoiDTO auctionKoiDTO,
         BindingResult result
     ) throws Exception {
-        User user = jwtTokenUtils.extractUserFromToken();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    User user = userService.findByUsername(userDetails.getUsername());
 
         if (result.hasErrors()) {
             throw new MethodArgumentNotValidException(result);

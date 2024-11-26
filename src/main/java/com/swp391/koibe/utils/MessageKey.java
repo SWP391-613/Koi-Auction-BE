@@ -10,7 +10,6 @@ public class MessageKey {
         public static final String USER_IS_LOCKED = "user.login.user_is_locked";
         public static final String USER_NOT_FOUND = "user.login.user_not_found";
         public static final String EMAIL_ALREADY_EXISTS = "user.register.email_already_exists";
-        public static final String PERMISSION_DENIED = "user.permission.permission_denied";
         public static final String REGISTER_FAILED = "user.register.register_failed";
 
         public static final String UPDATE_USER_SUCCESSFULLY = "user.update.update_successfully";
@@ -33,7 +32,20 @@ public class MessageKey {
         public static final String WRONG_PHONE_PASSWORD = "user.login.wrong_phone_password";
         public static final String ROLE_DOES_NOT_EXISTS = "user.login.role_not_exist";
 
+        public static final String DATA_NOT_FOUND = "exception.data_not_found";
         public static final String BIDDING_RULES_ERROR = "bid.exception.bidding_rule_error";
         public static final String MALFORMED_BEHAVIOUR = "exception.malformed_behaviour";
         public static final String WRONG_FORMAT = "exception.data_wrong_format";
+        public static final String EXCEPTION_NULL_POINTER = "exception.null_pointer";
+        public static final String BIDDING_RULE_EXCEPTION = "bid.exception.bidding_rule_error";
+        public static final String INTERNAL_SERVER_ERROR = "exception.internal_server_error";
+        public static final String EXCEPTION_INVALID_API_PATH_VARIABLE = "exception.invalid_api_path_variable";
+        public static final String EXCEPTION_MALFORMED_DATA = "exception.malformed_data";
+        public static final String EXCEPTION_MALFORMED_BEHAVIOUR = "exception.malformed_behaviour";
+        public static final String EXCEPTION_DATA_INTEGRITY_VIOLATION = "exception.data_integrity_violation";
+        public static final String FEEDBACK_EXCEPTION = "feedback.exception";
+        public static final String EXCEPTION_BAD_CREDENTIALS = "exception.bad_credentials";
+        public static final String EXCEPTION_PERMISSION_DENIED = "permission.permission_denied";
+        public static final String EXCEPTION_KOI_REVOKE = "exception.koi_revoke";
+        public static final String EXCEPTION_DELETE_ERROR = "exception.delete_error";
 }

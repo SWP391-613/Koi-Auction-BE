@@ -17,8 +17,6 @@ import com.swp391.koibe.models.Token;
 import com.swp391.koibe.models.User;
 import com.swp391.koibe.responses.LoginResponse;
 import com.swp391.koibe.responses.OtpResponse;
-import com.swp391.koibe.responses.RegisterResponse;
-import com.swp391.koibe.responses.UpdateUserResponse;
 import com.swp391.koibe.responses.UserResponse;
 import com.swp391.koibe.responses.base.ApiResponse;
 import com.swp391.koibe.services.token.TokenService;
@@ -110,8 +108,10 @@ public class UserController {
     @PostMapping("/details")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_MEMBER', 'ROLE_STAFF', 'ROLE_BREEDER')")
     public ResponseEntity<UserResponse> takeUserDetailsFromToken() throws Exception {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
         return ResponseEntity.ok(
-            DTOConverter.convertToUserDTO(jwtTokenUtils.extractUserFromToken()));
+            DTOConverter.convertToUserDTO(userService.findByUsername(userDetails.getUsername())));
     }
 
     // PUT: localhost:4000/api/v1/users/4/deposit/100
@@ -142,97 +142,52 @@ public class UserController {
         extraTags = {"uri", "/api/v1/users/register"},
         description = "Track register request count")
     @PostMapping("/register")
-    public ResponseEntity<RegisterResponse> createUser(
+    public ResponseEntity<ApiResponse<UserResponse>> createUser(
         @RequestBody @Valid UserRegisterDTO userRegisterDTO,
-        BindingResult result) {
+        BindingResult result) throws Exception {
 
         if (result.hasErrors()) {
             throw new MethodArgumentNotValidException(result);
         }
 
-        try {
-            User user = userService.createUser(userRegisterDTO);
-            log.info("New user registered successfully");
-            return ResponseEntity.status(HttpStatus.CREATED).body(
-                RegisterResponse.builder()
-                    .message(
-                        localizationUtils.getLocalizedMessage(MessageKey.REGISTER_SUCCESSFULLY))
-                    .statusCode(HttpStatus.CREATED.value())
-                    .isSuccess(true)
-                    .singleData(DTOConverter.convertToUserDTO(user))
-                    .build());
-        } catch (DataWrongFormatException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                RegisterResponse.builder()
-                    .message(localizationUtils.getLocalizedMessage(MessageKey.WRONG_FORMAT))
-                    .statusCode(HttpStatus.BAD_REQUEST.value())
-                    .isSuccess(false)
-                    .reason(e.getMessage())
-                    .build());
-        } catch (MalformBehaviourException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                RegisterResponse.builder()
-                    .message(localizationUtils.getLocalizedMessage(MessageKey.MALFORMED_BEHAVIOUR))
-                    .statusCode(HttpStatus.BAD_REQUEST.value())
-                    .isSuccess(false)
-                    .reason(e.getMessage())
-                    .build());
-        } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(
-                RegisterResponse.builder()
-                    .message(
-                        localizationUtils.getLocalizedMessage(MessageKey.EMAIL_ALREADY_EXISTS))
-                    .statusCode(HttpStatus.CONFLICT.value())
-                    .isSuccess(false)
-                    .reason(e.getMessage())
-                    .build());
-        } catch (PermissionDeniedException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
-                RegisterResponse.builder()
-                    .message(localizationUtils.getLocalizedMessage(MessageKey.PERMISSION_DENIED))
-                    .statusCode(HttpStatus.FORBIDDEN.value())
-                    .isSuccess(false)
-                    .reason(e.getMessage())
-                    .build());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                RegisterResponse.builder()
-                    .message(localizationUtils.getLocalizedMessage(MessageKey.REGISTER_FAILED))
-                    .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
-                    .isSuccess(false)
-                    .reason(e.getMessage())
-                    .build());
-        }
+        User user = userService.createUser(userRegisterDTO);
+        log.info("New user registered successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+            ApiResponse.<UserResponse>builder()
+                .message(
+                    localizationUtils.getLocalizedMessage(MessageKey.REGISTER_SUCCESSFULLY))
+                .statusCode(HttpStatus.CREATED.value())
+                .isSuccess(true)
+                .data(DTOConverter.convertToUserDTO(user))
+                .build());
+
     }
 
     @PutMapping("/details/{userId}")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_MEMBER', 'ROLE_STAFF', 'ROLE_BREEDER')")
-    public ResponseEntity<?> updateUserDetails(
+    public ResponseEntity<ApiResponse<UserResponse>> updateUserDetails(
         @PathVariable Long userId,
         @Valid @RequestBody UpdateUserDTO updatedUserDTO,
         BindingResult result
-    ) {
+    ) throws Exception {
         if (result.hasErrors()) {
             throw new MethodArgumentNotValidException(result);
         }
 
-        UpdateUserResponse updateUserResponse = new UpdateUserResponse();
-        try {
-            User user = jwtTokenUtils.extractUserFromToken();
-            // Ensure that the user making the request matches the user being updated
-            if (!Objects.equals(user.getId(), userId)) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-            }
-            User updatedUser = userService.updateUser(userId, updatedUserDTO);
-            updateUserResponse.setMessage(
-                localizationUtils.getLocalizedMessage(MessageKey.UPDATE_USER_SUCCESSFULLY));
-            updateUserResponse.setUserResponse(DTOConverter.convertToUserDTO(updatedUser));
-            return ResponseEntity.ok(updateUserResponse);
-        } catch (Exception e) {
-            updateUserResponse.setMessage("Fail to update user details");
-            updateUserResponse.setReason(e.getMessage());
-            return ResponseEntity.badRequest().body(updateUserResponse);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+        User user = userService.findByUsername(userDetails.getUsername());
+        // Ensure that the user making the request matches the user being updated
+        if (!Objects.equals(user.getId(), userId)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
+        return ResponseEntity.ok(
+            ApiResponse.<UserResponse>builder()
+                .message(MessageKey.UPDATE_USER_SUCCESSFULLY)
+                .data(DTOConverter.convertToUserDTO(userService.updateUser(userId, updatedUserDTO)))
+                .isSuccess(true)
+                .statusCode(HttpStatus.OK.value())
+                .build());
     }
 
     @PutMapping("/block/{userId}/{active}")
@@ -255,23 +210,20 @@ public class UserController {
 
     @PutMapping("/verify/{otp}")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_MEMBER', 'ROLE_STAFF', 'ROLE_BREEDER')")
-    public ResponseEntity<OtpResponse> verifiedUser(
+    public ResponseEntity<ApiResponse<OtpResponse>> verifiedUser(
         @PathVariable int otp
-    ) {
-        OtpResponse otpResponse = new OtpResponse();
-        try {
-            User user = jwtTokenUtils.extractUserFromToken();
+    ) throws Exception {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+            .getAuthentication().getPrincipal();
+        User user = userService.findByUsername(userDetails.getUsername());
 
-            userService.verifyOtpToVerifyUser(user.getId(), String.valueOf(otp));
-            otpResponse.setMessage(
-                localizationUtils.getLocalizedMessage(MessageKey.VERIFY_USER_SUCCESSFULLY));
-            return ResponseEntity.ok().body(otpResponse);
-        } catch (Exception e) {
-            otpResponse.setMessage(
-                localizationUtils.getLocalizedMessage(MessageKey.VERIFY_USER_FAILED));
-            otpResponse.setReason(e.getMessage());
-            return ResponseEntity.badRequest().body(otpResponse);
-        }
+        userService.verifyOtpToVerifyUser(user.getId(), String.valueOf(otp));
+        return ResponseEntity.ok().body(
+            ApiResponse.<OtpResponse>builder()
+                .message(MessageKey.VERIFY_USER_SUCCESSFULLY)
+                .statusCode(HttpStatus.OK.value())
+                .isSuccess(true)
+                .build());
     }
 
     @Timed(
@@ -280,27 +232,22 @@ public class UserController {
         description = "Track verify request count")
     @RetryAndBlock(maxAttempts = 3, blockDurationSeconds = 3600, maxDailyAttempts = 6)
     @PostMapping("/verify")
-    public ResponseEntity<OtpResponse> verifiedUserNotLogin(
+    public ResponseEntity<ApiResponse<OtpResponse>> verifiedUserNotLogin(
         @Valid @RequestBody VerifyUserDTO verifyUserDTO,
         BindingResult result
-    ) {
+    ) throws Exception {
         if (result.hasErrors()) {
             throw new MethodArgumentNotValidException(result);
         }
 
-        OtpResponse otpResponse = new OtpResponse();
-        try {
-            User user = userService.getUserByEmail(verifyUserDTO.email());
-            userService.verifyOtpToVerifyUser(user.getId(), verifyUserDTO.otp());
-            otpResponse.setMessage(
-                localizationUtils.getLocalizedMessage(MessageKey.VERIFY_USER_SUCCESSFULLY));
-            return ResponseEntity.ok().body(otpResponse);
-        } catch (Exception e) {
-            otpResponse.setMessage(
-                localizationUtils.getLocalizedMessage(MessageKey.VERIFY_USER_FAILED));
-            otpResponse.setReason(e.getMessage());
-            return ResponseEntity.badRequest().body(otpResponse);
-        }
+        User user = userService.getUserByEmail(verifyUserDTO.email());
+        userService.verifyOtpToVerifyUser(user.getId(), verifyUserDTO.otp());
+        return ResponseEntity.ok().body(
+            ApiResponse.<OtpResponse>builder()
+                .message(MessageKey.VERIFY_USER_SUCCESSFULLY)
+                .statusCode(HttpStatus.OK.value())
+                .isSuccess(true)
+                .build());
     }
 
     @Timed(
@@ -330,7 +277,7 @@ public class UserController {
                     .statusCode(HttpStatus.OK.value())
                     .isSuccess(true)
                     .build());
-        }else{
+        } else {
             return ResponseEntity.badRequest().body(
                 ApiResponse.<Objects>builder()
                     .message(

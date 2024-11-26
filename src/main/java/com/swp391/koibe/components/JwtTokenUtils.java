@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -33,8 +34,6 @@ public class JwtTokenUtils {
 
     @Value("${jwt.secretKey}")
     private String secretKey;
-
-    private final IUserService userService;
 
     //    private final TokenRepository tokenRepository;
     public String generateToken(User user) throws Exception {
@@ -89,12 +88,6 @@ public class JwtTokenUtils {
     public boolean isTokenExpired(String token) {
         Date expirationDate = this.extractClaim(token, Claims::getExpiration);
         return expirationDate.before(new Date());
-    }
-
-    public User extractUserFromToken () throws Exception{
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
-            .getAuthentication().getPrincipal();
-        return userService.findByUsername(userDetails.getUsername());
     }
 
     public String extractEmail(String token) {

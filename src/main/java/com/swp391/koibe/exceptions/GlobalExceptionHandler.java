@@ -5,6 +5,7 @@ import com.swp391.koibe.exceptions.base.DataAlreadyExistException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import com.swp391.koibe.exceptions.base.DataWrongFormatException;
 import com.swp391.koibe.responses.ExceptionResponse;
+import com.swp391.koibe.responses.base.ApiError;
 import com.swp391.koibe.responses.base.BaseResponse;
 import com.swp391.koibe.utils.MessageKey;
 import java.util.HashMap;
@@ -26,47 +27,53 @@ import org.springframework.web.context.request.WebRequest;
 @Slf4j
 @RestControllerAdvice
 @RequiredArgsConstructor
-public class ApplicationExceptionHandler {
+public class GlobalExceptionHandler {
 
     private final LocalizationUtils localizationUtils;
 
     @ExceptionHandler(DataNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public BaseResponse<Object> handleDataNotFoundException(DataNotFoundException e) {
-        return ExceptionResponse.builder()
-                .message(localizationUtils.getLocalizedMessage("exception.data_not_found"))
+    public ApiError<Object> handleDataNotFoundException(DataNotFoundException e) {
+        return ApiError.errorBuilder()
+                .message(localizationUtils.getLocalizedMessage(MessageKey.DATA_NOT_FOUND))
                 .reason(e.getMessage())
+                .statusCode(HttpStatus.NOT_FOUND.value())
+                .isSuccess(false)
                 .build();
     }
 
     @ExceptionHandler(NullPointerException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseResponse<Object> handleNullPointerException(NullPointerException e) {
-        return ExceptionResponse.builder()
-                .message(localizationUtils.getLocalizedMessage("exception.null_pointer"))
-                .reason(e.getMessage())
-                .build();
+    public ApiError<Object> handleNullPointerException(NullPointerException e) {
+        return ApiError.errorBuilder()
+            .message(localizationUtils.getLocalizedMessage(MessageKey.EXCEPTION_NULL_POINTER))
+            .reason(e.getMessage())
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .isSuccess(false)
+            .build();
     }
 
     @ExceptionHandler(BiddingRuleException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseResponse<Object> handleBiddingRuleException(BiddingRuleException e) {
-        return ExceptionResponse.builder()
-                .message(localizationUtils.getLocalizedMessage("bid.exception.bidding_rule_error"))
-                .reason(e.getMessage())
-                .build();
+    public ApiError<Object> handleBiddingRuleException(BiddingRuleException e) {
+        return ApiError.errorBuilder()
+            .message(localizationUtils.getLocalizedMessage(MessageKey.BIDDING_RULE_EXCEPTION))
+            .reason(e.getMessage())
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .isSuccess(false)
+            .build();
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public BaseResponse<Object> handleException(Exception e) {
-
+    public ApiError<Object> handleException(Exception e) {
         log.error("Internal server error: ", e);
-
-        return ExceptionResponse.builder()
-                .message(localizationUtils.getLocalizedMessage("exception.internal_server_error"))
-                .reason(e.getMessage())
-                .build();
+        return ApiError.errorBuilder()
+            .message(localizationUtils.getLocalizedMessage(MessageKey.INTERNAL_SERVER_ERROR))
+            .reason(e.getMessage())
+            .statusCode(HttpStatus.INTERNAL_SERVER_ERROR.value())
+            .isSuccess(false)
+            .build();
     }
 
     @ExceptionHandler(GenerateDataException.class)
@@ -89,11 +96,13 @@ public class ApplicationExceptionHandler {
 
     @ExceptionHandler(InvalidApiPathVariableException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseResponse<Object> handleInvalidApiPathVariableException(InvalidApiPathVariableException e) {
-        return ExceptionResponse.builder()
-                .message(localizationUtils.getLocalizedMessage("exception.invalid_api_path_variable"))
-                .reason(e.getMessage())
-                .build();
+    public ApiError<Object> handleInvalidApiPathVariableException(InvalidApiPathVariableException e) {
+        return ApiError.errorBuilder()
+            .message(localizationUtils.getLocalizedMessage(MessageKey.EXCEPTION_INVALID_API_PATH_VARIABLE))
+            .reason(e.getMessage())
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .isSuccess(false)
+            .build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -112,28 +121,34 @@ public class ApplicationExceptionHandler {
 
     @ExceptionHandler(DeleteException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseResponse<Object> handleDeleteException(DeleteException e) {
-        return ExceptionResponse.builder()
-                .message(localizationUtils.getLocalizedMessage("exception.delete_error"))
-                .reason(e.getMessage())
-                .build();
+    public  ApiError<Object> handleDeleteException(DeleteException e) {
+        return ApiError.errorBuilder()
+            .message(localizationUtils.getLocalizedMessage(MessageKey.EXCEPTION_DELETE_ERROR))
+            .reason(e.getMessage())
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .isSuccess(false)
+            .build();
     }
 
     @ExceptionHandler(MalformDataException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseResponse<Object> handleMalformDataException(MalformDataException e) {
-        return ExceptionResponse.builder()
-                .message(localizationUtils.getLocalizedMessage("exception.malformed_data"))
-                .reason(e.getMessage())
-                .build();
+    public ApiError<Object> handleMalformDataException(MalformDataException e) {
+        return ApiError.errorBuilder()
+            .message(localizationUtils.getLocalizedMessage(MessageKey.EXCEPTION_MALFORMED_DATA))
+            .reason(e.getMessage())
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .isSuccess(false)
+            .build();
     }
 
     @ExceptionHandler(MalformBehaviourException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseResponse<Object> handleMalformBehaviourException(MalformBehaviourException e) {
-        return ExceptionResponse.builder()
-            .message(localizationUtils.getLocalizedMessage("exception.malformed_behaviour"))
+    public ApiError<Object> handleMalformBehaviourException(MalformBehaviourException e) {
+        return ApiError.errorBuilder()
+            .message(localizationUtils.getLocalizedMessage(MessageKey.EXCEPTION_MALFORMED_BEHAVIOUR))
             .reason(e.getMessage())
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .isSuccess(false)
             .build();
     }
 
@@ -152,57 +167,68 @@ public class ApplicationExceptionHandler {
 
     @ExceptionHandler(PermissionDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public BaseResponse<Object> handlePermissionDeniedException(PermissionDeniedException e) {
-        return ExceptionResponse.builder()
-                .message(localizationUtils.getLocalizedMessage("exception.permission_denied"))
-                .reason(e.getMessage())
-                .build();
+    public ApiError<Object> handlePermissionDeniedException(PermissionDeniedException e) {
+        return ApiError.errorBuilder()
+            .message(localizationUtils.getLocalizedMessage(MessageKey.EXCEPTION_PERMISSION_DENIED))
+            .reason(e.getMessage())
+            .statusCode(HttpStatus.FORBIDDEN.value())
+            .isSuccess(false)
+            .build();
     }
 
     @ExceptionHandler(KoiRevokeException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseResponse<Object> handleKoiRevokeException(KoiRevokeException e) {
-        return ExceptionResponse.builder()
-                .message(localizationUtils.getLocalizedMessage("exception.koi_revoke"))
-                .reason(e.getMessage())
-                .build();
+    public ApiError<Object> handleKoiRevokeException(KoiRevokeException e) {
+        return ApiError.errorBuilder()
+            .message(localizationUtils.getLocalizedMessage(MessageKey.EXCEPTION_KOI_REVOKE))
+            .reason(e.getMessage())
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .isSuccess(false)
+            .build();
     }
 
     @ExceptionHandler(BadCredentialsException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseResponse<Object> handleBadCredentialsException(BadCredentialsException e) {
-        return ExceptionResponse.builder()
-                .message(localizationUtils.getLocalizedMessage("exception.bad_credentials"))
-                .reason(e.getMessage())
-                .build();
+    public ApiError<Object> handleBadCredentialsException(BadCredentialsException e) {
+        return ApiError.errorBuilder()
+            .message(localizationUtils.getLocalizedMessage(MessageKey.EXCEPTION_BAD_CREDENTIALS))
+            .reason(e.getMessage())
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .isSuccess(false)
+            .build();
     }
 
     @ExceptionHandler(FeedbackResponseException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<BaseResponse<Object>> handleFeedBackResponseException(FeedbackResponseException e) {
-        BaseResponse<Object> response = ExceptionResponse.builder()
-                .message(localizationUtils.getLocalizedMessage("feedback.exception"))
-                .reason(e.getMessage())
-                .build();
-        return ResponseEntity.badRequest().body(response);
+    public ApiError<Object> handleFeedBackResponseException(FeedbackResponseException e) {
+        return ApiError.errorBuilder()
+            .message(localizationUtils.getLocalizedMessage(MessageKey.FEEDBACK_EXCEPTION))
+            .reason(e.getMessage())
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .isSuccess(false)
+            .build();
     }
 
     @ExceptionHandler(DataWrongFormatException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public BaseResponse<Object> handlePasswordWrongFormatException(DataWrongFormatException e) {
-        return ExceptionResponse.builder()
-                .message(localizationUtils.getLocalizedMessage(MessageKey.WRONG_FORMAT))
-                .reason(e.getMessage())
-                .build();
+    public ApiError<Object> handlePasswordWrongFormatException(DataWrongFormatException e) {
+        return ApiError.errorBuilder()
+            .message(localizationUtils.getLocalizedMessage(MessageKey.WRONG_FORMAT))
+            .reason(e.getMessage())
+            .statusCode(HttpStatus.BAD_REQUEST.value())
+            .isSuccess(false)
+            .build();
     }
 
     @ExceptionHandler({DataIntegrityViolationException.class, DataAlreadyExistException.class})
     @ResponseStatus(HttpStatus.CONFLICT)
-    public BaseResponse<Object> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
-        return ExceptionResponse.builder()
-                .message(localizationUtils.getLocalizedMessage("exception.data_integrity_violation"))
-                .reason(e.getMessage())
-                .build();
+    public ApiError<Object> handleDataIntegrityViolationException(DataIntegrityViolationException e) {
+        return ApiError.errorBuilder()
+            .message(localizationUtils.getLocalizedMessage(MessageKey.EXCEPTION_DATA_INTEGRITY_VIOLATION))
+            .reason(e.getMessage())
+            .statusCode(HttpStatus.CONFLICT.value())
+            .isSuccess(false)
+            .build();
     }
 
 }

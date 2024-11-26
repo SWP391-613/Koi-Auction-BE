@@ -139,10 +139,13 @@ public class KoiController {
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int limit
     ) throws Exception {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.findByUsername(userDetails.getUsername());
+
         return ResponseEntity.ok(
             koiService.findKoiByKeyword(
                 keyword,
-                jwtTokenUtils.extractUserFromToken().getId(),
+                user.getId(),
                 PageRequest.of(page, limit)));
     }
 
@@ -234,7 +237,8 @@ public class KoiController {
         KoiResponse response = new KoiResponse();
 
         try {
-            User user = jwtTokenUtils.extractUserFromToken();
+            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    User user = userService.findByUsername(userDetails.getUsername());
 
             //need to save the product first to get the product id, get the id and add the image
             Koi newKoi = koiService.createKoi(koiDTO, user.getId()).blockingGet();

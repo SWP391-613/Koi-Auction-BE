@@ -5,6 +5,7 @@ import com.swp391.koibe.dtos.VerifyUserDTO;
 import com.swp391.koibe.exceptions.MethodArgumentNotValidException;
 import com.swp391.koibe.models.User;
 import com.swp391.koibe.responses.OtpResponse;
+import com.swp391.koibe.responses.base.ApiResponse;
 import com.swp391.koibe.services.user.IUserService;
 import com.swp391.koibe.utils.MessageKey;
 import jakarta.mail.MessagingException;
@@ -41,27 +42,22 @@ public class OtpController {
     }
 
     @PostMapping("/verify")
-    public ResponseEntity<OtpResponse> verifiedUserNotLogin(
+    public ResponseEntity<ApiResponse<OtpResponse>> verifiedUserNotLogin(
         @Valid @RequestBody VerifyUserDTO verifyUserDTO,
         BindingResult result
-    ) {
+    ) throws Exception {
         if (result.hasErrors()) {
             throw new MethodArgumentNotValidException(result);
         }
+        User user = userService.getUserByEmail(verifyUserDTO.email());
+        userService.verifyOtpIsCorrect(user.getId(), verifyUserDTO.otp());
+        return ResponseEntity.ok().body(
+            ApiResponse.<OtpResponse>builder()
+                .message(localizationUtils.getLocalizedMessage(MessageKey.OTP_IS_CORRECT))
+                .isSuccess(true)
+                .statusCode(HttpStatus.OK.value())
+                .build());
 
-        OtpResponse otpResponse = new OtpResponse();
-        try {
-            User user = userService.getUserByEmail(verifyUserDTO.email());
-            userService.verifyOtpIsCorrect(user.getId(), verifyUserDTO.otp());
-            otpResponse.setMessage(
-                localizationUtils.getLocalizedMessage(MessageKey.OTP_IS_CORRECT));
-            return ResponseEntity.ok().body(otpResponse);
-        } catch (Exception e) {
-            otpResponse.setMessage(
-                localizationUtils.getLocalizedMessage(MessageKey.OTP_IS_INCORRECT));
-            otpResponse.setReason(e.getMessage());
-            return ResponseEntity.badRequest().body(otpResponse);
-        }
     }
 
 }
