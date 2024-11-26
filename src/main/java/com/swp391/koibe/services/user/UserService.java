@@ -113,7 +113,7 @@ public class UserService implements IUserService {
         User savedUser = userRepository.save(newUser);
 
         // send OTP email
-        String otp = OTPUtils.generateOTP();
+        String otp = OtpUtils.generateOtp();
         Context context = new Context();
         context.setVariable("name", savedUser.getFirstName());
         context.setVariable("otp", otp);

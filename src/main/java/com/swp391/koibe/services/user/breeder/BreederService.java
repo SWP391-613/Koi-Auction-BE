@@ -12,14 +12,12 @@ import com.swp391.koibe.models.Koi;
 import com.swp391.koibe.models.User;
 import com.swp391.koibe.repositories.CategoryRepository;
 import com.swp391.koibe.repositories.KoiRepository;
-import com.swp391.koibe.repositories.RoleRepository;
 import com.swp391.koibe.repositories.UserRepository;
 import com.swp391.koibe.responses.BreederResponse;
 import com.swp391.koibe.responses.KoiResponse;
 import com.swp391.koibe.responses.UserResponse;
 import com.swp391.koibe.responses.base.PageResponse;
 import com.swp391.koibe.utils.DTOConverter;
-import com.swp391.koibe.utils.FilterUtils;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -77,12 +75,8 @@ public class BreederService implements IBreederService {
 
     @Override
     public User findById(long breederId) throws DataNotFoundException {
-        User existingBreeder = FilterUtils.findBreederById(getAllBreedersList(), breederId);
-        if (existingBreeder == null) {
-            throw new DataNotFoundException("Breeder not found");
-        }
-
-        return existingBreeder;
+        return userRepository.findBreederById(breederId)
+            .orElseThrow(() -> new BreederNotFoundException("Breeder not found"));
     }
 
     @Override
@@ -163,10 +157,7 @@ public class BreederService implements IBreederService {
 
     @Override
     public List<KoiResponse> getKoisByBreederID(long breederId) {
-        User existingBreeder = FilterUtils.findBreederById(getAllBreedersList(), breederId);
-        if (existingBreeder == null) {
-            throw new DataNotFoundException("Breeder not found");
-        }
+        findById(breederId);
 
         return koiRepository
             .findAll()
@@ -177,10 +168,7 @@ public class BreederService implements IBreederService {
 
     @Override
     public Page<KoiResponse> getKoisByBreederID(long breederId, Pageable pageable) {
-        User existingBreeder = FilterUtils.findBreederById(getAllBreedersList(), breederId);
-        if (existingBreeder == null) {
-            throw new BreederNotFoundException("Breeder not found");
-        }
+        findById(breederId);
 
         return koiRepository
             .findByOwnerId(breederId, pageable)
@@ -190,8 +178,7 @@ public class BreederService implements IBreederService {
     @Override
     public Page<KoiResponse> getKoisByBreederIdAndStatus(long breederId, EKoiStatus koiStatus,
                                                          Pageable pageable) {
-        User existingBreeder = userRepository.findBreederById(breederId)
-            .orElseThrow(() -> new BreederNotFoundException("Breeder not found"));
+        findById(breederId);
 
         return koiRepository
             .findByOwnerIdAndStatus(breederId, koiStatus, pageable)

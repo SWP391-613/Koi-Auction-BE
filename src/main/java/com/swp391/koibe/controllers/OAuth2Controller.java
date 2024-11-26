@@ -9,15 +9,16 @@ import com.swp391.koibe.dtos.OAuth2DTO;
 import com.swp391.koibe.exceptions.InvalidParamException;
 import com.swp391.koibe.responses.LoginResponse;
 import com.swp391.koibe.responses.OAuth2Payload;
+import com.swp391.koibe.responses.base.ApiResponse;
 import com.swp391.koibe.services.user.IUserService;
 import com.swp391.koibe.utils.MessageKey;
-import com.swp391.koibe.utils.ResponseUtils;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,7 +38,8 @@ public class OAuth2Controller {
     private final IUserService userService;
 
     @PostMapping("/google")
-    public ResponseEntity<LoginResponse> authenticateGoogle(@RequestBody OAuth2DTO tokenRequest) {
+    public ResponseEntity<ApiResponse<LoginResponse>> authenticateGoogle(
+        @RequestBody OAuth2DTO tokenRequest) {
         try {
             GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(
                 new NetHttpTransport(), GsonFactory.getDefaultInstance())
@@ -65,11 +67,19 @@ public class OAuth2Controller {
                 oAuth2Payload.getPicture());
 
             log.info("Login via Google successfully");
-            return ResponseUtils.loginSuccess(
-                localizationUtils.getLocalizedMessage(MessageKey.LOGIN_SUCCESSFULLY), token);
+            return ResponseEntity.ok(ApiResponse.<LoginResponse>builder()
+                                         .message(localizationUtils.getLocalizedMessage(
+                                             MessageKey.LOGIN_SUCCESSFULLY))
+                                         .statusCode(HttpStatus.OK.value())
+                                         .isSuccess(true)
+                                         .build());
         } catch (Exception e) {
-            return ResponseUtils.loginFailed(
-                localizationUtils.getLocalizedMessage(MessageKey.LOGIN_FAILED, e.getMessage()));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ApiResponse.<LoginResponse>builder()
+                          .message(localizationUtils.getLocalizedMessage(MessageKey.LOGIN_FAILED))
+                          .statusCode(HttpStatus.BAD_REQUEST.value())
+                          .build());
+
         }
     }
 

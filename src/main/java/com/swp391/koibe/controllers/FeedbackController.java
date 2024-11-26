@@ -74,13 +74,13 @@ public class FeedbackController {
         }
         try {
             // Check if the order is in DELIVERED status
-            Order order = orderService.getOrder(feedback.getOrderId());
+            Order order = orderService.getOrder(feedback.orderId());
             if (order.getStatus() != OrderStatus.DELIVERED) {
                 throw new IllegalStateException("Feedback can only be submitted for delivered orders.");
             }
 
             // Check if feedback already exists for this order
-            if (feedbackService.getFeedbackByOrderId(feedback.getOrderId()) != null) {
+            if (feedbackService.getFeedbackByOrderId(feedback.orderId()) != null) {
                 throw new FeedbackResponseException("Feedback has already been submitted for this order.");
             }
             FeedbackResponse response = DTOConverter.fromFeedback(feedbackService.createFeedback(feedback));
