@@ -24,6 +24,8 @@ import com.swp391.koibe.responses.KoiStatusResponse;
 import com.swp391.koibe.services.auctionkoi.AuctionKoiService;
 import com.swp391.koibe.services.mail.IMailService;
 import com.swp391.koibe.utils.DTOConverter;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import jakarta.mail.MessagingException;
 import java.util.List;
 import java.util.Optional;
@@ -46,41 +48,51 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
     private final AuctionKoiService auctionKoiService;
 
     @Override
-    public Koi createKoi(KoiDTO koiDTO, long breederId) throws Exception {
+    public Single<Koi> createKoi(KoiDTO koiDTO, long breederId) throws Exception {
         //breeder cannot create other breeder's koi
         if(breederId != koiDTO.ownerId()){
             throw new InvalidParamException("Breeder cannot create other breeder's koi");
         }
 
         //breeder create their own koi
-        User existedUser = userRepository.findBreederById(koiDTO.ownerId())
-            .orElseThrow(() ->
-                             new DataNotFoundException("Breeder not found: " + koiDTO.ownerId()));
+        Single<User> existedUser = Single.fromCallable(() ->
+           userRepository.findBreederById(koiDTO.ownerId())
+               .orElseThrow(() -> new DataNotFoundException("Breeder not found: " + koiDTO.ownerId()))
+        ).subscribeOn(Schedulers.io());
 
-        Category existedCategory = categoryRepository.findById(koiDTO.categoryId())
-            .orElseThrow(() ->
-                             new DataNotFoundException("Category not found: " + koiDTO.categoryId()));
+        Single<Category> existedCategory = Single.fromCallable(() ->
+           categoryRepository.findById(koiDTO.categoryId())
+               .orElseThrow(() -> new DataNotFoundException("Category not found: " + koiDTO.categoryId()))
+        ).subscribeOn(Schedulers.io());
 
-        Koi newKoi = Koi.builder()
-            .name(koiDTO.name())
-            .price(koiDTO.price())
-            .status(EKoiStatus.UNVERIFIED) //default when create a new koi, breeder need to wait staff verify
-            .isDisplay(1) //default when create a new koi, breeder need to wait staff verify then turn to 1
-            .thumbnail(koiDTO.thumbnail())
-            .sex(EKoiGender.valueOf(koiDTO.sex()))
-            .length(koiDTO.length())
-            .yearBorn(koiDTO.yearBorn())
-            .description(koiDTO.description() == null ? "Not provided" : koiDTO.description())
-            .owner(existedUser)
-            .category(existedCategory)
-            .build();
-        return koiRepository.save(newKoi);
+        return Single.zip(
+            existedUser, existedCategory, (user, category) -> {
+
+                Koi newKoi = Koi.builder()
+                    .name(koiDTO.name())
+                    .price(koiDTO.price())
+                    .status(EKoiStatus.UNVERIFIED) //default when create a new koi, breeder need to wait staff verify
+                    .isDisplay(1) //default when create a new koi, breeder need to wait staff verify then turn to 1
+                    .thumbnail(koiDTO.thumbnail())
+                    .sex(EKoiGender.valueOf(koiDTO.sex()))
+                    .length(koiDTO.length())
+                    .yearBorn(koiDTO.yearBorn())
+                    .description(koiDTO.description() == null ? "Not provided" : koiDTO.description())
+                    .owner(user)
+                    .category(category)
+                    .build();
+
+                return koiRepository.save(newKoi);
+            }).subscribeOn(Schedulers.io());
     }
 
-    public KoiResponse getKoiById(long id) throws DataNotFoundException {
-        return koiRepository.findById(id)
-            .map(DTOConverter::convertToKoiDTO)
-            .orElseThrow(() -> new DataNotFoundException("Koi not found: " + id));
+    @Override
+    public Single<KoiResponse> getKoiById(long id) throws DataNotFoundException {
+        return Single.fromCallable(() -> {
+            Koi koi = koiRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Koi not found: " + id));
+            return DTOConverter.convertToKoiDTO(koi);
+        }).subscribeOn(Schedulers.io());
     }
 
     @Override
@@ -174,39 +186,29 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
     }
 
     @Override
-    public void updateKoiStatus(long id, UpdateKoiStatusDTO updateKoiStatusDTO)
-        throws MessagingException {
-        //find if koi exist
-        Koi existingKoi = koiRepository.findById(id)
-            .orElseThrow(() -> new DataNotFoundException("Koi not found: " + id));
-
+    public Single<Void> updateKoiStatus(long id, UpdateKoiStatusDTO updateKoiStatusDTO) {
         EKoiStatus eKoiStatus = EKoiStatus.valueOf(updateKoiStatusDTO.trackingStatus());
-        existingKoi.setStatus(eKoiStatus);
-        koiRepository.save(existingKoi);
+        return Single.fromCallable(() -> {
+            Koi existingKoi = koiRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Koi not found: " + id));
 
-        User owner = existingKoi.getOwner();
+            existingKoi.setStatus(eKoiStatus);
+            koiRepository.save(existingKoi);
+            return existingKoi;
+        }).flatMap(existingKoi -> {
+            User owner = existingKoi.getOwner();
+            Context context = new Context();
+            context.setVariable("name", owner.getFirstName());
+            context.setVariable("koiName", existingKoi.getName());
+            context.setVariable("status", existingKoi.getStatus());
 
-        Context context = new Context();
-        context.setVariable("name", owner.getFirstName());
-        context.setVariable("koiName", existingKoi.getName());
-        context.setVariable("status", eKoiStatus);
+            String templateName = eKoiStatus == EKoiStatus.VERIFIED ? "koiApproved" : "koiRejected";
 
-        String templateName;
-
-        if(eKoiStatus == EKoiStatus.VERIFIED){
-            templateName = "koiApproved";
-        } else if(eKoiStatus == EKoiStatus.REJECTED){
-            templateName = "koiRejected";
-        } else {
-            return;
-        }
-
-        mailService.sendMail(
-            owner.getEmail(),
-            "Your koi has been verified, welcome to AuctionKoi",
-            templateName,
-            context
-        );
+            return Single.fromCallable(() -> {
+                mailService.sendMail(owner.getEmail(), "Your koi status", templateName, context);
+                return null; // return null or whatever result type you expect
+            });
+        });
     }
 
     @Override

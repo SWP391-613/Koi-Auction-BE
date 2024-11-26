@@ -11,15 +11,16 @@ import com.swp391.koibe.models.KoiImage;
 import com.swp391.koibe.responses.KoiGenderResponse;
 import com.swp391.koibe.responses.KoiResponse;
 import com.swp391.koibe.responses.KoiStatusResponse;
+import io.reactivex.rxjava3.core.Single;
 import jakarta.mail.MessagingException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public sealed interface IKoiService<T> permits KoiService {
 
-    Koi createKoi(KoiDTO koiDTO, long breederId) throws Exception;
+    Single<Koi> createKoi(KoiDTO koiDTO, long breederId) throws Exception;
 
-    T getKoiById(long id) throws DataNotFoundException;
+    Single<KoiResponse> getKoiById(long id) throws DataNotFoundException;
 
     Page<KoiResponse> getAllKois(Pageable pageable);
 
@@ -33,7 +34,7 @@ public sealed interface IKoiService<T> permits KoiService {
 
     Page<KoiResponse> getBreederKoiByStatus(Pageable pageable, long breederId,EKoiStatus status);
 
-    void updateKoiStatus(long id, UpdateKoiStatusDTO updateKoiStatusDTO) throws MessagingException;
+    Single<Void> updateKoiStatus(long id, UpdateKoiStatusDTO updateKoiStatusDTO);
 
     Page<Koi> findKoiByKeyword(String keyword, long breederId, Pageable pageable);
 

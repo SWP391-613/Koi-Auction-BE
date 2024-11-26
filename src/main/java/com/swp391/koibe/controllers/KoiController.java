@@ -100,7 +100,7 @@ public class KoiController {
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<KoiResponse>> getKoi(@PathVariable long id) {
         try {
-            KoiResponse koiResponse = koiService.getKoiById(id);
+            KoiResponse koiResponse = koiService.getKoiById(id).blockingGet();
             ApiResponse<KoiResponse> response = ApiResponse.<KoiResponse>builder()
                 .data(koiResponse)
                 .statusCode(200)
@@ -290,7 +290,7 @@ public class KoiController {
             User breeder = userService.getUserDetailsFromToken(extractedToken);
 
             //need to save the product first to get the product id, get the id and add the image
-            Koi newKoi = koiService.createKoi(koiDTO, breeder.getId());
+            Koi newKoi = koiService.createKoi(koiDTO, breeder.getId()).blockingGet();
             return ResponseEntity.ok(DTOConverter.convertToKoiDTO(newKoi));
         } catch (Exception e) {
             response.setMessage("Error creating new koi");
@@ -364,7 +364,7 @@ public class KoiController {
         @ModelAttribute("files") List<MultipartFile> files
     ) {
         try {
-            KoiResponse existingKoi = koiService.getKoiById(koiId);
+            KoiResponse existingKoi = koiService.getKoiById(koiId).blockingGet();
             files = files == null ? new ArrayList<>() : files;
             if (files.size() > KoiImage.MAXIMUM_IMAGES_PER_PRODUCT) {
                 return ResponseEntity.badRequest().body(

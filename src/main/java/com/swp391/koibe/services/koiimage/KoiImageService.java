@@ -21,7 +21,7 @@ public class KoiImageService implements IKoiImageService {
 
     @Override
     public void createKoiImage(long koiId, String url) throws Exception {
-        Koi koi = (Koi) koiService.getKoiById(koiId);
+        Koi koi = (Koi) koiService.getKoiById(koiId).blockingGet();
         koi.setId(koiId);
         KoiImage koiImage = KoiImage.builder()
             .koi(koi)
