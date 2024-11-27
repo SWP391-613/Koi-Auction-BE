@@ -1,6 +1,7 @@
 package com.swp391.koibe.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.swp391.koibe.enums.EAuctionStatus;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -31,11 +32,7 @@ public record AuctionDTO (
 
     @JsonProperty("status")
     @NotBlank(message = "Auction status name is required")
-    @Pattern(
-        regexp = "^(ENDED|ONGOING|UPCOMING)$",
-        message = "Auction status name must be ENDED, ONGOING or UPCOMING"
-    )
-    String statusName,
+    EAuctionStatus statusName,
 
     @JsonProperty("auctioneer_id")
     @NotNull(message = "Auctioneer is required for one Auction")

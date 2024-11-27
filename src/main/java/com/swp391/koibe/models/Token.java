@@ -1,5 +1,6 @@
 package com.swp391.koibe.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +16,10 @@ import java.time.LocalDateTime;
 public class Token {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "tokens_seq", sequenceName = "tokens_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tokens_seq")
+    @Column(name="id", unique=true, nullable=false)
+    @JsonProperty("id")
     private Long id;
 
     @Column(name = "token", length = 255)

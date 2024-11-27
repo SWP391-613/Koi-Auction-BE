@@ -22,24 +22,19 @@ public class OrderDetailService implements IOrderDetailService{
     @Override
     @Transactional
     public OrderDetail createOrderDetail(OrderDetailDTO orderDetailDTO) throws Exception {
-        Order order = orderRepository.findById(orderDetailDTO.getOrderId())
+        Order order = orderRepository.findById(orderDetailDTO.orderId())
                 .orElseThrow(() -> new DataNotFoundException(
-                        "Cannot find Order with id : "+orderDetailDTO.getOrderId()));
-        Koi product = koiRepository.findById(orderDetailDTO.getKoiId())
+                        "Cannot find Order with id : "+orderDetailDTO.orderId()));
+        Koi product = koiRepository.findById(orderDetailDTO.koiId())
                 .orElseThrow(() -> new DataNotFoundException(
-                        "Cannot find product with id: " + orderDetailDTO.getKoiId()));
+                        "Cannot find product with id: " + orderDetailDTO.koiId()));
         OrderDetail orderDetail = OrderDetail.builder()
                 .order(order)
                 .koi(product)
-                .numberOfProducts(orderDetailDTO.getNumberOfProducts())
-                .price(orderDetailDTO.getPrice())
-                .totalMoney(orderDetailDTO.getTotalMoney())
+                .numberOfProducts(orderDetailDTO.numberOfProducts())
+                .price(orderDetailDTO.price())
+                .totalMoney(orderDetailDTO.totalMoney())
                 .build();
-        return orderDetailRepository.save(orderDetail);
-    }
-
-    @Override
-    public OrderDetail createOrderDetail(OrderDetail orderDetail) throws Exception {
         return orderDetailRepository.save(orderDetail);
     }
 
@@ -56,14 +51,14 @@ public class OrderDetailService implements IOrderDetailService{
         //tìm xem order detail có tồn tại ko đã
         OrderDetail existingOrderDetail = orderDetailRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Cannot find order detail with id: "+id));
-        Order existingOrder = orderRepository.findById(orderDetailDTO.getOrderId())
+        Order existingOrder = orderRepository.findById(orderDetailDTO.orderId())
                 .orElseThrow(() -> new DataNotFoundException("Cannot find order with id: "+id));
-        Koi existingKoi = koiRepository.findById(orderDetailDTO.getKoiId())
+        Koi existingKoi = koiRepository.findById(orderDetailDTO.koiId())
                 .orElseThrow(() -> new DataNotFoundException(
-                        "Cannot find product with id: " + orderDetailDTO.getKoiId()));
-        existingOrderDetail.setPrice(orderDetailDTO.getPrice());
-        existingOrderDetail.setNumberOfProducts(orderDetailDTO.getNumberOfProducts());
-        existingOrderDetail.setTotalMoney(orderDetailDTO.getTotalMoney());
+                        "Cannot find product with id: " + orderDetailDTO.koiId()));
+        existingOrderDetail.setPrice(orderDetailDTO.price());
+        existingOrderDetail.setNumberOfProducts(orderDetailDTO.numberOfProducts());
+        existingOrderDetail.setTotalMoney(orderDetailDTO.totalMoney());
         existingOrderDetail.setOrder(existingOrder);
         existingOrderDetail.setKoi(existingKoi);
         return orderDetailRepository.save(existingOrderDetail);

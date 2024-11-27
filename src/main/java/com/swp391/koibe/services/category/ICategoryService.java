@@ -13,9 +13,9 @@ import org.springframework.data.domain.Pageable;
 public interface ICategoryService {
 
     Category createCategory(CategoryDTO category) throws DataAlreadyExistException;
-    Category getById(int id) throws DataNotFoundException;
+    Category getById(long id) throws DataNotFoundException;
     PageResponse<CategoryResponse> getAllCategories(PageRequest pageRequest);
-    void update(int categoryId, CategoryDTO category) throws DataNotFoundException;
-    void delete(int id);
+    void update(long categoryId, CategoryDTO category) throws DataNotFoundException;
+    void delete(long id);
 
 }

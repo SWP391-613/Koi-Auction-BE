@@ -5,6 +5,7 @@ import com.swp391.koibe.models.User;
 import com.swp391.koibe.responses.BreederResponse;
 import com.swp391.koibe.responses.KoiResponse;
 import com.swp391.koibe.responses.UserResponse;
+import com.swp391.koibe.responses.base.PageResponse;
 import com.swp391.koibe.responses.pagination.BreederPaginationResponse;
 import com.swp391.koibe.responses.pagination.KoiPaginationResponse;
 import com.swp391.koibe.services.user.breeder.IBreederService;
@@ -29,25 +30,11 @@ public class BreederController {
     private final IBreederService breederService;
 
     @GetMapping("")
-    public ResponseEntity<BreederPaginationResponse> getAllBreeders(
-        @RequestParam("page") int page,
-        @RequestParam("limit") int limit
+    public ResponseEntity<PageResponse<BreederResponse>> getAllBreeders(
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "0") int limit
     ) {
-        try {
-            PageRequest pageRequest = PageRequest.of(page, limit);
-            Page<BreederResponse> breeders = breederService.getAllBreeders(pageRequest);
-
-            // Create a UserPaginationResponse object and set its properties
-            BreederPaginationResponse response = new BreederPaginationResponse();
-            response.setItem(breeders.getContent()); // Set the list of UserResponse
-            response.setTotalPage(breeders.getTotalPages()); // Set the total pages
-            response.setTotalItem(breeders.getTotalElements()); // Set the total items
-//            response.setPerPage(limit); // Set the current page
-
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
-        }
+        return ResponseEntity.ok(breederService.getAllBreeders(PageRequest.of(page, limit)));
     }
 
     @GetMapping("/all")
@@ -73,8 +60,8 @@ public class BreederController {
     @GetMapping("/kois")
     public ResponseEntity<KoiPaginationResponse> getKoisByBreederId(
         @RequestParam("breeder_id") long breeder_id,
-        @RequestParam("page") int page,
-        @RequestParam("limit") int limit) {
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "0") int limit) {
 
         KoiPaginationResponse response = new KoiPaginationResponse();
 
@@ -94,8 +81,8 @@ public class BreederController {
     public ResponseEntity<KoiPaginationResponse> getKoisByBreederIdAndStatus(
         @RequestParam("breeder_id") long breeder_id,
         @RequestParam("status") String koi_status,
-        @RequestParam("page") int page,
-        @RequestParam("limit") int limit) {
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "0") int limit) {
 
         KoiPaginationResponse response = new KoiPaginationResponse();
 
@@ -115,8 +102,8 @@ public class BreederController {
     @PreAuthorize("hasRole('BREEDER')")
     public ResponseEntity<KoiPaginationResponse> getKoisByBreederIdNotInAnyAuction(
         @RequestParam("breeder_id") long breeder_id,
-        @RequestParam("page") int page,
-        @RequestParam("limit") int limit) {
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "0") int limit) {
 
         KoiPaginationResponse response = new KoiPaginationResponse();
 

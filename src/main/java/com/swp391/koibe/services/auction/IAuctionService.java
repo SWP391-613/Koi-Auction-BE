@@ -8,6 +8,7 @@ import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import com.swp391.koibe.models.Auction;
 import com.swp391.koibe.responses.AuctionResponse;
 import com.swp391.koibe.responses.AuctionStatusCountResponse;
+import com.swp391.koibe.responses.base.PageResponse;
 import java.util.List;
 import java.util.Set;
 import org.springframework.data.domain.Page;
@@ -15,21 +16,19 @@ import org.springframework.data.domain.Pageable;
 
 public interface IAuctionService {
 
-    Auction createAscendingAuction(AuctionDTO auctionDTO) throws DataAlreadyExistException;
+    AuctionResponse createAscendingAuction(AuctionDTO auctionDTO) throws DataAlreadyExistException;
 
     AuctionResponse getById(long id) throws DataNotFoundException;
 
-    Auction findAuctionById(long id) throws DataNotFoundException;
+    AuctionResponse findAuctionById(long id) throws DataNotFoundException;
 
-    Page<AuctionResponse> getAllAuctions(Pageable pageable);
+    PageResponse<AuctionResponse> getAllAuctions(Pageable pageable);
 
-    Auction update(long auctionId, UpdateAuctionDTO updateAuctionDTO) throws DataNotFoundException;
+    AuctionResponse update(long auctionId, UpdateAuctionDTO updateAuctionDTO) throws DataNotFoundException;
 
     void delete(long id);
 
     void end(long id) throws DataNotFoundException;
-
-    List<Auction> getAllAuctions();
 
     List<Auction> getAuctionByStatus(EAuctionStatus status);
 
@@ -37,15 +36,13 @@ public interface IAuctionService {
 
     boolean updateAuctionStatus(Auction auction) throws DataNotFoundException;
 
-    Set<Auction> getAuctionOnCondition(String condition);
-
     Set<Auction> getAuctionOnStatus(EAuctionStatus status);
 
-    List<Auction> getAuctionByAuctioneerId(long auctioneerId) throws DataNotFoundException;
+    List<AuctionResponse> getAuctionByAuctioneerId(long auctioneerId) throws DataNotFoundException;
 
-    Page<Auction> getAuctionByKeyword(String keyword, Pageable pageable);
+    PageResponse<AuctionResponse> getAuctionByKeyword(String keyword, Pageable pageable);
 
-    Page<Auction> getAuctionUpcomingByKeyword(String keyword, EAuctionStatus status,
+    PageResponse<AuctionResponse> getAuctionUpcomingByKeyword(String keyword, EAuctionStatus status,
                                               Pageable pageable);
 
     AuctionStatusCountResponse countAuctionByStatus();

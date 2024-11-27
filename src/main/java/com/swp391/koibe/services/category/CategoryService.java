@@ -40,7 +40,7 @@ public class CategoryService implements ICategoryService{
     }
 
     @Override
-    public Category getById(int id) throws DataNotFoundException {
+    public Category getById(long id) throws DataNotFoundException {
         return categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException("Category not found"));
     }
 
@@ -49,7 +49,7 @@ public class CategoryService implements ICategoryService{
         Page<Category> categoriesPage = categoryRepository.findAll(pageRequest);
 
         List<CategoryResponse> categoryResponses = categoriesPage.getContent().stream()
-            .map(dtoConverter::convertToCategoryDTO)
+            .map(dtoConverter::toCategoryResponse)
             .collect(Collectors.toList());
 
         return PageResponse.<CategoryResponse>pageBuilder()
@@ -67,7 +67,7 @@ public class CategoryService implements ICategoryService{
     }
 
     @Override
-    public void update(int categoryId, CategoryDTO category)
+    public void update(long categoryId, CategoryDTO category)
         throws DataNotFoundException {
 
         Category existingCategory = getById(categoryId);
@@ -76,7 +76,7 @@ public class CategoryService implements ICategoryService{
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(long id) {
 
         categoryRepository.deleteById(id);
 

@@ -7,16 +7,17 @@ import com.swp391.koibe.models.User;
 import com.swp391.koibe.responses.BreederResponse;
 import com.swp391.koibe.responses.KoiResponse;
 import com.swp391.koibe.responses.UserResponse;
+import com.swp391.koibe.responses.base.PageResponse;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface IBreederService {
 
-    Page<BreederResponse> getAllBreeders(Pageable pageable);
+    PageResponse<BreederResponse> getAllBreeders(Pageable pageable);
     List<UserResponse> getAllBreeders();
     User findById(long breederId) throws DataNotFoundException;
-    KoiResponse createKoi(Integer categoryId, KoiDTO koiDTO, long breederId);
+    KoiResponse createKoi(Long categoryId, KoiDTO koiDTO, long breederId);
     void updateBreeder(long breederId, User breeder);
     void updateKoi(long koiId, KoiDTO koiDTO);
     void deleteBreeder(long breederId);

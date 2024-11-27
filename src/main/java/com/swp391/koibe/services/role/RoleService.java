@@ -5,6 +5,8 @@ import com.swp391.koibe.exceptions.base.DataAlreadyExistException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import com.swp391.koibe.models.Role;
 import com.swp391.koibe.repositories.RoleRepository;
+import com.swp391.koibe.responses.RoleResponse;
+import com.swp391.koibe.utils.DTOConverter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,14 +14,19 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class RoleService implements IRoleService{
+
     private final RoleRepository roleRepository;
+
     @Override
-    public List<Role> getAllRoles() {
-        return roleRepository.findAll();
+    public List<RoleResponse> getAllRoles() {
+        return roleRepository.findAll()
+            .stream()
+            .map(DTOConverter::toRoleResponse)
+            .toList();
     }
 
     @Override
-    public Role createRole(RoleDTO roleDTO) {
+    public RoleResponse createRole(RoleDTO roleDTO) {
         if(roleRepository.findByUserRole(roleDTO.userRole()).isPresent()){
             throw new DataAlreadyExistException("Role with name " + roleDTO.userRole().name() + " already exist");
         }
@@ -28,15 +35,15 @@ public class RoleService implements IRoleService{
             .userRole(roleDTO.userRole())
             .build();
 
-        return roleRepository.save(newRole);
+        return DTOConverter.toRoleResponse(roleRepository.save(newRole));
     }
 
     @Override
-    public Role updateRole(long id, RoleDTO roleDTO) {
+    public RoleResponse updateRole(long id, RoleDTO roleDTO) {
         Role existingRole = roleRepository.findById(id)
             .orElseThrow(() -> new DataNotFoundException("Role with id " + id + " not found"));
         existingRole.setUserRole(roleDTO.userRole());
-        return roleRepository.save(existingRole);
+        return DTOConverter.toRoleResponse(roleRepository.save(existingRole));
     }
 
     @Override
@@ -47,8 +54,9 @@ public class RoleService implements IRoleService{
     }
 
     @Override
-    public Role getRoleById(Long id) {
+    public RoleResponse getRoleById(Long id) {
         return roleRepository.findById(id)
+            .map(DTOConverter::toRoleResponse)
             .orElseThrow(() -> new DataNotFoundException("Role with id " + id + " not found"));
     }
 }

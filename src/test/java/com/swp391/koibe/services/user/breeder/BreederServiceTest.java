@@ -1,7 +1,5 @@
 package com.swp391.koibe.services.user.breeder;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import com.swp391.koibe.models.Role;
 import com.swp391.koibe.models.User;
 import com.swp391.koibe.utils.DTOConverter;
@@ -42,7 +40,7 @@ class BreederServiceTest {
         );
 
         Mockito.when(breederService.getAllBreeders())
-            .thenReturn(breeders.stream().map(DTOConverter::convertToUserDTO)
+            .thenReturn(breeders.stream().map(DTOConverter::toUserResponse)
                             .toList());
 
     }

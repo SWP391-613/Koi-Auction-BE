@@ -8,8 +8,8 @@ import com.swp391.koibe.enums.EKoiGender;
 import com.swp391.koibe.enums.EKoiStatus;
 import com.swp391.koibe.exceptions.InvalidParamException;
 import com.swp391.koibe.exceptions.MalformBehaviourException;
-import com.swp391.koibe.exceptions.MalformDataException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
+import com.swp391.koibe.metadata.PaginationMeta;
 import com.swp391.koibe.models.Category;
 import com.swp391.koibe.models.Koi;
 import com.swp391.koibe.models.KoiImage;
@@ -21,12 +21,13 @@ import com.swp391.koibe.repositories.UserRepository;
 import com.swp391.koibe.responses.KoiGenderResponse;
 import com.swp391.koibe.responses.KoiResponse;
 import com.swp391.koibe.responses.KoiStatusResponse;
+import com.swp391.koibe.responses.base.PageResponse;
 import com.swp391.koibe.services.auctionkoi.AuctionKoiService;
 import com.swp391.koibe.services.mail.IMailService;
 import com.swp391.koibe.utils.DTOConverter;
-import jakarta.mail.MessagingException;
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,47 +47,72 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
     private final AuctionKoiService auctionKoiService;
 
     @Override
-    public Koi createKoi(KoiDTO koiDTO, long breederId) throws Exception {
+    public Single<KoiResponse> createKoi(KoiDTO koiDTO, long breederId) throws Exception {
         //breeder cannot create other breeder's koi
         if(breederId != koiDTO.ownerId()){
             throw new InvalidParamException("Breeder cannot create other breeder's koi");
         }
 
         //breeder create their own koi
-        User existedUser = userRepository.findBreederById(koiDTO.ownerId())
-            .orElseThrow(() ->
-                             new DataNotFoundException("Breeder not found: " + koiDTO.ownerId()));
+        Single<User> existedUser = Single.fromCallable(() ->
+           userRepository.findBreederById(koiDTO.ownerId())
+               .orElseThrow(() -> new DataNotFoundException("Breeder not found: " + koiDTO.ownerId()))
+        ).subscribeOn(Schedulers.io());
 
-        Category existedCategory = categoryRepository.findById(koiDTO.categoryId())
-            .orElseThrow(() ->
-                             new DataNotFoundException("Category not found: " + koiDTO.categoryId()));
+        Single<Category> existedCategory = Single.fromCallable(() ->
+           categoryRepository.findById(koiDTO.categoryId())
+               .orElseThrow(() -> new DataNotFoundException("Category not found: " + koiDTO.categoryId()))
+        ).subscribeOn(Schedulers.io());
 
-        Koi newKoi = Koi.builder()
-            .name(koiDTO.name())
-            .price(koiDTO.price())
-            .status(EKoiStatus.UNVERIFIED) //default when create a new koi, breeder need to wait staff verify
-            .isDisplay(1) //default when create a new koi, breeder need to wait staff verify then turn to 1
-            .thumbnail(koiDTO.thumbnail())
-            .sex(EKoiGender.valueOf(koiDTO.sex()))
-            .length(koiDTO.length())
-            .yearBorn(koiDTO.yearBorn())
-            .description(koiDTO.description() == null ? "Not provided" : koiDTO.description())
-            .owner(existedUser)
-            .category(existedCategory)
-            .build();
-        return koiRepository.save(newKoi);
-    }
+        return Single.zip(
+            existedUser, existedCategory, (user, category) -> {
 
-    public KoiResponse getKoiById(long id) throws DataNotFoundException {
-        return koiRepository.findById(id)
-            .map(DTOConverter::convertToKoiDTO)
-            .orElseThrow(() -> new DataNotFoundException("Koi not found: " + id));
+                Koi newKoi = Koi.builder()
+                    .name(koiDTO.name())
+                    .price(koiDTO.price())
+                    .status(EKoiStatus.UNVERIFIED) //default when create a new koi, breeder need to wait staff verify
+                    .isDisplay(1) //default when create a new koi, breeder need to wait staff verify then turn to 1
+                    .thumbnail(koiDTO.thumbnail())
+                    .sex(EKoiGender.valueOf(koiDTO.sex()))
+                    .length(koiDTO.length())
+                    .yearBorn(koiDTO.yearBorn())
+                    .description(koiDTO.description() == null ? "Not provided" : koiDTO.description())
+                    .owner(user)
+                    .category(category)
+                    .build();
+
+                return DTOConverter.toKoiResponse(koiRepository.save(newKoi));
+            }).subscribeOn(Schedulers.io());
     }
 
     @Override
-    public Page<KoiResponse> getAllKois(Pageable pageable) {
+    public Single<KoiResponse> getKoiById(long id) throws DataNotFoundException {
+        return Single.fromCallable(() -> {
+            Koi koi = koiRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Koi not found: " + id));
+            return DTOConverter.toKoiResponse(koi);
+        }).subscribeOn(Schedulers.io());
+    }
+
+    @Override
+    public PageResponse<KoiResponse> getAllKois(Pageable pageable) {
         Page<Koi> kois = koiRepository.findAllKoiByIsDisplayIsTrue(pageable);
-        return kois.map(DTOConverter::convertToKoiDTO);
+
+        List<KoiResponse> koiResponses =
+            kois.getContent().stream().map(DTOConverter::toKoiResponse).toList();
+
+        return PageResponse.<KoiResponse>pageBuilder()
+            .data(koiResponses)
+            .pagination(PaginationMeta.builder()
+                            .totalPages(kois.getTotalPages())
+                            .totalItems(kois.getTotalElements())
+                            .currentPage(pageable.getPageNumber())
+                            .pageSize(pageable.getPageSize())
+                            .build())
+            .statusCode(200)
+            .isSuccess(true)
+            .message("Get all koi successfully")
+            .build();
     }
 
     @Override
@@ -121,7 +147,7 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
         existingKoi.setCategory(existingCategory);
         existingKoi.setOwner(existingUser);
 
-        return DTOConverter.convertToKoiDTO(koiRepository.save(existingKoi));
+        return DTOConverter.toKoiResponse(koiRepository.save(existingKoi));
     }
 
     @Override
@@ -161,67 +187,120 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
     }
 
     @Override
-    public Page<KoiResponse> getKoiByStatus(Pageable pageable, EKoiStatus status) {
-        return koiRepository
-            .findByStatus(status, pageable)
-            .map(DTOConverter::convertToKoiDTO);
+    public PageResponse<KoiResponse> getKoiByStatus(Pageable pageable, EKoiStatus status) {
+        Page<Koi> kois = koiRepository.findByStatus(status, pageable);
+
+        List<KoiResponse> koiResponses =
+            kois.getContent().stream().map(DTOConverter::toKoiResponse).toList();
+
+        return PageResponse.<KoiResponse>pageBuilder()
+            .data(koiResponses)
+            .pagination(PaginationMeta.builder()
+                            .totalPages(kois.getTotalPages())
+                            .totalItems(kois.getTotalElements())
+                            .currentPage(pageable.getPageNumber())
+                            .pageSize(pageable.getPageSize())
+                            .build())
+            .statusCode(200)
+            .isSuccess(true)
+            .message("Get all koi by status successfully")
+            .build();
     }
 
     @Override
-    public Page<KoiResponse> getBreederKoiByStatus(Pageable pageable, long breederId,
+    public PageResponse<KoiResponse> getBreederKoiByStatus(Pageable pageable, long breederId,
                                                    EKoiStatus status) {
         return null;
     }
 
     @Override
-    public void updateKoiStatus(long id, UpdateKoiStatusDTO updateKoiStatusDTO)
-        throws MessagingException {
-        //find if koi exist
-        Koi existingKoi = koiRepository.findById(id)
-            .orElseThrow(() -> new DataNotFoundException("Koi not found: " + id));
-
+    public void updateKoiStatus(long id, UpdateKoiStatusDTO updateKoiStatusDTO) {
         EKoiStatus eKoiStatus = EKoiStatus.valueOf(updateKoiStatusDTO.trackingStatus());
-        existingKoi.setStatus(eKoiStatus);
-        koiRepository.save(existingKoi);
+        Single.fromCallable(() -> {
+            Koi existingKoi = koiRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Koi not found: " + id));
 
-        User owner = existingKoi.getOwner();
+            existingKoi.setStatus(eKoiStatus);
+            koiRepository.save(existingKoi);
+            return existingKoi;
+        }).flatMap(existingKoi -> {
+            User owner = existingKoi.getOwner();
+            Context context = new Context();
+            context.setVariable("name", owner.getFirstName());
+            context.setVariable("koiName", existingKoi.getName());
+            context.setVariable("status", existingKoi.getStatus());
 
-        Context context = new Context();
-        context.setVariable("name", owner.getFirstName());
-        context.setVariable("koiName", existingKoi.getName());
-        context.setVariable("status", eKoiStatus);
+            String templateName = eKoiStatus == EKoiStatus.VERIFIED ? "koiApproved" : "koiRejected";
 
-        String templateName;
-
-        if(eKoiStatus == EKoiStatus.VERIFIED){
-            templateName = "koiApproved";
-        } else if(eKoiStatus == EKoiStatus.REJECTED){
-            templateName = "koiRejected";
-        } else {
-            return;
-        }
-
-        mailService.sendMail(
-            owner.getEmail(),
-            "Your koi has been verified, welcome to AuctionKoi",
-            templateName,
-            context
-        );
+            return Single.fromCallable(() -> {
+                mailService.sendMail(owner.getEmail(), "Your koi status", templateName, context);
+                return null; // return null or whatever result type you expect
+            });
+        });
     }
 
     @Override
-    public Page<Koi> findKoiByKeyword(String keyword, long breederId, Pageable pageable) {
-        return koiRepository.findKoiByKeyword(keyword, breederId,  pageable);
+    public PageResponse<KoiResponse> findKoiByKeyword(String keyword, long breederId, Pageable pageable) {
+        Page<Koi> kois = koiRepository.findKoiByKeyword(keyword, breederId,  pageable);
+
+        List<KoiResponse> koiResponses =
+            kois.getContent().stream().map(DTOConverter::toKoiResponse).toList();
+
+        return PageResponse.<KoiResponse>pageBuilder()
+            .data(koiResponses)
+            .pagination(PaginationMeta.builder()
+                            .totalPages(kois.getTotalPages())
+                            .totalItems(kois.getTotalElements())
+                            .currentPage(pageable.getPageNumber())
+                            .pageSize(pageable.getPageSize())
+                            .build())
+            .statusCode(200)
+            .isSuccess(true)
+            .message("Find koi by keyword successfully")
+            .build();
     }
 
     @Override
-    public Page<Koi> findUnverifiedKoiByKeyword(String keyword, Pageable pageable) {
-        return koiRepository.findUnverifiedKoiByKeyword(keyword,  pageable);
+    public PageResponse<KoiResponse> findUnverifiedKoiByKeyword(String keyword, Pageable pageable) {
+
+        Page<Koi> kois = koiRepository.findUnverifiedKoiByKeyword(keyword,  pageable);
+
+        List<KoiResponse> koiResponses =
+            kois.getContent().stream().map(DTOConverter::toKoiResponse).toList();
+
+        return PageResponse.<KoiResponse>pageBuilder()
+            .data(koiResponses)
+            .pagination(PaginationMeta.builder()
+                            .totalPages(kois.getTotalPages())
+                            .totalItems(kois.getTotalElements())
+                            .currentPage(pageable.getPageNumber())
+                            .pageSize(pageable.getPageSize())
+                            .build())
+            .statusCode(200)
+            .isSuccess(true)
+            .message("Find unverified koi by keyword successfully")
+            .build();
     }
 
     @Override
-    public Page<Koi> findAllKoiByKeyword(String keyword, Pageable pageable) {
-        return koiRepository.findAllKoiByKeyword(keyword,  pageable);
+    public PageResponse<KoiResponse> findAllKoiByKeyword(String keyword, Pageable pageable) {
+        Page<Koi> kois = koiRepository.findAllKoiByKeyword(keyword,  pageable);
+
+        List<KoiResponse> koiResponses =
+            kois.getContent().stream().map(DTOConverter::toKoiResponse).toList();
+
+        return PageResponse.<KoiResponse>pageBuilder()
+            .data(koiResponses)
+            .pagination(PaginationMeta.builder()
+                            .totalPages(kois.getTotalPages())
+                            .totalItems(kois.getTotalElements())
+                            .currentPage(pageable.getPageNumber())
+                            .pageSize(pageable.getPageSize())
+                            .build())
+            .statusCode(200)
+            .isSuccess(true)
+            .message("Find all koi by keyword successfully")
+            .build();
     }
 
     @Override
@@ -240,12 +319,12 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
             .filter(koi -> koi.getSex() == EKoiGender.UNKNOWN)
             .count();
 
-        return KoiGenderResponse.builder()
-            .total(kois.size())
-            .male(maleCount)
-            .female(femaleCount)
-            .unknown(unknownCount)
-            .build();
+        return new KoiGenderResponse(
+            kois.size(),
+            maleCount,
+            femaleCount,
+            unknownCount
+        );
     }
 
     @Override
@@ -268,13 +347,13 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
             .filter(koi -> koi.getStatus() == EKoiStatus.SOLD)
             .count();
 
-        return KoiStatusResponse.builder()
-            .total(kois.size())
-            .unverified(unverifiedCount)
-            .verified(verifiedCount)
-            .rejected(rejectedCount)
-            .sold(soldCount)
-            .build();
+        return new KoiStatusResponse(
+            kois.size(),
+            unverifiedCount,
+            verifiedCount,
+            rejectedCount,
+            soldCount
+        );
     }
 
 

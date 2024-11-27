@@ -7,26 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-public class KoiStatusResponse {
-
-    @JsonProperty("total")
-    private Integer total;
-
-    @JsonProperty("unverified")
-    private Long unverified;
-
-    @JsonProperty("verified")
-    private Long verified;
-
-    @JsonProperty("rejected")
-    private Long rejected;
-
-    @JsonProperty("sold")
-    private Long sold;
+public record KoiStatusResponse(
+    @JsonProperty("total") Integer total,
+    @JsonProperty("unverified") Long unverified,
+    @JsonProperty("verified") Long verified,
+    @JsonProperty("rejected") Long rejected,
+    @JsonProperty("sold") Long sold
+) {
 
 }

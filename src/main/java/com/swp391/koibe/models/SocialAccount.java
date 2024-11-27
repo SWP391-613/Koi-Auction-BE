@@ -1,6 +1,7 @@
 package com.swp391.koibe.models;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.swp391.koibe.enums.ProviderName;
 import jakarta.persistence.*;
 import lombok.*;
@@ -13,8 +14,12 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 public class SocialAccount {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "social_accounts_seq", sequenceName = "social_accounts_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "social_accounts_seq")
+    @Column(name="id", unique=true, nullable=false)
+    @JsonProperty("id")
     private Long id;
 
     @Column(name = "email", length = 150)

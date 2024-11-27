@@ -11,26 +11,26 @@ import org.springframework.test.context.ActiveProfiles;
 class DTOConverterTest {
 
     @Test
-    void convertToUserDTO() {
+    void toUserResponse() {
     }
 
     @Test
-    void convertToKoiDTO() {
+    void toKoiResponse() {
     }
 
     @Test
-    void convertToKoiImageDTO() {
+    void toKoiImageResponse() {
     }
 
     @Test
-    void convertToAuctionDTO() {
+    void toAuctionResponse() {
     }
 
     @Test
-    void convertToAuctionKoiDTO() {
+    void toAuctionKoiResponse() {
     }
 
     @Test
-    void convertToBidDTO() {
+    void toBidResponse() {
     }
 }

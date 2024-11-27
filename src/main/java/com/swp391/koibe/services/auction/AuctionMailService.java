@@ -49,8 +49,8 @@ public class AuctionMailService implements IAuctionMailService {
             throw new DataNotFoundException("Auction not found");
         }
 
-        context.setVariable("auction_title", existingAuction.getTitle());
-        context.setVariable("auction_end_date", existingAuction.getEndTime());
+        context.setVariable("auction_title", existingAuction.title());
+        context.setVariable("auction_end_date", existingAuction.endTime());
         context.setVariable("auction_url", "http://localhost:3000/auctions/" + auctionId);
 
         Set<UserResponse> userList = auctionParticipantService.getAllUserJoinAuction(auctionId);
@@ -98,7 +98,7 @@ public class AuctionMailService implements IAuctionMailService {
 
         // Notify all users about the upcoming auction
         for (User user : userList) {
-            sendEmailToUser(DTOConverter.convertToUserDTO(user),
+            sendEmailToUser(DTOConverter.toUserResponse(user),
                             "Upcoming Auction Notification",
                             EmailCategoriesEnum.AUCTION_UPCOMING.getType(),
                             context);
@@ -118,8 +118,8 @@ public class AuctionMailService implements IAuctionMailService {
         userContext.setVariable("auction_url", baseContext.getVariable("auction_url"));
 
         // Set user-specific variables
-        String name = user.getFirstName();
-        String to = user.getEmail();
+        String name = user.firstName();
+        String to = user.email();
         userContext.setVariable("name", name);
 
         // Send the email using the mail service

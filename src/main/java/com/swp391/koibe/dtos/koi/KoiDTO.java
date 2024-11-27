@@ -39,7 +39,7 @@ public record KoiDTO(
 
     @Positive(message = "Koi category id must be greater than 0")
     @NotNull(message = "Koi category id is required when create a new koi")
-    @JsonProperty("category_id") Integer categoryId,
+    @JsonProperty("category_id") Long categoryId,
 
     @Positive(message = "Koi owner id must be greater than 0")
     @NotNull(message = "Koi owner id is required when create a new koi")

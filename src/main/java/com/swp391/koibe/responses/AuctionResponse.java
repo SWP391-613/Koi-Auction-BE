@@ -1,42 +1,25 @@
 package com.swp391.koibe.responses;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.swp391.koibe.models.Auction;
-import com.swp391.koibe.responses.base.BaseResponse;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
+import com.swp391.koibe.enums.EAuctionStatus;
 import java.time.LocalDateTime;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
+import org.springframework.format.annotation.DateTimeFormat;
 
-@SuperBuilder
-@AllArgsConstructor
-@NoArgsConstructor
-@Setter
-@Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class AuctionResponse extends BaseResponse<Auction> {
-
-    @JsonProperty("id")
-    private Long id;
-
-    @JsonProperty("title")
-    private String title;
+public record AuctionResponse(
+    @JsonProperty("id") Long id,
+    @JsonProperty("title") String title,
 
     @JsonProperty("start_time")
-    private String startTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS")
+    LocalDateTime startTime,
 
     @JsonProperty("end_time")
-    private String endTime;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSSSSS")
+    LocalDateTime endTime,
 
-    @JsonProperty("status")
-    private String status;
-
-    @JsonProperty("auctioneer_id")
-    private Long auctioneerId;
-}
+    @JsonProperty("status") EAuctionStatus status,
+    @JsonProperty("auctioneer_id") Long auctioneerId
+) {}

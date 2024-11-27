@@ -17,8 +17,12 @@ import lombok.*;
 public class KoiImage {
 
     public static final int MAXIMUM_IMAGES_PER_PRODUCT = 6;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "koi_images_seq", sequenceName = "koi_images_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "koi_images_seq")
+    @Column(name="id", unique=true, nullable=false)
+    @JsonProperty("id")
     private Long id;
 
     @ManyToOne

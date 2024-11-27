@@ -19,7 +19,7 @@ public record UpdateKoiDTO(
     @JsonProperty("status_name") String trackingStatus,
 
     @NotNull(message = "Koi is display is required")
-    @JsonProperty("is_display") int isDisplay,
+    @JsonProperty("is_display") Integer isDisplay,
 
 //    @NotBlank(message = "Koi thumbnail is required")
     @JsonProperty("thumbnail") String thumbnail,
@@ -31,19 +31,19 @@ public record UpdateKoiDTO(
     @NotNull(message = "Koi length is required")
     @Min(value = 1, message = "Koi length must be greater than 0")
     @Max(value = 1000, message = "Koi length must be less than 1000")
-    @JsonProperty("length") int length,
+    @JsonProperty("length") Integer length,
 
     @NotNull(message = "Koi year born is required")
     @Min(value = 1, message = "Koi year born must be greater than 0")
-    @JsonProperty("year_born") int yearBorn,
+    @JsonProperty("year_born") Integer yearBorn,
 
     @JsonProperty("description") String description,
 
     @Positive(message = "Koi category id must be greater than 0")
     @NotNull(message = "Koi category id is required")
-    @JsonProperty("category_id") int categoryId,
+    @JsonProperty("category_id") Long categoryId,
 
     @Positive(message = "Koi owner id must be greater than 0")
     @NotNull(message = "Koi owner id is required")
-    @JsonProperty("owner_id") long ownerId
+    @JsonProperty("owner_id") Long ownerId
 ) {}

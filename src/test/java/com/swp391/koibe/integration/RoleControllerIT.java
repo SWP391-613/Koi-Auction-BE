@@ -1,10 +1,11 @@
 package com.swp391.koibe.integration;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.swp391.koibe.components.JwtTokenUtils;
-import com.swp391.koibe.dtos.RoleDTO;
-import com.swp391.koibe.dtos.UserLoginDTO;
-import com.swp391.koibe.models.User;
 import com.swp391.koibe.services.token.TokenService;
 import com.swp391.koibe.services.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,9 +19,6 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc

@@ -1,5 +1,6 @@
 package com.swp391.koibe.controllers;
 
+import com.swp391.koibe.components.JwtTokenUtils;
 import com.swp391.koibe.components.LocalizationUtils;
 import com.swp391.koibe.dtos.order.OrderDTO;
 import com.swp391.koibe.dtos.order.UpdateOrderStatusDTO;
@@ -16,7 +17,7 @@ import com.swp391.koibe.responses.pagination.OrderPaginationResponse;
 import com.swp391.koibe.services.order.IOrderService;
 import com.swp391.koibe.services.user.IUserService;
 import com.swp391.koibe.utils.DTOConverter;
-import com.swp391.koibe.utils.MessageKeys;
+import com.swp391.koibe.utils.MessageKey;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -25,6 +26,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +35,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,6 +47,7 @@ public class OrderController {
     private final IOrderService orderService;
     private final LocalizationUtils localizationUtils;
     private final IUserService userService;
+    private final JwtTokenUtils jwtTokenUtils;
 
     @PostMapping("")
     @PreAuthorize("hasAnyRole('ROLE_MEMBER')")
@@ -56,7 +59,7 @@ public class OrderController {
         }
         try {
             Order newOrder = orderService.createOrder(orderDTO);
-            return ResponseEntity.ok(DTOConverter.fromOrder(newOrder));
+            return ResponseEntity.ok(DTOConverter.toOrderResponse(newOrder));
         } catch (Exception e) {
             BaseResponse<Object> response = new BaseResponse<>();
             response.setMessage("Create order failed");
@@ -73,7 +76,7 @@ public class OrderController {
         @RequestParam(defaultValue = "10") int limit) {
         PageRequest pageRequest = PageRequest.of(page, limit);
         Page<OrderResponse> orders = orderService.findByUserId(userId, pageRequest)
-            .map(DTOConverter::fromOrder);
+            .map(DTOConverter::toOrderResponse);
         OrderPaginationResponse response = new OrderPaginationResponse();
         response.setTotalPage(orders.getTotalPages());
         response.setTotalItem(orders.getTotalElements());
@@ -88,15 +91,15 @@ public class OrderController {
     public ResponseEntity<OrderPaginationResponse> searchUserOrdersByKeyword(
         @RequestParam(defaultValue = "", required = false) String keyword,
         @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "10") int limit,
-        @RequestHeader("Authorization") String authorizationHeader) throws Exception {
-        String extractedToken = authorizationHeader.substring(7);
-        User user = userService.getUserDetailsFromToken(extractedToken);
+        @RequestParam(defaultValue = "10") int limit
+    ) throws Exception {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.findByUsername(userDetails.getUsername());
 
         PageRequest pageRequest = PageRequest.of(page, limit);
         Page<OrderResponse> orders = orderService.searchUserOrders(keyword, user.getId(),
                                                                    pageRequest)
-            .map(DTOConverter::fromOrder);
+            .map(DTOConverter::toOrderResponse);
         OrderPaginationResponse response = new OrderPaginationResponse();
         response.setTotalPage(orders.getTotalPages());
         response.setTotalItem(orders.getTotalElements());
@@ -111,7 +114,7 @@ public class OrderController {
         @Valid @PathVariable("id") Long orderId) {
         try {
             Order existingOrder = orderService.getOrder(orderId);
-            OrderResponse orderResponse = DTOConverter.fromOrder(existingOrder);
+            OrderResponse orderResponse = DTOConverter.toOrderResponse(existingOrder);
             return ResponseEntity.ok(orderResponse);
         } catch (Exception e) {
             BaseResponse<Object> response = new BaseResponse<>();
@@ -139,7 +142,7 @@ public class OrderController {
         try {
             Order order;
             order = orderService.updateOrder(id, orderDTO);
-            return ResponseEntity.ok(DTOConverter.fromOrder(order));
+            return ResponseEntity.ok(DTOConverter.toOrderResponse(order));
         } catch (MalformDataException e) {
             response.setMessage("Update order failed");
             response.setReason(e.getMessage());
@@ -166,7 +169,7 @@ public class OrderController {
         try {
             orderService.deleteOrder(id);
             String result = localizationUtils.getLocalizedMessage(
-                MessageKeys.DELETE_ORDER_SUCCESSFULLY, id);
+                MessageKey.DELETE_ORDER_SUCCESSFULLY, id);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
             if (e instanceof DataNotFoundException) {
@@ -198,11 +201,11 @@ public class OrderController {
 
         if (String.valueOf(status).equals("ALL")) {
             orders = orderService.getOrderByKeyword(keyword, pageRequest)
-                .map(DTOConverter::fromOrder);
+                .map(DTOConverter::toOrderResponse);
         } else {
             orders = orderService
                 .getOrdersByKeywordAndStatus(keyword, status, pageRequest)
-                .map(DTOConverter::fromOrder);
+                .map(DTOConverter::toOrderResponse);
         }
 
         response.setItem(orders.getContent());
@@ -228,12 +231,12 @@ public class OrderController {
         OrderPaginationResponse response = new OrderPaginationResponse();
 
         if (String.valueOf(keyword).equals("ALL")) {
-            orders = orderService.findByUserId(userId, pageRequest).map(DTOConverter::fromOrder);
+            orders = orderService.findByUserId(userId, pageRequest).map(DTOConverter::toOrderResponse);
 
         } else {
             orders = orderService
                 .getOrdersByStatus(userId, keyword, pageRequest)
-                .map(DTOConverter::fromOrder);
+                .map(DTOConverter::toOrderResponse);
         }
 
         response.setItem(orders.getContent());
@@ -251,7 +254,7 @@ public class OrderController {
             Order updatedOrder = orderService.updateOrderStatusAndShipDate(id,
                                                                            OrderStatus.valueOf(
                                                                                updateOrderStatusDTO.getStatus()));
-            return ResponseEntity.ok(DTOConverter.fromOrder(updatedOrder));
+            return ResponseEntity.ok(DTOConverter.toOrderResponse(updatedOrder));
         } catch (Exception e) {
             BaseResponse response = new BaseResponse();
             response.setReason(e.getMessage());
@@ -268,7 +271,7 @@ public class OrderController {
             Order updatedOrder = orderService.updateOrderStatus(id,
                                                                 OrderStatus.valueOf(
                                                                     updateOrderStatusDTO.getStatus()));
-            return ResponseEntity.ok(DTOConverter.fromOrder(updatedOrder));
+            return ResponseEntity.ok(DTOConverter.toOrderResponse(updatedOrder));
         } catch (Exception e) {
             BaseResponse response = new BaseResponse();
             response.setReason(e.getMessage());

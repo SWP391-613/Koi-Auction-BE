@@ -6,18 +6,18 @@ import com.swp391.koibe.enums.EKoiStatus;
 import com.swp391.koibe.exceptions.BreederNotFoundException;
 import com.swp391.koibe.exceptions.MalformDataException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
+import com.swp391.koibe.metadata.PaginationMeta;
 import com.swp391.koibe.models.Category;
 import com.swp391.koibe.models.Koi;
 import com.swp391.koibe.models.User;
 import com.swp391.koibe.repositories.CategoryRepository;
 import com.swp391.koibe.repositories.KoiRepository;
-import com.swp391.koibe.repositories.RoleRepository;
 import com.swp391.koibe.repositories.UserRepository;
 import com.swp391.koibe.responses.BreederResponse;
 import com.swp391.koibe.responses.KoiResponse;
 import com.swp391.koibe.responses.UserResponse;
+import com.swp391.koibe.responses.base.PageResponse;
 import com.swp391.koibe.utils.DTOConverter;
-import com.swp391.koibe.utils.FilterUtils;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -36,9 +36,25 @@ public class BreederService implements IBreederService {
     private final DTOConverter dtoConverter;
 
     @Override
-    public Page<BreederResponse> getAllBreeders(Pageable pageable) {
+    public PageResponse<BreederResponse> getAllBreeders(Pageable pageable) {
         Page<User> breeders = userRepository.findAllBreeder(pageable);
-        return breeders.map(dtoConverter::convertToBreederDTO);
+        List<BreederResponse> breederResponses = breeders.getContent()
+            .stream()
+            .map(dtoConverter::toBreederResponse)
+            .toList();
+
+        return PageResponse.<BreederResponse>pageBuilder()
+            .message("Get all breeders successfully")
+            .statusCode(200)
+            .isSuccess(true)
+            .data(breederResponses)
+            .pagination(PaginationMeta.builder()
+                            .totalPages(breeders.getTotalPages())
+                            .totalItems(breeders.getTotalElements())
+                            .currentPage(pageable.getPageNumber())
+                            .pageSize(pageable.getPageSize())
+                            .build())
+            .build();
     }
 
     @Override
@@ -46,7 +62,7 @@ public class BreederService implements IBreederService {
         return userRepository.findAll()
             .stream()
             .filter(breeder -> breeder.getRole().getId() == 3)
-            .map(DTOConverter::convertToUserDTO)
+            .map(DTOConverter::toUserResponse)
             .toList();
     }
 
@@ -59,16 +75,12 @@ public class BreederService implements IBreederService {
 
     @Override
     public User findById(long breederId) throws DataNotFoundException {
-        User existingBreeder = FilterUtils.findBreederById(getAllBreedersList(), breederId);
-        if (existingBreeder == null) {
-            throw new DataNotFoundException("Breeder not found");
-        }
-
-        return existingBreeder;
+        return userRepository.findBreederById(breederId)
+            .orElseThrow(() -> new BreederNotFoundException("Breeder not found"));
     }
 
     @Override
-    public KoiResponse createKoi(Integer categoryId, KoiDTO koiDTO, long breederId) {
+    public KoiResponse createKoi(Long categoryId, KoiDTO koiDTO, long breederId) {
 
         User existingBreeder = userRepository.findBreederById(koiDTO.ownerId())
             .orElseThrow(() ->
@@ -102,7 +114,7 @@ public class BreederService implements IBreederService {
             .owner(existingBreeder)
             .build();
 
-        return DTOConverter.convertToKoiDTO(koiRepository.save(newKoi));
+        return DTOConverter.toKoiResponse(koiRepository.save(newKoi));
     }
 
     @Override
@@ -145,39 +157,32 @@ public class BreederService implements IBreederService {
 
     @Override
     public List<KoiResponse> getKoisByBreederID(long breederId) {
-        User existingBreeder = FilterUtils.findBreederById(getAllBreedersList(), breederId);
-        if (existingBreeder == null) {
-            throw new DataNotFoundException("Breeder not found");
-        }
+        findById(breederId);
 
         return koiRepository
             .findAll()
             .stream()
             .filter(koi -> koi.getOwner().getId() == breederId)
-            .map(DTOConverter::convertToKoiDTO).toList();
+            .map(DTOConverter::toKoiResponse).toList();
     }
 
     @Override
     public Page<KoiResponse> getKoisByBreederID(long breederId, Pageable pageable) {
-        User existingBreeder = FilterUtils.findBreederById(getAllBreedersList(), breederId);
-        if (existingBreeder == null) {
-            throw new BreederNotFoundException("Breeder not found");
-        }
+        findById(breederId);
 
         return koiRepository
             .findByOwnerId(breederId, pageable)
-            .map(DTOConverter::convertToKoiDTO);
+            .map(DTOConverter::toKoiResponse);
     }
 
     @Override
     public Page<KoiResponse> getKoisByBreederIdAndStatus(long breederId, EKoiStatus koiStatus,
                                                          Pageable pageable) {
-        User existingBreeder = userRepository.findBreederById(breederId)
-            .orElseThrow(() -> new BreederNotFoundException("Breeder not found"));
+        findById(breederId);
 
         return koiRepository
             .findByOwnerIdAndStatus(breederId, koiStatus, pageable)
-            .map(DTOConverter::convertToKoiDTO);
+            .map(DTOConverter::toKoiResponse);
     }
 
     @Override
@@ -187,7 +192,7 @@ public class BreederService implements IBreederService {
 
         return koiRepository
             .findByOwnerIdAndStatusAndAuctionIsNull(breederId, pageable)
-            .map(DTOConverter::convertToKoiDTO);
+            .map(DTOConverter::toKoiResponse);
 
     }
 

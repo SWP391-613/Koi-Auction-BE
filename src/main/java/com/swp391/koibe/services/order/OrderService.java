@@ -1,35 +1,36 @@
 package com.swp391.koibe.services.order;
 
+import static com.swp391.koibe.dtos.OrderDetailDTO.fromOrderDetail;
+
 import com.swp391.koibe.dtos.CartItemDTO;
-import com.swp391.koibe.dtos.order.OrderDTO;
 import com.swp391.koibe.dtos.OrderDetailDTO;
 import com.swp391.koibe.dtos.OrderWithDetailsDTO;
+import com.swp391.koibe.dtos.order.OrderDTO;
 import com.swp391.koibe.enums.EKoiStatus;
 import com.swp391.koibe.enums.EmailCategoriesEnum;
 import com.swp391.koibe.enums.OrderStatus;
 import com.swp391.koibe.exceptions.MalformDataException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
-import com.swp391.koibe.models.*;
+import com.swp391.koibe.models.AuctionKoi;
+import com.swp391.koibe.models.Koi;
+import com.swp391.koibe.models.Order;
+import com.swp391.koibe.models.OrderDetail;
+import com.swp391.koibe.models.Role;
+import com.swp391.koibe.models.User;
 import com.swp391.koibe.repositories.KoiRepository;
 import com.swp391.koibe.repositories.OrderDetailRepository;
 import com.swp391.koibe.repositories.OrderRepository;
 import com.swp391.koibe.repositories.UserRepository;
-
+import com.swp391.koibe.services.orderdetail.IOrderDetailService;
+import com.swp391.koibe.services.user.IUserService;
+import jakarta.mail.MessagingException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.swp391.koibe.responses.order.OrderResponse;
-import com.swp391.koibe.services.mail.MailService;
-import com.swp391.koibe.services.orderdetail.IOrderDetailService;
-import com.swp391.koibe.services.user.IUserService;
-import com.swp391.koibe.utils.DTOConverter;
-import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -267,7 +268,7 @@ public class OrderService implements IOrderService {
 
         order.setOrderDetails(List.of(orderDetail));
         createOrder(order);
-        orderDetailService.createOrderDetail(orderDetail);
+        orderDetailService.createOrderDetail(fromOrderDetail(orderDetail));
         // send email to bidder
         Context context = new Context();
         orderMailService.sendOrderCreatedEmailToUser(order, "Order Created Successfully", "orderCreated", context);

@@ -1,6 +1,7 @@
 package com.swp391.koibe.models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.swp391.koibe.enums.OrderStatus;
 import jakarta.persistence.*;
 
@@ -21,8 +22,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class Order {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "orders_seq", sequenceName = "orders_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "orders_seq")
+    @Column(name="id", unique=true, nullable=false)
+    @JsonProperty("id")
     private Long id;
 
     @Column(name = "first_name", length = 100)

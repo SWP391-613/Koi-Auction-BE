@@ -1,5 +1,6 @@
 package com.swp391.koibe.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.swp391.koibe.enums.EPaymentStatus;
 import com.swp391.koibe.enums.EPaymentType;
 import jakarta.persistence.*;
@@ -23,7 +24,10 @@ import org.hibernate.annotations.Fetch;
 public class Payment {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "payments_seq", sequenceName = "payments_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "payments_seq")
+    @Column(name="id", unique=true, nullable=false)
+    @JsonProperty("id")
     private Long id;
 
     @Column(name = "payment_amount", nullable = false)

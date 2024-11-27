@@ -1,5 +1,6 @@
 package com.swp391.koibe.controllers;
 
+import com.swp391.koibe.components.JwtTokenUtils;
 import com.swp391.koibe.dtos.KoiImageDTO;
 import com.swp391.koibe.dtos.koi.KoiDTO;
 import com.swp391.koibe.dtos.koi.UpdateKoiDTO;
@@ -16,6 +17,7 @@ import com.swp391.koibe.responses.KoiResponse;
 import com.swp391.koibe.responses.KoiStatusResponse;
 import com.swp391.koibe.responses.base.ApiResponse;
 import com.swp391.koibe.responses.base.BaseResponse;
+import com.swp391.koibe.responses.base.PageResponse;
 import com.swp391.koibe.responses.pagination.KoiPaginationResponse;
 import com.swp391.koibe.services.koi.IKoiService;
 import com.swp391.koibe.services.redis.koi.IKoiRedisService;
@@ -34,14 +36,14 @@ import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -66,122 +68,89 @@ public class KoiController {
     private final IKoiService<KoiResponse> koiService;
     private final IUserService userService;
     private final IKoiRedisService koiRedisService;
+    private final JwtTokenUtils jwtTokenUtils;
 
     @GetMapping("/count-by-gender")
-    public ResponseEntity<KoiGenderResponse> getQuantityKoiGender() {
-        return ResponseEntity.ok(koiService.findQuantityKoiByGender());
+    public ResponseEntity<ApiResponse<KoiGenderResponse>> getQuantityKoiGender() {
+        return ResponseEntity.ok(ApiResponse.<KoiGenderResponse>builder()
+                                     .message("Koi count fetched successfully")
+                                     .isSuccess(true)
+                                     .statusCode(HttpStatus.OK.value())
+                                     .data(koiService.findQuantityKoiByGender())
+                                     .build());
     }
 
     @GetMapping("/count-by-status")
-    public ResponseEntity<KoiStatusResponse> getQuantityKoiStatus() {
-        return ResponseEntity.ok(koiService.findQuantityKoiByStatus());
+    public ResponseEntity<ApiResponse<KoiStatusResponse>> getQuantityKoiStatus() {
+        return ResponseEntity.ok(ApiResponse.<KoiStatusResponse>builder()
+                                     .message("Koi count fetched successfully")
+                                     .isSuccess(true)
+                                     .statusCode(HttpStatus.OK.value())
+                                     .data(koiService.findQuantityKoiByStatus())
+                                     .build());
+
     }
 
     @GetMapping("") //kois/?page=0&limit=10
-    public ResponseEntity<KoiPaginationResponse> getAllKois(
+    public ResponseEntity<PageResponse<KoiResponse>> getAllKois(
         @RequestParam(defaultValue = "0") int page,
-        @RequestParam("limit") int limit
+        @RequestParam(defaultValue = "0") int limit
     ) {
-
-        KoiPaginationResponse response = new KoiPaginationResponse();
-
-        try {
-            PageRequest pageRequest = PageRequest.of(page, limit);
-            Page<KoiResponse> kois = koiService.getAllKois(pageRequest);
-            response.setItem(kois.getContent());
-            response.setTotalPage(kois.getTotalPages());
-            response.setTotalItem(kois.getTotalElements());
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(null);
-        }
+        return ResponseEntity.ok(koiService.getAllKois(PageRequest.of(page, limit)));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ApiResponse<KoiResponse>> getKoi(@PathVariable long id) {
-        try {
-            KoiResponse koiResponse = koiService.getKoiById(id);
-            ApiResponse<KoiResponse> response = ApiResponse.<KoiResponse>builder()
-                .data(koiResponse)
-                .statusCode(200)
-                .isSuccess(true)
-                .message("Koi fetched successfully")
-                .build();
-            return ResponseEntity.ok(response);  // HTTP 200 OK
-        } catch (DataNotFoundException e) {
-            ApiResponse<KoiResponse> errorResponse = ApiResponse.<KoiResponse>builder()
-                .statusCode(404)
-                .isSuccess(false)
-                .message("Error fetching koi")
-                .reason(e.getMessage())
-                .build();
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);  // HTTP 404 Not Found
-        } catch (Exception e) {
-            ApiResponse<KoiResponse> errorResponse = ApiResponse.<KoiResponse>builder()
-                .statusCode(500)
-                .isSuccess(false)
-                .message("Unexpected error occurred")
-                .reason(e.getMessage())
-                .build();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);  // HTTP 500 Internal Server Error
-        }
+        return ResponseEntity.ok(ApiResponse.<KoiResponse>builder()
+                                     .data(koiService.getKoiById(id).blockingGet())
+                                     .statusCode(200)
+                                     .isSuccess(true)
+                                     .message("Koi fetched successfully")
+                                     .build());
     }
 
     @GetMapping("/status")
-    public ResponseEntity<KoiPaginationResponse> getKoiListByStatus(
+    public ResponseEntity<PageResponse<KoiResponse>> getKoiListByStatus(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int limit,
         @RequestParam String status
     ) {
-        KoiPaginationResponse response = new KoiPaginationResponse();
-        EKoiStatus eKoiStatus = EKoiStatus.valueOf(status.toUpperCase());
-        PageRequest pageRequest = PageRequest.of(page, limit);
-        Page<KoiResponse> kois = koiService.getKoiByStatus(pageRequest, eKoiStatus);
-        response.setItem(kois.getContent());
-        response.setTotalPage(kois.getTotalPages());
-        response.setTotalItem(kois.getTotalElements());
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(
+            koiService.getKoiByStatus(PageRequest.of(page, limit),
+                                      EKoiStatus.valueOf(status.toUpperCase())));
     }
 
     @GetMapping("/owner/{owner_id}/status")
-    public ResponseEntity<KoiPaginationResponse> getBreederKoiListByStatus(
+    public ResponseEntity<PageResponse<KoiResponse>> getBreederKoiListByStatus(
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int limit,
         @PathVariable("owner_id") Long ownerId,
         @RequestParam String status
     ) {
-        KoiPaginationResponse response = new KoiPaginationResponse();
-        EKoiStatus eKoiStatus = EKoiStatus.valueOf(status.toUpperCase());
-        PageRequest pageRequest = PageRequest.of(page, limit);
-        Page<KoiResponse> kois = koiService.getBreederKoiByStatus(pageRequest, ownerId, eKoiStatus);
-        response.setItem(kois.getContent());
-        response.setTotalPage(kois.getTotalPages());
-        response.setTotalItem(kois.getTotalElements());
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(
+            koiService.getBreederKoiByStatus(PageRequest.of(page, limit),
+                                             ownerId,
+                                             EKoiStatus.valueOf(status.toUpperCase())));
     }
 
     @GetMapping("/get-kois-owner-by-keyword")
-    public ResponseEntity<KoiPaginationResponse> getKoisByKeyword(
+    public ResponseEntity<PageResponse<KoiResponse>> getKoisByKeyword(
         @RequestParam(defaultValue = "", required = false) String keyword,
         @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "10") int limit,
-        @RequestHeader("Authorization") String authorizationHeader
+        @RequestParam(defaultValue = "10") int limit
     ) throws Exception {
-        String extractedToken = authorizationHeader.substring(7);
-        User user = userService.getUserDetailsFromToken(extractedToken);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.findByUsername(userDetails.getUsername());
 
-        PageRequest pageRequest = PageRequest.of(page, limit);
-        Page<KoiResponse> koiPage = koiService.findKoiByKeyword(keyword, user.getId(), pageRequest)
-            .map(DTOConverter::convertToKoiDTO);
-        KoiPaginationResponse response = new KoiPaginationResponse();
-        response.setItem(koiPage.getContent());
-        response.setTotalPage(koiPage.getTotalPages());
-        response.setTotalItem(koiPage.getTotalElements());
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(
+            koiService.findKoiByKeyword(
+                keyword,
+                user.getId(),
+                PageRequest.of(page, limit)));
     }
 
     @GetMapping("/get-kois-owner-by-keyword-not-auth")
-    public ResponseEntity<KoiPaginationResponse> getKoisByKeywordNotAuth(
+    public ResponseEntity<PageResponse<KoiResponse>> getKoisByKeywordNotAuth(
         @RequestParam(defaultValue = "") String keyword,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int limit,
@@ -206,14 +175,10 @@ public class KoiController {
 //        }
 
         // If not found in Redis, fetch from the database.
-        Page<KoiResponse> koiPage = koiService.findKoiByKeyword(
+        PageResponse<KoiResponse> koiPage = koiService.findKoiByKeyword(
             keyword,
             ownerId,
-            pageRequest).map(DTOConverter::convertToKoiDTO);
-
-        response.setItem(koiPage.getContent());
-        response.setTotalItem(koiPage.getTotalElements());
-        response.setTotalPage(koiPage.getTotalPages());
+            pageRequest);
 
 //        int totalPage = koiPage.getTotalPages();
 //        koiResponses = koiPage.getContent();
@@ -227,76 +192,60 @@ public class KoiController {
 //            ownerId,
 //            pageRequest);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(koiPage);
     }
 
     @GetMapping("/get-all-kois-by-keyword")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_STAFF')")
-    public ResponseEntity<KoiPaginationResponse> getAllKoisByKeyword(
+    public ResponseEntity<PageResponse<KoiResponse>> getAllKoisByKeyword(
         @RequestParam(defaultValue = "") String keyword,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int limit
     ) throws Exception {
-        PageRequest pageRequest = PageRequest.of(page, limit);
-        Page<KoiResponse> koiPage = koiService.findAllKoiByKeyword(keyword, pageRequest)
-            .map(DTOConverter::convertToKoiDTO);
-        KoiPaginationResponse response = new KoiPaginationResponse();
-        response.setItem(koiPage.getContent());
-        response.setTotalPage(koiPage.getTotalPages());
-        response.setTotalItem(koiPage.getTotalElements());
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(koiService.findAllKoiByKeyword(keyword,  PageRequest.of(page, limit)));
     }
 
     @GetMapping("/get-unverified-kois-by-keyword")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_STAFF','ROLE_BREEDER')")
-    public ResponseEntity<KoiPaginationResponse> getUnverifiedKoisByKeyword(
+    public ResponseEntity<PageResponse<KoiResponse>> getUnverifiedKoisByKeyword(
         @RequestParam(defaultValue = "") String keyword,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "10") int limit
     ) {
-        Pageable pageable = PageRequest.of(page, limit, Sort.by(Sort.Order.desc("createdAt")));
-
-        Page<KoiResponse> koiPage = koiService.findUnverifiedKoiByKeyword(keyword, pageable)
-            .map(DTOConverter::convertToKoiDTO);
-
-        KoiPaginationResponse response = new KoiPaginationResponse();
-        response.setItem(koiPage.getContent());
-        response.setTotalPage(koiPage.getTotalPages());
-        response.setTotalItem(koiPage.getTotalElements());
-
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(
+            koiService.findUnverifiedKoiByKeyword(
+                keyword,
+                PageRequest.of(page,
+                               limit,
+                               Sort.by(Sort.Order.desc("createdAt")))));
     }
 
 
     @PostMapping(value = "")
     @PreAuthorize("hasRole('ROLE_BREEDER')")
-    public ResponseEntity<KoiResponse> createNewKoi(
+    public ResponseEntity<ApiResponse<KoiResponse>> createNewKoi(
         @Valid @RequestBody KoiDTO koiDTO,
         //@ModelAttribute("files") List<MultipartFile> files,
         //@RequestPart("file") MultipartFile file,
-        @RequestHeader("Authorization") String authorizationHeader,
         BindingResult result
-    ) {
+    ) throws Exception {
 
         if (result.hasErrors()) {
             throw new MethodArgumentNotValidException(result);
         }
 
-        KoiResponse response = new KoiResponse();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.findByUsername(userDetails.getUsername());
 
-        try {
-            String extractedToken = authorizationHeader.substring(
-                7); // Loại bỏ "Bearer " từ chuỗi token
-            User breeder = userService.getUserDetailsFromToken(extractedToken);
-
-            //need to save the product first to get the product id, get the id and add the image
-            Koi newKoi = koiService.createKoi(koiDTO, breeder.getId());
-            return ResponseEntity.ok(DTOConverter.convertToKoiDTO(newKoi));
-        } catch (Exception e) {
-            response.setMessage("Error creating new koi");
-            response.setReason(e.getMessage());
-            return ResponseEntity.badRequest().body(response);
-        }
+        //need to save the product first to get the product id, get the id and add the image
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+            ApiResponse.<KoiResponse>builder()
+                .message("Koi created successfully")
+                .isSuccess(true)
+                .statusCode(HttpStatus.CREATED.value())
+                .data(koiService.createKoi(koiDTO, user.getId()).blockingGet())
+                .build()
+        );
     }
 
     @PutMapping("/status/{id}")
@@ -310,12 +259,9 @@ public class KoiController {
         if (result.hasErrors()) {
             throw new MethodArgumentNotValidException(result);
         }
-        try {
-            koiService.updateKoiStatus(koiId, updateKoiStatusDTO);
-            return ResponseEntity.ok().body("Koi status updated successfully");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error updating koi status: " + e.getMessage());
-        }
+
+        koiService.updateKoiStatus(koiId, updateKoiStatusDTO);
+        return ResponseEntity.ok().body("Koi status updated successfully");
     }
 
     @PutMapping("/{id}")
@@ -333,28 +279,16 @@ public class KoiController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_BREEDER', 'ROLE_MANAGER', 'ROLE_STAFF')")
-    public ResponseEntity<?> deleteProduct(@PathVariable("id") Long koiId) throws Exception {
-        BaseResponse<Koi> response = new BaseResponse<>();
-        try{
-            koiService.deleteKoi(koiId);
-            response.setMessage("Delete koi successfully");
-            response.setReason("Koi deleted successfully");
-            response.setIsSuccess(true);
-            response.setStatusCode(HttpStatus.OK.value());
-            return ResponseEntity.ok(response);
-        }catch(DataNotFoundException e){
-            response.setMessage("Delete koi failed");
-            response.setReason(e.getMessage());
-            response.setIsSuccess(false);
-            response.setStatusCode(HttpStatus.NOT_FOUND.value());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-        }catch (MalformBehaviourException e){
-            response.setMessage("Delete koi failed");
-            response.setReason(e.getMessage());
-            response.setIsSuccess(false);
-            response.setStatusCode(HttpStatus.BAD_REQUEST.value());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        }
+    public ResponseEntity<ApiResponse<KoiResponse>> deleteProduct(@PathVariable("id") Long koiId) throws Exception {
+        koiService.deleteKoi(koiId);
+
+        return ResponseEntity.ok(
+            ApiResponse.<KoiResponse>builder()
+                .message("Koi deleted successfully")
+                .isSuccess(true)
+                .statusCode(HttpStatus.OK.value())
+                .build()
+        );
     }
 
     @PostMapping(value = "uploads/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -364,7 +298,7 @@ public class KoiController {
         @ModelAttribute("files") List<MultipartFile> files
     ) {
         try {
-            KoiResponse existingKoi = koiService.getKoiById(koiId);
+            KoiResponse existingKoi = koiService.getKoiById(koiId).blockingGet();
             files = files == null ? new ArrayList<>() : files;
             if (files.size() > KoiImage.MAXIMUM_IMAGES_PER_PRODUCT) {
                 return ResponseEntity.badRequest().body(
@@ -391,7 +325,7 @@ public class KoiController {
                 //Store file
                 String fileName = storeFile(file);
                 KoiImage koiImage = koiService.createKoiImage(
-                    existingKoi.getId(),
+                    existingKoi.id(),
                     KoiImageDTO.builder()
                         .imageUrl(fileName)
                         .build());

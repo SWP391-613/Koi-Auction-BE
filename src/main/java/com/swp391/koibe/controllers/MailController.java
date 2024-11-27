@@ -13,7 +13,7 @@ import com.swp391.koibe.responses.MailResponse;
 import com.swp391.koibe.services.mail.IMailService;
 import com.swp391.koibe.services.otp.IOtpService;
 import com.swp391.koibe.services.user.IUserService;
-import com.swp391.koibe.utils.OTPUtils;
+import com.swp391.koibe.utils.OtpUtils;
 import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -22,6 +22,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,15 +49,14 @@ public class MailController {
     @PreAuthorize("hasAnyRole('ROLE_MEMBER')")
     @SkipEmailValidation
     public ResponseEntity<?> sendOtp(
-        @RequestHeader("Authorization") String authorizationHeader,
         @RequestParam EUpdateRole updateRole,
         @Valid @RequestBody UpdateRolePurposeDTO updateRolePurposeDTO,
         BindingResult result
     ) throws Exception {
         if(result.hasErrors()) throw new MethodArgumentNotValidException(result);
 
-        String extractedToken = authorizationHeader.substring(7);
-        User user = userService.getUserDetailsFromToken(extractedToken);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.findByUsername(userDetails.getUsername());
         Context context = new Context();
         context.setVariable("name", user.getFirstName());
         context.setVariable("sendFromEmail", user.getEmail());
@@ -76,7 +77,7 @@ public class MailController {
 
         String name = user.getFirstName();
         Context context = new Context();
-        String otp = OTPUtils.generateOTP();
+        String otp = OtpUtils.generateOtp();
         context.setVariable("name", name);
         context.setVariable("otp", otp);
         mailService.sendMail(toEmail, EmailSubject.subjectGreeting(name),
@@ -115,7 +116,7 @@ public class MailController {
         User user = (User) request.getAttribute("validatedEmail");
         String name = user.getFirstName();
         Context context = new Context();
-        String otp = OTPUtils.generateOTP();
+        String otp = OtpUtils.generateOtp();
         context.setVariable("name", name);
         context.setVariable("otp", otp);
         mailService.sendMail(toEmail, EmailSubject.subjectGreeting(name),

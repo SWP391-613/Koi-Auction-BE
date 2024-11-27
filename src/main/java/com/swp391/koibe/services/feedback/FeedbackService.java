@@ -9,11 +9,10 @@ import com.swp391.koibe.models.User;
 import com.swp391.koibe.repositories.FeedBackRepository;
 import com.swp391.koibe.repositories.OrderRepository;
 import com.swp391.koibe.repositories.UserRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
@@ -25,21 +24,21 @@ public class FeedbackService implements IFeedbackService {
     @Override
     public Feedback createFeedback(FeedbackDTO feedbackDTO) {
 
-        if (feedbackRepository.existsByUserIdAndOrderId(feedbackDTO.getUserId(), feedbackDTO.getOrderId())) {
+        if (feedbackRepository.existsByUserIdAndOrderId(feedbackDTO.userId(), feedbackDTO.orderId())) {
             throw new DataAlreadyExistException("Feedback already exists");
         }
-        User user = userRepository.findById(feedbackDTO.getUserId())
-                .orElseThrow(() -> new DataNotFoundException("User not found: " + feedbackDTO.getUserId()));
-        Order order = orderRepository.findById(feedbackDTO.getOrderId())
-                .orElseThrow(() -> new DataNotFoundException("Order not found: " + feedbackDTO.getOrderId()));
+        User user = userRepository.findById(feedbackDTO.userId())
+                .orElseThrow(() -> new DataNotFoundException("User not found: " + feedbackDTO.userId()));
+        Order order = orderRepository.findById(feedbackDTO.orderId())
+                .orElseThrow(() -> new DataNotFoundException("Order not found: " + feedbackDTO.orderId()));
 
         if (order.getUser().getId() != user.getId()) {
             throw new DataNotFoundException("User not found in order");
         }
 
         Feedback feedback = Feedback.builder()
-                .content(feedbackDTO.getContent())
-                .rating(feedbackDTO.getRating())
+                .content(feedbackDTO.content())
+                .rating(feedbackDTO.rating())
                 .user(user)
                 .order(order)
                 .createdAt(LocalDateTime.now())
@@ -60,12 +59,12 @@ public class FeedbackService implements IFeedbackService {
     public Feedback updateFeedback(long id, FeedbackDTO feedbackDTO) {
         Feedback feedback = feedbackRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Feedback not found"));
-        User existUser = userRepository.findById(feedbackDTO.getUserId())
+        User existUser = userRepository.findById(feedbackDTO.userId())
                 .orElseThrow(() -> new DataNotFoundException("User not found"));
-        Order existOrder = orderRepository.findById(feedbackDTO.getUserId())
+        Order existOrder = orderRepository.findById(feedbackDTO.userId())
                 .orElseThrow(() -> new DataNotFoundException("Order not found"));
-        feedback.setContent(feedbackDTO.getContent());
-        feedback.setRating(feedbackDTO.getRating());
+        feedback.setContent(feedbackDTO.content());
+        feedback.setRating(feedbackDTO.rating());
         feedback.setUser(existUser);
         feedback.setOrder(existOrder);
 

@@ -2,8 +2,11 @@ package com.swp391.koibe.controllers;
 
 import com.swp391.koibe.dtos.UpdatePasswordDTO;
 import com.swp391.koibe.exceptions.MethodArgumentNotValidException;
+import com.swp391.koibe.exceptions.PermissionDeniedException;
 import com.swp391.koibe.models.User;
 import com.swp391.koibe.responses.ForgotPasswordResponse;
+import com.swp391.koibe.responses.base.ApiResponse;
+import com.swp391.koibe.responses.base.BaseResponse;
 import com.swp391.koibe.services.forgotpassword.IForgotPasswordService;
 import com.swp391.koibe.services.user.UserService;
 import jakarta.mail.MessagingException;
@@ -11,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -54,23 +58,22 @@ public class ForgotPasswordController {
     }
 
     @PutMapping("")
-    public ResponseEntity<?> updatePassword(
+    public ResponseEntity<ApiResponse<?>> updatePassword(
         @Valid @RequestBody UpdatePasswordDTO updatePasswordDTO,
         BindingResult result
-    ) {
+    ) throws Exception {
         if (result.hasErrors()) {
             throw new MethodArgumentNotValidException(result);
         }
 
-        try {
-            userService.updatePassword(updatePasswordDTO);
-            return ResponseEntity.ok("Password updated successfully");
-        } catch (Exception e) {
-            log.error("Error updating password", e.getCause());
-            return ResponseEntity.badRequest().body("Error updating password");
-        }
-
-
+        userService.updatePassword(updatePasswordDTO);
+        return ResponseEntity.status(HttpStatus.OK).body(
+            ApiResponse.builder()
+                .message("Password updated successfully")
+                .isSuccess(true)
+                .statusCode(HttpStatus.OK.value())
+                .build()
+        );
     }
 
 }
