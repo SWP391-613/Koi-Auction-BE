@@ -14,15 +14,11 @@ import com.swp391.koibe.models.User;
 import com.swp391.koibe.repositories.RoleRepository;
 import com.swp391.koibe.repositories.UserRepository;
 import com.swp391.koibe.responses.StaffResponse;
-import com.swp391.koibe.responses.UserResponse;
 import com.swp391.koibe.responses.base.PageResponse;
-import com.swp391.koibe.services.mail.IMailService;
-import com.swp391.koibe.services.otp.IOtpService;
 import com.swp391.koibe.utils.DTOConverter;
 import com.swp391.koibe.utils.DateTimeUtils;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -46,7 +42,7 @@ public class StaffService implements IStaffService {
         Page<User> staffs = userRepository.findAllStaff(pageable);
 
         List<StaffResponse> staffResponses = staffs.getContent().stream()
-            .map(dtoConverter::convertToStaffDTO)
+            .map(dtoConverter::toStaffResponse)
             .toList();
 
         return PageResponse.<StaffResponse>pageBuilder()
@@ -65,7 +61,7 @@ public class StaffService implements IStaffService {
 
     @Override
     public StaffResponse findById(long id) throws DataNotFoundException {
-        return dtoConverter.convertToStaffDTO(userRepository
+        return dtoConverter.toStaffResponse(userRepository
                          .findStaffById(id)
                          .orElseThrow(() -> new StaffNotFoundException(String.format("Staff with id %d not found", id))));
     }
@@ -111,7 +107,7 @@ public class StaffService implements IStaffService {
             .accountBalance(0L) //new staff has 0 money when register
             .build();
         newUser.setRole(role);
-        return dtoConverter.convertToStaffDTO(userRepository.save((newUser)));
+        return dtoConverter.toStaffResponse(userRepository.save((newUser)));
     }
 
     @Override
@@ -125,7 +121,7 @@ public class StaffService implements IStaffService {
         User newStaff = user.get();
         newStaff.setRole(new Role(2L, UserRole.STAFF));
 
-        return dtoConverter.convertToStaffDTO(userRepository.save((newStaff)));
+        return dtoConverter.toStaffResponse(userRepository.save((newStaff)));
     }
 
     //manager will update staff here, the email and
@@ -157,7 +153,7 @@ public class StaffService implements IStaffService {
         staffToUpdate.setGoogleAccountId(staff.googleAccountId());
         staffToUpdate.setAccountBalance(staff.accountBalance());
 
-        return dtoConverter.convertToStaffDTO(userRepository.save(staffToUpdate));
+        return dtoConverter.toStaffResponse(userRepository.save(staffToUpdate));
     }
 
     @Override
@@ -178,7 +174,7 @@ public class StaffService implements IStaffService {
         Page<User> staffs = userRepository.findAllStaffWithActive(pageable);
 
         List<StaffResponse> staffResponses = staffs.getContent().stream()
-            .map(dtoConverter::convertToStaffDTO)
+            .map(dtoConverter::toStaffResponse)
             .toList();
 
         return PageResponse.<StaffResponse>pageBuilder()

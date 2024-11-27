@@ -19,7 +19,7 @@ public class DTOConverter {
     private final AuctionRepository auctionRepository;
     private final OrderRepository orderRepository;
 
-    public static UserResponse convertToUserDTO(User user) {
+    public static UserResponse toUserResponse(User user) {
         return new UserResponse(
             user.getId(),
             user.getFirstName(),
@@ -41,93 +41,91 @@ public class DTOConverter {
         );
     }
 
-    public BreederResponse convertToBreederDTO(User user) {
-        return new BreederResponse(convertToUserDTO(user), koiRepository.countKoisByOwnerId(user.getId()));
+    public BreederResponse toBreederResponse(User user) {
+        return new BreederResponse(toUserResponse(user), koiRepository.countKoisByOwnerId(user.getId()));
     }
 
-    public StaffResponse convertToStaffDTO(User user) {
-        return new StaffResponse(convertToUserDTO(user), auctionRepository.countAuctionsByAuctioneerId(user.getId()));
+    public StaffResponse toStaffResponse(User user) {
+        return new StaffResponse(toUserResponse(user), auctionRepository.countAuctionsByAuctioneerId(user.getId()));
     }
 
-    public MemberResponse convertToMemberDTO(User user) {
-        return new MemberResponse(convertToUserDTO(user), orderRepository.countOrdersByMemberId(user.getId()));
+    public MemberResponse toMemberResponse(User user) {
+        return new MemberResponse(toUserResponse(user), orderRepository.countOrdersByMemberId(user.getId()));
     }
 
-    public CategoryResponse convertToCategoryDTO(Category category) {
-        return CategoryResponse.builder()
-                .id(category.getId())
-                .name(category.getName())
-                .koiCount(koiRepository.countKoisByCategoryId(category.getId()))
-                .build();
+    public CategoryResponse toCategoryResponse(Category category) {
+        return new CategoryResponse(category.getId(), category.getName(), koiRepository.countKoisByCategoryId(category.getId()));
     }
 
-    public static KoiResponse convertToKoiDTO(Koi koi) {
-        return KoiResponse.builder()
-                .id(koi.getId())
-                .name(koi.getName())
-                .sex(koi.getSex())
-                .length(koi.getLength())
-                .yearBorn(koi.getYearBorn())
-                .price(koi.getPrice())
-                .statusName(koi.getStatus() != null ? koi.getStatus().getStatus() : null)
-                .idDisplay(koi.getIsDisplay())
-                .thumbnail(koi.getThumbnail())
-                .description(koi.getDescription())
-                .ownerId(koi.getOwner().getId())
-                .categoryId(koi.getCategory().getId())
-                .createdAt(koi.getCreatedAt())
-                .updatedAt(koi.getUpdatedAt())
-                .build();
+    public static RoleResponse toRoleResponse(Role role) {
+        return new RoleResponse(role.getId(), role.getUserRole());
     }
 
-    public static KoiImageResponse convertToKoiImageDTO(KoiImage koiImage) {
-        return KoiImageResponse.builder()
-                .id(koiImage.getId())
-                .koiId(koiImage.getKoi().getId())
-                .imageUrl(koiImage.getImageUrl())
-                .build();
+    public static KoiResponse toKoiResponse(Koi koi) {
+        return new KoiResponse (
+            koi.getId(),
+            koi.getName(),
+            koi.getSex(),
+            koi.getLength(),
+            koi.getYearBorn(),
+            koi.getPrice(),
+            koi.getStatus() != null ? koi.getStatus().getStatus() : null,
+            koi.getIsDisplay(),
+            koi.getThumbnail(),
+            koi.getDescription(),
+            koi.getOwner().getId(),
+            koi.getCategory().getId(),
+            koi.getCreatedAt(),
+            koi.getUpdatedAt(),
+            null
+        );
     }
 
-    public static AuctionResponse convertToAuctionDTO(Auction auction) {
-        return AuctionResponse.builder()
-                .id(auction.getId())
-                .title(auction.getTitle())
-                .startTime(String.valueOf(auction.getStartTime()))
-                .endTime(String.valueOf(auction.getEndTime()))
-                .status(auction.getStatus() != null ? auction.getStatus().getStatus() : null)
-                .auctioneerId(auction.getAuctioneer().getId())
-                .build();
+    public static KoiImageResponse toKoiImageResponse(KoiImage koiImage) {
+        return new KoiImageResponse(koiImage.getId(), koiImage.getKoi().getId(), koiImage.getImageUrl(), koiImage.getVideoUrl());
     }
 
-    public static AuctionKoiResponse convertToAuctionKoiDTO(AuctionKoi auctionKoi) {
-        return AuctionKoiResponse.builder()
-                .id(auctionKoi.getId())
-                .auctionId(auctionKoi.getAuction().getId())
-                .koiId(auctionKoi.getKoi().getId())
-                .basePrice(auctionKoi.getBasePrice())
-                .bidStep(auctionKoi.getBidStep())
-                .bidMethod(auctionKoi.getBidMethod() != null ? String.valueOf(auctionKoi.getBidMethod()) : null)
-                .currentBid(auctionKoi.getCurrentBid() == null ? 0 : auctionKoi.getCurrentBid())
-                .currentBidderId(auctionKoi.getCurrentBidderId() == null ? 0 : auctionKoi.getCurrentBidderId())
-                .isSold(auctionKoi.isSold())
-                .build();
+    public static AuctionResponse toAuctionResponse(Auction auction) {
+        return new  AuctionResponse(
+            auction.getId(),
+            auction.getTitle(),
+            auction.getStartTime(),
+            auction.getEndTime(),
+            auction.getStatus() != null ? auction.getStatus() : null,
+            auction.getAuctioneer().getId()
+        );
     }
 
-    public static BidResponse convertToBidDTO(Bid bid) {
-        return BidResponse.builder()
-                .auctionKoiId(bid.getAuctionKoi().getId())
-                .bidderId(bid.getBidder().getId())
-                .bidAmount(bid.getBidAmount())
-                .bidTime(bid.getBidTime().toString())
-                .bidderName(String.format("%s %s", bid.getBidder().getFirstName(), bid.getBidder().getLastName()))
-                .build();
+    public static AuctionKoiResponse toAuctionKoiResponse(AuctionKoi auctionKoi) {
+        return new AuctionKoiResponse(
+            auctionKoi.getId(),
+            auctionKoi.getBasePrice(),
+            auctionKoi.getCeilPrice(),
+            auctionKoi.getBidStep(),
+            auctionKoi.getBidMethod() != null ? auctionKoi.getBidMethod() : null,
+            auctionKoi.getCurrentBid() == null ? 0 : auctionKoi.getCurrentBid(),
+            auctionKoi.getCurrentBidderId() == null ? 0 : auctionKoi.getCurrentBidderId(),
+            auctionKoi.getRevoked(),
+            auctionKoi.isSold(),
+            auctionKoi.getAuction().getId(),
+            auctionKoi.getKoi().getId()
+        );
     }
 
-    public static OrderResponse fromOrder(Order order) {
+    public static BidResponse toBidResponse(Bid bid) {
+        return new BidResponse(
+            bid.getBidder().getId(),
+            bid.getAuctionKoi().getId(),
+            bid.getBidAmount(),
+            bid.getBidTime().toString(),
+            String.format("%s %s", bid.getBidder().getFirstName(), bid.getBidder().getLastName()));
+    }
+
+    public static OrderResponse toOrderResponse(Order order) {
         return OrderResponse
                 .builder()
                 .id(order.getId())
-                .user(DTOConverter.convertToUserDTO(order.getUser()))
+                .user(DTOConverter.toUserResponse(order.getUser()))
                 .firstName(order.getFirstName())
                 .lastName(order.getLastName())
                 .phoneNumber(order.getPhoneNumber())
@@ -150,7 +148,7 @@ public class DTOConverter {
                 .builder()
                 .id(orderDetail.getId())
                 .orderId(orderDetail.getOrder().getId())
-                .productId(DTOConverter.convertToKoiDTO(orderDetail.getKoi()))
+                .productId(DTOConverter.toKoiResponse(orderDetail.getKoi()))
                 .price(orderDetail.getPrice())
                 .numberOfProducts(orderDetail.getNumberOfProducts())
                 .totalMoney(orderDetail.getTotalMoney())
@@ -158,26 +156,22 @@ public class DTOConverter {
     }
 
     public static FeedbackResponse fromFeedback(Feedback feedback) {
-        return FeedbackResponse.builder()
-                .createAt(feedback.getCreatedAt())
-                .rating(feedback.getRating())
-                .content(feedback.getContent())
-                .build();
+        return new FeedbackResponse(feedback.getContent(), feedback.getRating(), feedback.getCreatedAt());
     }
 
     public static PaymentResponse fromPayment(Payment payment) {
-        return PaymentResponse.builder()
-                .id(payment.getId())
-                .paymentAmount(payment.getPaymentAmount())
-                .paymentDate(payment.getPaymentDate())
-                .paymentMethod(payment.getPaymentMethod())
-                .paymentStatus(payment.getPaymentStatus().getStatus())
-                .orderId(payment.getOrder() != null ? payment.getOrder().getId() : null)
-                .user(DTOConverter.convertToUserDTO(payment.getUser()))
-                .paymentType(payment.getPaymentType().getType())
-                .bankNumber(payment.getBankNumber())
-                .bankName(payment.getBankName())
-                .build();
+        return new PaymentResponse(
+            payment.getId(),
+            payment.getPaymentAmount(),
+            payment.getPaymentDate(),
+            payment.getPaymentMethod(),
+            payment.getPaymentStatus().getStatus(),
+            payment.getOrder() != null ? payment.getOrder().getId() : null,
+            DTOConverter.toUserResponse(payment.getUser()),
+            payment.getPaymentType().getType(),
+            payment.getBankNumber(),
+            payment.getBankName()
+        );
     }
 
 }

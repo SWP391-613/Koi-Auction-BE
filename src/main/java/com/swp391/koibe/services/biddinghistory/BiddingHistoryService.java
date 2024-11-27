@@ -54,7 +54,7 @@ public class BiddingHistoryService implements IBiddingHistoryService, Biddable {
 
     @Override
     public Page<BidResponse> getAllBidHistories(Pageable pageable) {
-        return bidHistoryRepository.findAll(pageable).map(DTOConverter::convertToBidDTO);
+        return bidHistoryRepository.findAll(pageable).map(DTOConverter::toBidResponse);
     }
 
     @Override
@@ -104,9 +104,9 @@ public class BiddingHistoryService implements IBiddingHistoryService, Biddable {
             return null;
         } else {
             return bids.stream()
-                    .filter(bid -> bid.getBidder().getId().equals(bidderId))
-                    .max(Comparator.comparing(Bid::getBidTime))
-                    .orElse(null);
+                .filter(bid -> bid.getBidder().getId().equals(bidderId))
+                .max(Comparator.comparing(Bid::getBidTime))
+                .orElse(null);
         }
     }
 
@@ -118,18 +118,14 @@ public class BiddingHistoryService implements IBiddingHistoryService, Biddable {
             return null;
         } else {
             highestBid = bids.stream()
-                    .filter(bid -> bid.getBidder().getId().equals(bidderId))
-                    .max(Comparator.comparing(Bid::getBidTime))
-                    .orElse(null);
+                .filter(bid -> bid.getBidder().getId().equals(bidderId))
+                .max(Comparator.comparing(Bid::getBidTime))
+                .orElse(null);
             if (highestBid == null) {
-                return BidResponse.builder()
-                        .bidderId(bidderId)
-                        .auctionKoiId(auctionKoiId)
-                        .bidAmount(0)
-                        .build();
+                return new BidResponse(bidderId, auctionKoiId, 0L, null, null);
             }
         }
-        return DTOConverter.convertToBidDTO(highestBid);
+        return DTOConverter.toBidResponse(highestBid);
     }
 
     @Override
@@ -138,7 +134,8 @@ public class BiddingHistoryService implements IBiddingHistoryService, Biddable {
 
         // 8.1.1 check the Bid_Amount and Current_Price + Bid_Step
         if (bid.getBidAmount() < auctionKoi.getCurrentBid() + auctionKoi.getBidStep()) {
-            throw new BiddingRuleException("Bid amount must be higher than the current bid plus bid step");
+            throw new BiddingRuleException(
+                "Bid amount must be higher than the current bid plus bid step");
         }
 
         // 8.1.5 if Bid_amount is higher than ceiling price, set is_sold true
@@ -192,17 +189,17 @@ public class BiddingHistoryService implements IBiddingHistoryService, Biddable {
         Auction auction = auctionKoi.getAuction();
 
         Bid bid = Bid.builder()
-                .auctionKoi(auctionKoi)
-                .bidder(bidder)
-                .bidAmount(bidRequest.bidAmount())
-                .bidTime(LocalDateTime.now())
-                .build();
+            .auctionKoi(auctionKoi)
+            .bidder(bidder)
+            .bidAmount(bidRequest.bidAmount())
+            .bidTime(LocalDateTime.now())
+            .build();
 
         validateBid(auction, auctionKoi, bid, bidder);
 
         // get bidder Latest Bid
-        Long latestBid = getBidderLatestBid(auctionKoi.getId(), bidder.getId()) != null ?
-                getBidderLatestBid(auctionKoi.getId(), bidder.getId()).getBidAmount() : 0;
+        long latestBid = getBidderLatestBid(auctionKoi.getId(), bidder.getId()) != null ?
+            getBidderLatestBid(auctionKoi.getId(), bidder.getId()).getBidAmount() : 0;
 
         // 9. check the bid method and call the corresponding method
         auctionKoi = switch (auctionKoi.getBidMethod()) {
@@ -210,7 +207,6 @@ public class BiddingHistoryService implements IBiddingHistoryService, Biddable {
             case DESCENDING_BID -> descending(auctionKoi, bidder, bid);
             case FIXED_PRICE -> fixedPrice(auctionKoi, bidder, bid);
             case SEALED_BID -> sealed(auctionKoi, bidder, bid);
-            default -> throw new BiddingRuleException("Invalid bid method");
         };
 
         // calculate bidder payment
@@ -223,26 +219,25 @@ public class BiddingHistoryService implements IBiddingHistoryService, Biddable {
 
         // Update the current bid and current bidder of the auction koi
         UpdateAuctionKoiDTO updateAuctionKoiDTO = UpdateAuctionKoiDTO.builder()
-                .basePrice(auctionKoi.getBasePrice())
-                .ceilPrice(auctionKoi.getCeilPrice())
-                .bidStep(auctionKoi.getBidStep())
-                .bidMethod(String.valueOf(auctionKoi.getBidMethod()))
-                .currentBid(bid.getBidAmount())
-                .currentBidderId(bid.getBidder().getId())
-                .isSold(auctionKoi.isSold())
-                .build();
+            .basePrice(auctionKoi.getBasePrice())
+            .ceilPrice(auctionKoi.getCeilPrice())
+            .bidStep(auctionKoi.getBidStep())
+            .bidMethod(String.valueOf(auctionKoi.getBidMethod()))
+            .currentBid(bid.getBidAmount())
+            .currentBidderId(bid.getBidder().getId())
+            .isSold(auctionKoi.isSold())
+            .build();
 
         createBidHistory(bid);
 
         auctionKoiService.updateAuctionKoi(auctionKoi.getId(), updateAuctionKoiDTO);
 
-        BidResponse bidResponse = BidResponse.builder()
-                .auctionKoiId(auctionKoi.getId())
-                .bidderId(bidder.getId())
-                .bidAmount(bidRequest.bidAmount())
-                .bidderName(bidder.getFirstName() + " " + bidder.getLastName())
-                .bidTime(bid.getBidTime().toString())
-                .build();
+        BidResponse bidResponse = new BidResponse(
+            bidder.getId(),
+            auctionKoi.getId(),
+            bidRequest.bidAmount(),
+            bid.getBidTime().toString(),
+            bidder.getFirstName() + " " + bidder.getLastName());
 
         if (auctionKoi.isSold()) {
             orderService.createOrderForAuctionKoi(auctionKoi, bidder);
@@ -253,7 +248,8 @@ public class BiddingHistoryService implements IBiddingHistoryService, Biddable {
 
     private void validateBid(Auction auction, AuctionKoi auctionKoi, Bid bid, User bidder) {
         // 4. check if the auction is active
-        if (!DateTimeUtils.isAuctionActive(auction.getStartTime(), auction.getEndTime(), bid.getBidTime())) {
+        if (!DateTimeUtils.isAuctionActive(auction.getStartTime(), auction.getEndTime(),
+                                           bid.getBidTime())) {
             throw new BiddingRuleException("AuctionKoi has been ended!");
         }
 
@@ -286,10 +282,10 @@ public class BiddingHistoryService implements IBiddingHistoryService, Biddable {
             // record
             if (!auctionParticipantService.hasJoinedAuction(auction.getId(), bidder.getId())) {
                 AuctionParticipant auctionParticipant = AuctionParticipant.builder()
-                        .auction(auction)
-                        .user(bidder)
-                        .joinTime(bid.getBidTime())
-                        .build();
+                    .auction(auction)
+                    .user(bidder)
+                    .joinTime(bid.getBidTime())
+                    .build();
                 auctionParticipantService.createAuctionParticipant(auctionParticipant);
             }
         }

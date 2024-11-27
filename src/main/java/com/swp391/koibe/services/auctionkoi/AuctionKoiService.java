@@ -16,6 +16,7 @@ import com.swp391.koibe.repositories.AuctionKoiRepository;
 import com.swp391.koibe.repositories.AuctionRepository;
 import com.swp391.koibe.repositories.KoiRepository;
 import com.swp391.koibe.responses.AuctionKoiResponse;
+import com.swp391.koibe.responses.AuctionResponse;
 import com.swp391.koibe.responses.BidMethodQuantityResponse;
 import com.swp391.koibe.responses.KoiInAuctionResponse;
 import com.swp391.koibe.services.auction.IAuctionService;
@@ -77,8 +78,8 @@ public class AuctionKoiService implements IAuctionKoiService {
                 .orElseThrow(() -> new DataNotFoundException("Auction not found"));
 
         // check auction status is not ended
-        Auction auction = auctionService.findAuctionById(auctionKoiDTO.auctionId());
-        if (auction.getStatus() == EAuctionStatus.ENDED || auction.getStatus() == EAuctionStatus.ONGOING) {
+        AuctionResponse auction = auctionService.findAuctionById(auctionKoiDTO.auctionId());
+        if (auction.status() == EAuctionStatus.ENDED || auction.status() == EAuctionStatus.ONGOING) {
             throw new MalformDataException("Auction are not allow to register");
         }
 
@@ -109,6 +110,8 @@ public class AuctionKoiService implements IAuctionKoiService {
             currentBidValue = validCeilPrice;
         }
 
+        AuctionResponse validAuction = auctionService.findAuctionById(auctionKoiDTO.auctionId());
+
         // save auction koi
         AuctionKoi newAuctionKoi = AuctionKoi.builder()
                 .basePrice(auctionKoiDTO.basePrice())
@@ -120,7 +123,15 @@ public class AuctionKoiService implements IAuctionKoiService {
                 .currentBidderId(
                         auctionKoiDTO.currentBidderId() != null ? auctionKoiDTO.currentBidderId() : 0L)
                 .revoked(0) // default is 0 when add new koi to auction
-                .auction(auctionService.findAuctionById(auctionKoiDTO.auctionId()))
+                .auction(
+                        Auction.builder().id(validAuction.id())
+                            .title(validAuction.title())
+                            .startTime(validAuction.startTime())
+                            .endTime(validAuction.endTime())
+                            .status(validAuction.status())
+                            .auctioneer(User.builder().id(validAuction.auctioneerId()).build())
+                            .build()
+                )
                 .koi(existingKoi.get())
                 .build();
 
@@ -197,12 +208,8 @@ public class AuctionKoiService implements IAuctionKoiService {
                 .filter(auctionKoi -> auctionKoi.getBidMethod() == EBidMethod.DESCENDING_BID).count();
         long fixedPrice = auctionKois.stream()
                 .filter(auctionKoi -> auctionKoi.getBidMethod() == EBidMethod.FIXED_PRICE).count();
-        return BidMethodQuantityResponse.builder()
-                .total(auctionKois.size())
-                .ascendingBid(ascendingBid)
-                .descendingBid(descendingBid)
-                .fixedPrice(fixedPrice)
-                .build();
+
+        return new BidMethodQuantityResponse(auctionKois.size(), ascendingBid, descendingBid, fixedPrice);
     }
 
     @Override
@@ -234,14 +241,14 @@ public class AuctionKoiService implements IAuctionKoiService {
     @Override
     public List<AuctionKoiResponse> getAuctionKoiByAuctionId(long id) {
         return auctionKoiRepository.findAuctionKoiByAuctionId(id).stream()
-                .map(DTOConverter::convertToAuctionKoiDTO)
+                .map(DTOConverter::toAuctionKoiResponse)
                 .toList();
     }
 
     @Override
     public Page<AuctionKoiResponse> getAllAuctionKois(Pageable pageable) {
         Page<AuctionKoi> kois = auctionKoiRepository.findAll(pageable);
-        return kois.map(DTOConverter::convertToAuctionKoiDTO);
+        return kois.map(DTOConverter::toAuctionKoiResponse);
     }
 
     @Override
@@ -272,21 +279,21 @@ public class AuctionKoiService implements IAuctionKoiService {
         updateAuctionKoi.setRevoked(updateAuctionKoiDTO.revoked());
         updateAuctionKoi.setSold(updateAuctionKoiDTO.isSold());
 
-        return DTOConverter.convertToAuctionKoiDTO(auctionKoiRepository.save(updateAuctionKoi));
+        return DTOConverter.toAuctionKoiResponse(auctionKoiRepository.save(updateAuctionKoi));
     }
 
     @Override
     public void deleteAuctionKoi(long id) {
         auctionKoiRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Auction Koi not found"));
-        auctionKoiRepository.deleteById(id);
+        auctionKoiRepository.softDeleteById(id);
     }
 
     @Override
     public AuctionKoiResponse getAuctionKoiDetailsById(long id) throws DataNotFoundException {
         AuctionKoi auctionKoi = auctionKoiRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Auction Koi not found"));
-        return DTOConverter.convertToAuctionKoiDTO(auctionKoi);
+        return DTOConverter.toAuctionKoiResponse(auctionKoi);
     }
 
     @Override
@@ -296,7 +303,7 @@ public class AuctionKoiService implements IAuctionKoiService {
         AuctionKoi auctionKoi = auctionKois.stream()
                 .filter(auctionKoi1 -> auctionKoi1.getId() == id).findFirst()
                 .orElseThrow(() -> new DataNotFoundException("Auction Koi not found"));
-        return DTOConverter.convertToAuctionKoiDTO(auctionKoi);
+        return DTOConverter.toAuctionKoiResponse(auctionKoi);
     }
 
     @Override

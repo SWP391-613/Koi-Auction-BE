@@ -13,59 +13,23 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-@EqualsAndHashCode(callSuper = true)
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@SuperBuilder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class KoiResponse extends BaseResponse<Koi> {
-
-    @JsonProperty("id")
-    private Long id;
-
-    @JsonProperty("name")
-    private String name;
-
-    @JsonProperty("sex")
-    private EKoiGender sex;
-
-    @JsonProperty("length")
-    private Integer length;
-
-    @JsonProperty("year_born")
-    private Integer yearBorn;
-
-    @JsonProperty("base_price")
-    private Long price;
-
-    @JsonProperty("status_name")
-    private String statusName;
-
-    @JsonProperty("is_display")
-    private Integer idDisplay;
-
-    @JsonProperty("thumbnail")
-    private String thumbnail;
-
-    @JsonProperty("description")
-    private String description;
-
-    @JsonProperty("owner_id")
-    private Long ownerId;
-
-    @JsonProperty("category_id")
-    private Integer categoryId;
-
-    @Column(name="created_at")
-    private LocalDateTime createdAt;
-
-    @Column(name="updated_at")
-    private LocalDateTime updatedAt;
-
-    @JsonProperty("total_page")
-    private Integer totalPage;
+public record KoiResponse(
+    @JsonProperty("id") Long id,
+    @JsonProperty("name") String name,
+    @JsonProperty("sex") EKoiGender sex,
+    @JsonProperty("length") Integer length,
+    @JsonProperty("year_born") Integer yearBorn,
+    @JsonProperty("base_price") Long price,
+    @JsonProperty("status_name") String statusName,
+    @JsonProperty("is_display") Integer idDisplay,
+    @JsonProperty("thumbnail") String thumbnail,
+    @JsonProperty("description") String description,
+    @JsonProperty("owner_id") Long ownerId,
+    @JsonProperty("category_id") Integer categoryId,
+    @JsonProperty("created_at") LocalDateTime createdAt,
+    @JsonProperty("updated_at") LocalDateTime updatedAt,
+    @JsonProperty("total_page") Integer totalPage
     //this field is for holding the total number of pages (in case query directly from database)
     //and retrieve from redis cache
-
-}
+) {}

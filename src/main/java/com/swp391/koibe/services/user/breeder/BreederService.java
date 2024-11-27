@@ -40,7 +40,7 @@ public class BreederService implements IBreederService {
         Page<User> breeders = userRepository.findAllBreeder(pageable);
         List<BreederResponse> breederResponses = breeders.getContent()
             .stream()
-            .map(dtoConverter::convertToBreederDTO)
+            .map(dtoConverter::toBreederResponse)
             .toList();
 
         return PageResponse.<BreederResponse>pageBuilder()
@@ -62,7 +62,7 @@ public class BreederService implements IBreederService {
         return userRepository.findAll()
             .stream()
             .filter(breeder -> breeder.getRole().getId() == 3)
-            .map(DTOConverter::convertToUserDTO)
+            .map(DTOConverter::toUserResponse)
             .toList();
     }
 
@@ -114,7 +114,7 @@ public class BreederService implements IBreederService {
             .owner(existingBreeder)
             .build();
 
-        return DTOConverter.convertToKoiDTO(koiRepository.save(newKoi));
+        return DTOConverter.toKoiResponse(koiRepository.save(newKoi));
     }
 
     @Override
@@ -163,7 +163,7 @@ public class BreederService implements IBreederService {
             .findAll()
             .stream()
             .filter(koi -> koi.getOwner().getId() == breederId)
-            .map(DTOConverter::convertToKoiDTO).toList();
+            .map(DTOConverter::toKoiResponse).toList();
     }
 
     @Override
@@ -172,7 +172,7 @@ public class BreederService implements IBreederService {
 
         return koiRepository
             .findByOwnerId(breederId, pageable)
-            .map(DTOConverter::convertToKoiDTO);
+            .map(DTOConverter::toKoiResponse);
     }
 
     @Override
@@ -182,7 +182,7 @@ public class BreederService implements IBreederService {
 
         return koiRepository
             .findByOwnerIdAndStatus(breederId, koiStatus, pageable)
-            .map(DTOConverter::convertToKoiDTO);
+            .map(DTOConverter::toKoiResponse);
     }
 
     @Override
@@ -192,7 +192,7 @@ public class BreederService implements IBreederService {
 
         return koiRepository
             .findByOwnerIdAndStatusAndAuctionIsNull(breederId, pageable)
-            .map(DTOConverter::convertToKoiDTO);
+            .map(DTOConverter::toKoiResponse);
 
     }
 

@@ -59,7 +59,7 @@ public class OrderController {
         }
         try {
             Order newOrder = orderService.createOrder(orderDTO);
-            return ResponseEntity.ok(DTOConverter.fromOrder(newOrder));
+            return ResponseEntity.ok(DTOConverter.toOrderResponse(newOrder));
         } catch (Exception e) {
             BaseResponse<Object> response = new BaseResponse<>();
             response.setMessage("Create order failed");
@@ -76,7 +76,7 @@ public class OrderController {
         @RequestParam(defaultValue = "10") int limit) {
         PageRequest pageRequest = PageRequest.of(page, limit);
         Page<OrderResponse> orders = orderService.findByUserId(userId, pageRequest)
-            .map(DTOConverter::fromOrder);
+            .map(DTOConverter::toOrderResponse);
         OrderPaginationResponse response = new OrderPaginationResponse();
         response.setTotalPage(orders.getTotalPages());
         response.setTotalItem(orders.getTotalElements());
@@ -99,7 +99,7 @@ public class OrderController {
         PageRequest pageRequest = PageRequest.of(page, limit);
         Page<OrderResponse> orders = orderService.searchUserOrders(keyword, user.getId(),
                                                                    pageRequest)
-            .map(DTOConverter::fromOrder);
+            .map(DTOConverter::toOrderResponse);
         OrderPaginationResponse response = new OrderPaginationResponse();
         response.setTotalPage(orders.getTotalPages());
         response.setTotalItem(orders.getTotalElements());
@@ -114,7 +114,7 @@ public class OrderController {
         @Valid @PathVariable("id") Long orderId) {
         try {
             Order existingOrder = orderService.getOrder(orderId);
-            OrderResponse orderResponse = DTOConverter.fromOrder(existingOrder);
+            OrderResponse orderResponse = DTOConverter.toOrderResponse(existingOrder);
             return ResponseEntity.ok(orderResponse);
         } catch (Exception e) {
             BaseResponse<Object> response = new BaseResponse<>();
@@ -142,7 +142,7 @@ public class OrderController {
         try {
             Order order;
             order = orderService.updateOrder(id, orderDTO);
-            return ResponseEntity.ok(DTOConverter.fromOrder(order));
+            return ResponseEntity.ok(DTOConverter.toOrderResponse(order));
         } catch (MalformDataException e) {
             response.setMessage("Update order failed");
             response.setReason(e.getMessage());
@@ -201,11 +201,11 @@ public class OrderController {
 
         if (String.valueOf(status).equals("ALL")) {
             orders = orderService.getOrderByKeyword(keyword, pageRequest)
-                .map(DTOConverter::fromOrder);
+                .map(DTOConverter::toOrderResponse);
         } else {
             orders = orderService
                 .getOrdersByKeywordAndStatus(keyword, status, pageRequest)
-                .map(DTOConverter::fromOrder);
+                .map(DTOConverter::toOrderResponse);
         }
 
         response.setItem(orders.getContent());
@@ -231,12 +231,12 @@ public class OrderController {
         OrderPaginationResponse response = new OrderPaginationResponse();
 
         if (String.valueOf(keyword).equals("ALL")) {
-            orders = orderService.findByUserId(userId, pageRequest).map(DTOConverter::fromOrder);
+            orders = orderService.findByUserId(userId, pageRequest).map(DTOConverter::toOrderResponse);
 
         } else {
             orders = orderService
                 .getOrdersByStatus(userId, keyword, pageRequest)
-                .map(DTOConverter::fromOrder);
+                .map(DTOConverter::toOrderResponse);
         }
 
         response.setItem(orders.getContent());
@@ -254,7 +254,7 @@ public class OrderController {
             Order updatedOrder = orderService.updateOrderStatusAndShipDate(id,
                                                                            OrderStatus.valueOf(
                                                                                updateOrderStatusDTO.getStatus()));
-            return ResponseEntity.ok(DTOConverter.fromOrder(updatedOrder));
+            return ResponseEntity.ok(DTOConverter.toOrderResponse(updatedOrder));
         } catch (Exception e) {
             BaseResponse response = new BaseResponse();
             response.setReason(e.getMessage());
@@ -271,7 +271,7 @@ public class OrderController {
             Order updatedOrder = orderService.updateOrderStatus(id,
                                                                 OrderStatus.valueOf(
                                                                     updateOrderStatusDTO.getStatus()));
-            return ResponseEntity.ok(DTOConverter.fromOrder(updatedOrder));
+            return ResponseEntity.ok(DTOConverter.toOrderResponse(updatedOrder));
         } catch (Exception e) {
             BaseResponse response = new BaseResponse();
             response.setReason(e.getMessage());

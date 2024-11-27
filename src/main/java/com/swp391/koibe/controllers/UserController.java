@@ -7,12 +7,9 @@ import com.swp391.koibe.dtos.UpdateUserDTO;
 import com.swp391.koibe.dtos.UserLoginDTO;
 import com.swp391.koibe.dtos.UserRegisterDTO;
 import com.swp391.koibe.dtos.VerifyUserDTO;
-import com.swp391.koibe.exceptions.MalformBehaviourException;
 import com.swp391.koibe.exceptions.MalformDataException;
 import com.swp391.koibe.exceptions.MethodArgumentNotValidException;
-import com.swp391.koibe.exceptions.PermissionDeniedException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
-import com.swp391.koibe.exceptions.base.DataWrongFormatException;
 import com.swp391.koibe.models.Token;
 import com.swp391.koibe.models.User;
 import com.swp391.koibe.responses.LoginResponse;
@@ -29,7 +26,6 @@ import jakarta.validation.Valid;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -62,7 +58,7 @@ public class UserController {
     public ResponseEntity<UserResponse> getUserById(
         @PathVariable Long id
     ) {
-        return ResponseEntity.ok(DTOConverter.convertToUserDTO(userService.getUserById(id)));
+        return ResponseEntity.ok(DTOConverter.toUserResponse(userService.getUserById(id)));
     }
 
     @Timed(
@@ -111,7 +107,7 @@ public class UserController {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
             .getAuthentication().getPrincipal();
         return ResponseEntity.ok(
-            DTOConverter.convertToUserDTO(userService.findByUsername(userDetails.getUsername())));
+            DTOConverter.toUserResponse(userService.findByUsername(userDetails.getUsername())));
     }
 
     // PUT: localhost:4000/api/v1/users/4/deposit/100
@@ -158,7 +154,7 @@ public class UserController {
                     localizationUtils.getLocalizedMessage(MessageKey.REGISTER_SUCCESSFULLY))
                 .statusCode(HttpStatus.CREATED.value())
                 .isSuccess(true)
-                .data(DTOConverter.convertToUserDTO(user))
+                .data(DTOConverter.toUserResponse(user))
                 .build());
 
     }
@@ -184,7 +180,7 @@ public class UserController {
         return ResponseEntity.ok(
             ApiResponse.<UserResponse>builder()
                 .message(MessageKey.UPDATE_USER_SUCCESSFULLY)
-                .data(DTOConverter.convertToUserDTO(userService.updateUser(userId, updatedUserDTO)))
+                .data(DTOConverter.toUserResponse(userService.updateUser(userId, updatedUserDTO)))
                 .isSuccess(true)
                 .statusCode(HttpStatus.OK.value())
                 .build());

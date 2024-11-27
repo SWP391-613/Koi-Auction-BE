@@ -3,6 +3,7 @@ package com.swp391.koibe.services.user;
 import com.swp391.koibe.dtos.UpdatePasswordDTO;
 import com.swp391.koibe.dtos.UpdateUserDTO;
 import com.swp391.koibe.dtos.UserRegisterDTO;
+import com.swp391.koibe.dtos.auctionkoi.AuctionKoiDTO;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import com.swp391.koibe.models.User;
 import java.util.List;
@@ -55,4 +56,6 @@ public interface IUserService {
     void restoreUser(Long userId) throws DataNotFoundException;
 
     void updateRole(long id, long roleId) throws DataNotFoundException;
+
+    void validateAccountBalance(User user, long basePrice);
 }

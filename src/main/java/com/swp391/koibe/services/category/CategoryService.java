@@ -49,7 +49,7 @@ public class CategoryService implements ICategoryService{
         Page<Category> categoriesPage = categoryRepository.findAll(pageRequest);
 
         List<CategoryResponse> categoryResponses = categoriesPage.getContent().stream()
-            .map(dtoConverter::convertToCategoryDTO)
+            .map(dtoConverter::toCategoryResponse)
             .collect(Collectors.toList());
 
         return PageResponse.<CategoryResponse>pageBuilder()

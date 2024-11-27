@@ -60,7 +60,7 @@ public class AuctionParticipantService implements IAuctionParticipantService {
         return auctionParticipantRepository.getAuctionParticipantsByAuctionId(auctionId)
             .stream()
             .map(AuctionParticipant::getUser)
-            .map(DTOConverter::convertToUserDTO)
+            .map(DTOConverter::toUserResponse)
             .collect(java.util.stream.Collectors.toSet());
     }
 }

@@ -49,13 +49,13 @@ public class KoiImageService implements IKoiImageService {
     public List<KoiImageResponse> getKoiImage(long id) throws Exception {
         koiImageRepository.findById(id)
             .orElseThrow(() -> new Exception("Koi image not found"));
-        return List.of(DTOConverter.convertToKoiImageDTO(koiImageRepository.getById(id)));
+        return List.of(DTOConverter.toKoiImageResponse(koiImageRepository.getById(id)));
     }
 
     @Override
     public Page<KoiImageResponse> getAllKoiImages(Pageable pageable) throws Exception {
         Page<KoiImage> koiImages = koiImageRepository.findAll(pageable);
-        return koiImages.map(DTOConverter::convertToKoiImageDTO);
+        return koiImages.map(DTOConverter::toKoiImageResponse);
     }
 
     @Override
@@ -64,7 +64,7 @@ public class KoiImageService implements IKoiImageService {
             if (koiImages.isEmpty()) {
                 throw new Exception("Koi images not found");
             }
-        return koiImages.stream().map(DTOConverter::convertToKoiImageDTO).toList();
+        return koiImages.stream().map(DTOConverter::toKoiImageResponse).toList();
 
     }
 

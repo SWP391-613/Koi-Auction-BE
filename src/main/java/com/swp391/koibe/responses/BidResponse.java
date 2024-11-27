@@ -1,28 +1,11 @@
 package com.swp391.koibe.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.swp391.koibe.responses.base.BaseResponse;
-import lombok.Builder;
-import lombok.Data;
 
-import java.time.LocalDateTime;
-
-@Data
-@Builder
-public class BidResponse {
-
-    @JsonProperty("auction_koi_id")
-    private Long auctionKoiId;
-
-    @JsonProperty("bidder_id")
-    private Long bidderId;
-
-    @JsonProperty("bid_amount")
-    private long bidAmount;
-
-    @JsonProperty("bid_time")
-    private String bidTime;
-
-    @JsonProperty("bidder_name")
-    private String bidderName;
-}
+public record BidResponse (
+    @JsonProperty("bidder_id") Long bidderId,
+    @JsonProperty("auction_koi_id") Long auctionKoiId,
+    @JsonProperty("bid_amount") Long bidAmount,
+    @JsonProperty("bid_time") String bidTime,
+    @JsonProperty("bidder_name") String bidderName
+) {}

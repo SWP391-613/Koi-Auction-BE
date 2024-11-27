@@ -223,31 +223,29 @@ public class KoiController {
 
     @PostMapping(value = "")
     @PreAuthorize("hasRole('ROLE_BREEDER')")
-    public ResponseEntity<KoiResponse> createNewKoi(
+    public ResponseEntity<ApiResponse<KoiResponse>> createNewKoi(
         @Valid @RequestBody KoiDTO koiDTO,
         //@ModelAttribute("files") List<MultipartFile> files,
         //@RequestPart("file") MultipartFile file,
         BindingResult result
-    ) {
+    ) throws Exception {
 
         if (result.hasErrors()) {
             throw new MethodArgumentNotValidException(result);
         }
 
-        KoiResponse response = new KoiResponse();
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.findByUsername(userDetails.getUsername());
 
-        try {
-            UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    User user = userService.findByUsername(userDetails.getUsername());
-
-            //need to save the product first to get the product id, get the id and add the image
-            Koi newKoi = koiService.createKoi(koiDTO, user.getId()).blockingGet();
-            return ResponseEntity.ok(DTOConverter.convertToKoiDTO(newKoi));
-        } catch (Exception e) {
-            response.setMessage("Error creating new koi");
-            response.setReason(e.getMessage());
-            return ResponseEntity.badRequest().body(response);
-        }
+        //need to save the product first to get the product id, get the id and add the image
+        return ResponseEntity.status(HttpStatus.CREATED).body(
+            ApiResponse.<KoiResponse>builder()
+                .message("Koi created successfully")
+                .isSuccess(true)
+                .statusCode(HttpStatus.CREATED.value())
+                .data(koiService.createKoi(koiDTO, user.getId()).blockingGet())
+                .build()
+        );
     }
 
     @PutMapping("/status/{id}")
@@ -261,12 +259,9 @@ public class KoiController {
         if (result.hasErrors()) {
             throw new MethodArgumentNotValidException(result);
         }
-        try {
-            koiService.updateKoiStatus(koiId, updateKoiStatusDTO);
-            return ResponseEntity.ok().body("Koi status updated successfully");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("Error updating koi status: " + e.getMessage());
-        }
+
+        koiService.updateKoiStatus(koiId, updateKoiStatusDTO);
+        return ResponseEntity.ok().body("Koi status updated successfully");
     }
 
     @PutMapping("/{id}")
@@ -284,28 +279,16 @@ public class KoiController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_BREEDER', 'ROLE_MANAGER', 'ROLE_STAFF')")
-    public ResponseEntity<?> deleteProduct(@PathVariable("id") Long koiId) throws Exception {
-        BaseResponse<Koi> response = new BaseResponse<>();
-        try{
-            koiService.deleteKoi(koiId);
-            response.setMessage("Delete koi successfully");
-            response.setReason("Koi deleted successfully");
-            response.setIsSuccess(true);
-            response.setStatusCode(HttpStatus.OK.value());
-            return ResponseEntity.ok(response);
-        }catch(DataNotFoundException e){
-            response.setMessage("Delete koi failed");
-            response.setReason(e.getMessage());
-            response.setIsSuccess(false);
-            response.setStatusCode(HttpStatus.NOT_FOUND.value());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-        }catch (MalformBehaviourException e){
-            response.setMessage("Delete koi failed");
-            response.setReason(e.getMessage());
-            response.setIsSuccess(false);
-            response.setStatusCode(HttpStatus.BAD_REQUEST.value());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        }
+    public ResponseEntity<ApiResponse<KoiResponse>> deleteProduct(@PathVariable("id") Long koiId) throws Exception {
+        koiService.deleteKoi(koiId);
+
+        return ResponseEntity.ok(
+            ApiResponse.<KoiResponse>builder()
+                .message("Koi deleted successfully")
+                .isSuccess(true)
+                .statusCode(HttpStatus.OK.value())
+                .build()
+        );
     }
 
     @PostMapping(value = "uploads/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -342,7 +325,7 @@ public class KoiController {
                 //Store file
                 String fileName = storeFile(file);
                 KoiImage koiImage = koiService.createKoiImage(
-                    existingKoi.getId(),
+                    existingKoi.id(),
                     KoiImageDTO.builder()
                         .imageUrl(fileName)
                         .build());

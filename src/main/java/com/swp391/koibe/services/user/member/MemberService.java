@@ -24,7 +24,7 @@ public class MemberService implements IMemberService{
     @Override
     public Page<MemberResponse> getAllMembers(Pageable pageable) {
         Page<User> members = userRepository.findAllMember(pageable);
-        return members.map(dtoConverter::convertToMemberDTO);
+        return members.map(dtoConverter::toMemberResponse);
     }
 
     @Override

@@ -2,10 +2,12 @@ package com.swp391.koibe.services.user;
 
 import com.swp391.koibe.components.JwtTokenUtils;
 import com.swp391.koibe.components.LocalizationUtils;
+import com.swp391.koibe.constants.BusinessNumber;
 import com.swp391.koibe.constants.Regex;
 import com.swp391.koibe.dtos.UpdatePasswordDTO;
 import com.swp391.koibe.dtos.UpdateUserDTO;
 import com.swp391.koibe.dtos.UserRegisterDTO;
+import com.swp391.koibe.dtos.auctionkoi.AuctionKoiDTO;
 import com.swp391.koibe.enums.EmailCategoriesEnum;
 import com.swp391.koibe.enums.ProviderName;
 import com.swp391.koibe.enums.UserRole;
@@ -531,6 +533,13 @@ public class UserService implements IUserService {
                 ));
         existingUser.setActive(active);
         userRepository.save(existingUser);
+    }
+
+    @Override
+    public void validateAccountBalance(User user, long basePrice) {
+        if (user.getAccountBalance() < Math.floorDiv(basePrice, BusinessNumber.FEE_ADD_KOI_TO_AUCTION)) {
+            throw new MalformDataException("You don't have enough money to register Koi to Auction");
+        }
     }
 
 }

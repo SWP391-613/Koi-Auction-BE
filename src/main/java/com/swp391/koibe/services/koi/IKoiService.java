@@ -18,7 +18,7 @@ import org.springframework.data.domain.Pageable;
 
 public sealed interface IKoiService<T> permits KoiService {
 
-    Single<Koi> createKoi(KoiDTO koiDTO, long breederId) throws Exception;
+    Single<KoiResponse> createKoi(KoiDTO koiDTO, long breederId) throws Exception;
 
     Single<KoiResponse> getKoiById(long id) throws DataNotFoundException;
 

@@ -46,10 +46,10 @@ public class BiddingHistoryController {
     public ResponseEntity<List<BidResponse>> getBiddingHistoryByAuctionKoiId(@PathVariable long id) {
         List<Bid> bidHistories = biddingHistoryService.getBidsByAuctionKoiId(id);
         List<BidResponse> bidResponses = bidHistories.stream()
-                .map(DTOConverter::convertToBidDTO) // Convert Bid to BidResponse
+                .map(DTOConverter::toBidResponse) // Convert Bid to BidResponse
                 .collect(Collectors.toList());
         // by bid time newest to oldest
-        Comparator<BidResponse> byBidTime = Comparator.comparing(BidResponse::getBidTime).reversed();
+        Comparator<BidResponse> byBidTime = Comparator.comparing(BidResponse::bidTime).reversed();
         bidResponses.sort(byBidTime);
         return ResponseEntity.ok(bidResponses);
     }

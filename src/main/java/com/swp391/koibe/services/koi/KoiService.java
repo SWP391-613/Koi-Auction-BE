@@ -47,7 +47,7 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
     private final AuctionKoiService auctionKoiService;
 
     @Override
-    public Single<Koi> createKoi(KoiDTO koiDTO, long breederId) throws Exception {
+    public Single<KoiResponse> createKoi(KoiDTO koiDTO, long breederId) throws Exception {
         //breeder cannot create other breeder's koi
         if(breederId != koiDTO.ownerId()){
             throw new InvalidParamException("Breeder cannot create other breeder's koi");
@@ -81,7 +81,7 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
                     .category(category)
                     .build();
 
-                return koiRepository.save(newKoi);
+                return DTOConverter.toKoiResponse(koiRepository.save(newKoi));
             }).subscribeOn(Schedulers.io());
     }
 
@@ -90,7 +90,7 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
         return Single.fromCallable(() -> {
             Koi koi = koiRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Koi not found: " + id));
-            return DTOConverter.convertToKoiDTO(koi);
+            return DTOConverter.toKoiResponse(koi);
         }).subscribeOn(Schedulers.io());
     }
 
@@ -99,7 +99,7 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
         Page<Koi> kois = koiRepository.findAllKoiByIsDisplayIsTrue(pageable);
 
         List<KoiResponse> koiResponses =
-            kois.getContent().stream().map(DTOConverter::convertToKoiDTO).toList();
+            kois.getContent().stream().map(DTOConverter::toKoiResponse).toList();
 
         return PageResponse.<KoiResponse>pageBuilder()
             .data(koiResponses)
@@ -147,7 +147,7 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
         existingKoi.setCategory(existingCategory);
         existingKoi.setOwner(existingUser);
 
-        return DTOConverter.convertToKoiDTO(koiRepository.save(existingKoi));
+        return DTOConverter.toKoiResponse(koiRepository.save(existingKoi));
     }
 
     @Override
@@ -191,7 +191,7 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
         Page<Koi> kois = koiRepository.findByStatus(status, pageable);
 
         List<KoiResponse> koiResponses =
-            kois.getContent().stream().map(DTOConverter::convertToKoiDTO).toList();
+            kois.getContent().stream().map(DTOConverter::toKoiResponse).toList();
 
         return PageResponse.<KoiResponse>pageBuilder()
             .data(koiResponses)
@@ -244,7 +244,7 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
         Page<Koi> kois = koiRepository.findKoiByKeyword(keyword, breederId,  pageable);
 
         List<KoiResponse> koiResponses =
-            kois.getContent().stream().map(DTOConverter::convertToKoiDTO).toList();
+            kois.getContent().stream().map(DTOConverter::toKoiResponse).toList();
 
         return PageResponse.<KoiResponse>pageBuilder()
             .data(koiResponses)
@@ -266,7 +266,7 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
         Page<Koi> kois = koiRepository.findUnverifiedKoiByKeyword(keyword,  pageable);
 
         List<KoiResponse> koiResponses =
-            kois.getContent().stream().map(DTOConverter::convertToKoiDTO).toList();
+            kois.getContent().stream().map(DTOConverter::toKoiResponse).toList();
 
         return PageResponse.<KoiResponse>pageBuilder()
             .data(koiResponses)
@@ -287,7 +287,7 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
         Page<Koi> kois = koiRepository.findAllKoiByKeyword(keyword,  pageable);
 
         List<KoiResponse> koiResponses =
-            kois.getContent().stream().map(DTOConverter::convertToKoiDTO).toList();
+            kois.getContent().stream().map(DTOConverter::toKoiResponse).toList();
 
         return PageResponse.<KoiResponse>pageBuilder()
             .data(koiResponses)
@@ -319,12 +319,12 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
             .filter(koi -> koi.getSex() == EKoiGender.UNKNOWN)
             .count();
 
-        return KoiGenderResponse.builder()
-            .total(kois.size())
-            .male(maleCount)
-            .female(femaleCount)
-            .unknown(unknownCount)
-            .build();
+        return new KoiGenderResponse(
+            kois.size(),
+            maleCount,
+            femaleCount,
+            unknownCount
+        );
     }
 
     @Override
@@ -347,13 +347,13 @@ public non-sealed class KoiService implements IKoiService<KoiResponse> {
             .filter(koi -> koi.getStatus() == EKoiStatus.SOLD)
             .count();
 
-        return KoiStatusResponse.builder()
-            .total(kois.size())
-            .unverified(unverifiedCount)
-            .verified(verifiedCount)
-            .rejected(rejectedCount)
-            .sold(soldCount)
-            .build();
+        return new KoiStatusResponse(
+            kois.size(),
+            unverifiedCount,
+            verifiedCount,
+            rejectedCount,
+            soldCount
+        );
     }
 
 

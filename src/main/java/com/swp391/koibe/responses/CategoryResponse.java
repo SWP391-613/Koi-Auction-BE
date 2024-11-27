@@ -1,26 +1,12 @@
 package com.swp391.koibe.responses;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Getter
-public class CategoryResponse {
-
+public record CategoryResponse (
     @JsonProperty("id")
-    private Integer id;
-
+    Integer id,
     @JsonProperty("name")
-    private String name;
-
+    String name,
     @JsonProperty("koi_count")
-    private Long koiCount;
-
-}
+    Long koiCount
+) {}

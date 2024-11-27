@@ -52,10 +52,7 @@ public class CategoryController {
     @GetMapping("/{id}")
     public ResponseEntity<CategoryResponse> getCategoryById(@PathVariable int id) {
         Category category = categoryService.getById(id);
-        CategoryResponse response = CategoryResponse.builder()
-            .id(category.getId())
-            .name(category.getName())
-            .build();
+        CategoryResponse response = new CategoryResponse(category.getId(), category.getName(), null);
         return ResponseEntity.ok(response);
     }
 
@@ -73,10 +70,7 @@ public class CategoryController {
 
             Category category = categoryService.createCategory(categoryDTO);
 
-            CategoryResponse response = CategoryResponse.builder()
-                .id(category.getId())
-                .name(category.getName())
-                .build();
+            CategoryResponse response = new CategoryResponse(category.getId(), category.getName(), null);
 
             categoryService.createCategory(categoryDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
