@@ -156,7 +156,11 @@ public class DTOConverter {
     }
 
     public static FeedbackResponse fromFeedback(Feedback feedback) {
-        return new FeedbackResponse(feedback.getContent(), feedback.getRating(), feedback.getCreatedAt());
+        return new FeedbackResponse(feedback.getId(), feedback.getContent(), feedback.getRating(), feedback.getCreatedAt());
+    }
+
+    public FeedbackResponse toFeedbackResponse(Feedback feedback) {
+        return new FeedbackResponse(feedback.getId(), feedback.getContent(), feedback.getRating(), feedback.getCreatedAt());
     }
 
     public static PaymentResponse fromPayment(Payment payment) {

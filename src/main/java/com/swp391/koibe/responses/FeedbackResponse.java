@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDateTime;
 
 public record FeedbackResponse(
+    @JsonProperty("id") Long id,
     @JsonProperty("content") String content,
     @JsonProperty("rating") Integer rating,
     @JsonProperty("created_at") LocalDateTime createAt

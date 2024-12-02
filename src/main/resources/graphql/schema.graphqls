@@ -1,0 +1,34 @@
+type Feedback {
+    id: ID!
+    content: String
+    rating: Int!
+    createdAt: String!
+    userId: ID!
+    orderId: ID!
+}
+
+type FeedbackResponse {
+    id: ID!
+    content: String
+    rating: Int!
+    createdAt: String!
+}
+
+input FeedbackInput {
+    content: String
+    rating: Int!
+    userId: ID!
+    orderId: ID!
+}
+
+type Query {
+    getAllFeedbacks: [FeedbackResponse]
+    getFeedbackById(id: ID!): Feedback
+    getFeedbackByOrderId(orderId: ID!): Feedback
+}
+
+type Mutation {
+    createFeedback(feedback: FeedbackInput!): Feedback
+    updateFeedback(id: ID!, feedback: FeedbackInput!): Feedback
+    deleteFeedback(id: ID!): Boolean
+}

@@ -69,7 +69,12 @@ public class WebSecurityConfig {
                         "/swagger-ui.html",
                         "/webjars/swagger-ui/**",
                         "/swagger-ui/index.html",
-                        "/topic/**"
+                        "/topic/**",
+
+                        // Add GraphQL endpoints
+                        String.format("%s/graphql/**", apiPrefix),
+                        String.format("%s/graphiql/**", apiPrefix),
+                        String.format("%s/schema.graphqls", apiPrefix)
 
                     )
                     .permitAll()
@@ -205,7 +210,9 @@ public class WebSecurityConfig {
             "Accept",
             "Origin",
             "Access-Control-Request-Method",
-            "Access-Control-Request-Headers"));
+            "Access-Control-Request-Headers",
+            "apollo-require-preflight"    
+        ));
         configuration.setExposedHeaders(Arrays.asList(
             "Access-Control-Allow-Origin",
             "Access-Control-Allow-Credentials"));

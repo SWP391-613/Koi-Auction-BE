@@ -81,6 +81,13 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                                                                                  + "+", apiPrefix))));
         //CategoryController
         specialCasePatterns.add(Pair.of("GET", Pattern.compile(String.format("%s/categories/\\d+", apiPrefix))));
+
+        // GraphQL
+        specialCasePatterns.add(Pair.of("POST", Pattern.compile(String.format("%s/graphql", apiPrefix))));
+        specialCasePatterns.add(Pair.of("GET", Pattern.compile(String.format("%s/graphiql", apiPrefix))));
+        specialCasePatterns.add(Pair.of("GET", Pattern.compile(String.format("%s/schema.graphqls", apiPrefix))));
+
+
         // Add more special case patterns here as needed
     }
 
@@ -202,6 +209,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 Pair.of("/swagger-ui", "GET"),
                 Pair.of("/swagger-ui.html", "GET"),
                 Pair.of("/swagger-ui/index.html", "GET"),
+
+                // GraphQL
+                Pair.of(String.format("%s/graphql", apiPrefix), "POST"),
+                Pair.of(String.format("%s/graphql", apiPrefix), "GET"),
+                Pair.of(String.format("%s/graphiql", apiPrefix), "GET"),
+                Pair.of(String.format("%s/schema.graphqls", apiPrefix), "GET"),
 
                 // Actuator
                 Pair.of(String.format("%s/healthcheck/health", apiPrefix), "GET"),

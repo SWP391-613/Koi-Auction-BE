@@ -3,15 +3,7 @@ package com.swp391.koibe.responses;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.swp391.koibe.enums.EKoiGender;
-import com.swp391.koibe.models.Koi;
-import com.swp391.koibe.responses.base.BaseResponse;
-import jakarta.persistence.Column;
 import java.time.LocalDateTime;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public record KoiResponse(
