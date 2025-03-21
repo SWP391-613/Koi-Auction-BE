@@ -3,7 +3,7 @@ package com.swp391.koibe.utils;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.swp391.koibe.exceptions.MalformDataException;
-import com.swp391.koibe.models.Auction;
+import com.swp391.koibe.domain.auction.Auction;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,7 +1,7 @@
 package com.swp391.koibe.repositories;
 
 import com.swp391.koibe.enums.OrderStatus;
-import com.swp391.koibe.models.Order;
+import com.swp391.koibe.domain.order.Order;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

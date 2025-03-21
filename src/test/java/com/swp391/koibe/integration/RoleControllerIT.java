@@ -6,8 +6,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.swp391.koibe.components.JwtTokenUtils;
-import com.swp391.koibe.services.token.TokenService;
-import com.swp391.koibe.services.user.UserService;
+import com.swp391.koibe.domain.token.TokenService;
+import com.swp391.koibe.domain.user.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

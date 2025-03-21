@@ -1,6 +1,6 @@
 package com.swp391.koibe.repositories;
 
-import com.swp391.koibe.models.Feedback;
+import com.swp391.koibe.domain.feedback.Feedback;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

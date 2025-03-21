@@ -1,6 +1,7 @@
 package com.swp391.koibe.services.otp;
 
-import com.swp391.koibe.models.Otp;
+import com.swp391.koibe.domain.otp.OtpService;
+import com.swp391.koibe.domain.otp.Otp;
 import java.time.LocalDateTime;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

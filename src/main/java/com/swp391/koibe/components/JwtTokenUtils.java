@@ -1,8 +1,7 @@
 package com.swp391.koibe.components;
 
 import com.swp391.koibe.exceptions.InvalidParamException;
-import com.swp391.koibe.models.User;
-import com.swp391.koibe.services.user.IUserService;
+import com.swp391.koibe.domain.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -17,9 +16,6 @@ import java.util.Map;
 import java.util.function.Function;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 @Component

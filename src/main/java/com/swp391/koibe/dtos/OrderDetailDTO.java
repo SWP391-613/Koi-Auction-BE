@@ -1,7 +1,7 @@
 package com.swp391.koibe.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.swp391.koibe.models.OrderDetail;
+import com.swp391.koibe.domain.order.OrderDetail;
 import jakarta.validation.constraints.Min;
 
 public record OrderDetailDTO(

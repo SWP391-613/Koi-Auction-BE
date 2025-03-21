@@ -1,7 +1,7 @@
 package com.swp391.koibe.repositories;
 
-import com.swp391.koibe.models.Role;
-import com.swp391.koibe.models.User;
+import com.swp391.koibe.domain.role.Role;
+import com.swp391.koibe.domain.user.User;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

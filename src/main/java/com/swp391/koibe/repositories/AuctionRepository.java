@@ -1,7 +1,7 @@
 package com.swp391.koibe.repositories;
 
 import com.swp391.koibe.enums.EAuctionStatus;
-import com.swp391.koibe.models.Auction;
+import com.swp391.koibe.domain.auction.Auction;
 import io.lettuce.core.dynamic.annotation.Param;
 import java.util.List;
 import java.util.Set;

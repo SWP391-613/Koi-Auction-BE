@@ -1,6 +1,6 @@
 package com.swp391.koibe.repositories;
 
-import com.swp391.koibe.models.Otp;
+import com.swp391.koibe.domain.otp.Otp;
 import java.time.LocalDateTime;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.google.gson.Gson;
 import com.swp391.koibe.dtos.RoleDTO;
 import com.swp391.koibe.enums.UserRole;
-import com.swp391.koibe.models.Role;
+import com.swp391.koibe.domain.role.Role;
 import com.swp391.koibe.repositories.RoleRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;

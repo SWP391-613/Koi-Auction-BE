@@ -1,4 +1,4 @@
-insert into koi_company.auction_kois_details (id, bid_amount, bid_time, auction_koi_id, user_id)
+insert into auction_kois_details (id, bid_amount, bid_time, auction_koi_id, user_id)
 values  (1, 200000, '2024-10-18 04:57:48.000000', 1, 2),
         (2, 300000, '2024-10-18 04:58:37.000000', 12, 2),
         (3, 300000, '2024-10-18 04:58:43.000000', 12, 19),

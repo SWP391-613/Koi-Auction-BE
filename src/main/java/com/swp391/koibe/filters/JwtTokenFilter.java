@@ -2,7 +2,7 @@ package com.swp391.koibe.filters;
 
 import com.swp391.koibe.components.JwtTokenUtils;
 import com.swp391.koibe.exceptions.JwtAuthenticationException;
-import com.swp391.koibe.models.User;
+import com.swp391.koibe.domain.user.User;
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -61,6 +61,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         specialCasePatterns.add(Pair.of("GET", Pattern.compile(String.format("%s/auction-websocket.*", apiPrefix))));
         //swagger-*
 
+        specialCasePatterns.add(Pair.of("GET", Pattern.compile("/v3/api-docs.*")));
         specialCasePatterns.add(Pair.of("GET", Pattern.compile("/swagger-resources.*")));
         specialCasePatterns.add(Pair.of("GET", Pattern.compile("/configuration.*")));
         specialCasePatterns.add(Pair.of("GET", Pattern.compile("/api-docs.*")));
@@ -162,12 +163,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                 Pair.of(String.format("%s/managers", apiPrefix), "DELETE"),
 
                 // UserController
-                Pair.of(String.format("%s/users/register", apiPrefix), "POST"),
-                Pair.of(String.format("%s/users/login", apiPrefix), "POST"),
+                Pair.of(String.format("%s/auth/register", apiPrefix), "POST"),
+                Pair.of(String.format("%s/auth/login", apiPrefix), "POST"),
 
                 // Verify OTP
 
-                Pair.of(String.format("%s/users/verify", apiPrefix), "POST"),
+                Pair.of(String.format("%s/auth/verify", apiPrefix), "POST"),
 
                 Pair.of(String.format("%s/oauth2", apiPrefix), "POST"),
                 Pair.of(String.format("%s/oauth2/google-client-id", apiPrefix), "GET"),

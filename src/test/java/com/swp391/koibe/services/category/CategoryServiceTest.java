@@ -3,17 +3,16 @@ package com.swp391.koibe.services.category;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+import com.swp391.koibe.domain.category.CategoryService;
 import com.swp391.koibe.dtos.CategoryDTO;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
-import com.swp391.koibe.models.Category;
+import com.swp391.koibe.domain.category.Category;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.Collections;
 import org.springframework.test.context.ActiveProfiles;
 
 @SpringBootTest
@@ -58,7 +57,7 @@ class CategoryServiceTest {
 
     @Test
     @Order(2)
-    void getAllCategories() {
+    void getAll() {
 //        Category category = new Category();
 //        category.setName("Test Category");
 //

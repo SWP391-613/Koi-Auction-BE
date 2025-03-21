@@ -1,0 +1,203 @@
+package com.swp391.koibe.domain.system;
+
+import com.swp391.koibe.enums.EAuctionStatus;
+import com.swp391.koibe.enums.EBidMethod;
+import com.swp391.koibe.enums.OrderStatus;
+import com.swp391.koibe.exceptions.SystemServiceTaskException;
+import com.swp391.koibe.domain.auction.Auction;
+import com.swp391.koibe.domain.auction.AuctionKoi;
+import com.swp391.koibe.domain.auction.Bid;
+import com.swp391.koibe.domain.order.Order;
+import com.swp391.koibe.domain.auction.IAuctionMailService;
+import com.swp391.koibe.domain.auction.IAuctionService;
+import com.swp391.koibe.domain.auction.IAuctionKoiService;
+import com.swp391.koibe.domain.auction.IBiddingHistoryEmailService;
+import com.swp391.koibe.domain.auction.IBiddingHistoryService;
+import com.swp391.koibe.domain.order.IOrderService;
+import com.swp391.koibe.domain.otp.IOtpService;
+import com.swp391.koibe.domain.token.ITokenService;
+import com.swp391.koibe.domain.user.IUserService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+import org.thymeleaf.context.Context;
+
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
+
+@Component
+@RequiredArgsConstructor
+@Slf4j
+public class SystemService {
+
+    private final IUserService userService;
+    private final IBiddingHistoryService biddingHistoryService;
+    private final IAuctionKoiService auctionKoiService;
+    private final IAuctionService auctionService;
+    private final IOrderService orderService;
+    private final IAuctionMailService auctionMailService;
+    private final IBiddingHistoryEmailService biddingHistoryEmailService;
+    private final IOtpService otpService;
+    private final ITokenService tokenService;
+
+    //every minute
+    @Scheduled(cron = "0 */1 * * * *")
+    @Async
+    public void updateUpcomingAuctionStatus() {
+        try {
+            List<Auction> auctions = auctionService.getAuctionByStatus(EAuctionStatus.UPCOMING);
+            for (Auction auction : auctions) {
+                auctionService.updateAuctionStatus(auction);
+            }
+        } catch (SystemServiceTaskException e) {
+            log.error("Error updating upcoming auction status", e.getCause());
+        }
+    }
+
+    //every minutes
+    @Scheduled(cron = "0 */1 * * * *")
+    @Async
+    public void updateOnGoingAuctionStatus() {
+        try {
+            List<Auction> auctions = auctionService.getAuctionByStatus(EAuctionStatus.ONGOING);
+            for (Auction auction : auctions) {
+                boolean isUpdate = auctionService.updateAuctionStatus(auction);
+                if (isUpdate) {
+                    updateAuctionKoiStatus(auction);
+                    Context context = new Context();
+                    auctionMailService.sendAuctionClosedEmailToAllUser(
+                            auction.getId(), "Auction Closed", "auctionClosed", context);
+
+                }
+            }
+        } catch (SystemServiceTaskException e) {
+            log.error("Error updating on going auction status", e.getCause());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    public void updateAuctionKoiStatus(@NotNull Auction auction) throws Exception {
+        List<AuctionKoi> auctionKois = auctionKoiService.getAuctionKoiByAuctionIdV2(auction.getId());
+        for (AuctionKoi auctionKoi : auctionKois) {
+            boolean isUpdate = auctionKoiService.updateAuctionKoiStatus(auctionKoi.getId(), auctionKoi);
+            if (isUpdate) {
+                orderService.createOrderForAuctionKoi(auctionKoi, userService.getUserById(auctionKoi.getCurrentBidderId()));
+            }
+            autoRefundUserBalanceAndCreateOrder(auctionKoi);
+            biddingHistoryEmailService.sendRefundEmail(auctionKoi, "Balance Refund Email", "balanceRefunded", new Context());
+        }
+    }
+
+    public void autoRefundUserBalanceAndCreateOrder(@NotNull AuctionKoi auctionKoi) throws Exception {
+        Long winnerBidderId = auctionKoi.getCurrentBidderId();
+        if (winnerBidderId != null && winnerBidderId != 0) {
+            List<Bid> bids = biddingHistoryService.getBidsByAuctionKoiId(auctionKoi.getId());
+
+            // Create map of bidder IDs and their latest bids directly from bids list
+            Map<Long, Bid> bidderLatestBids = bids.stream()
+                    .filter(bid -> !bid.getBidder().getId().equals(winnerBidderId))
+                    .collect(Collectors.groupingBy(
+                            bid -> bid.getBidder().getId(),
+                            Collectors.collectingAndThen(
+                                    Collectors.maxBy(Comparator.comparing(Bid::getBidTime)),
+                                    Optional::get
+                            )
+                    ));
+
+            // Process refunds
+            for (Map.Entry<Long, Bid> entry : bidderLatestBids.entrySet()) {
+                try {
+                    userService.updateAccountBalance(entry.getKey(), entry.getValue().getBidAmount());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    //every 10 minutes
+    @Scheduled(cron = "0 */5 * * * *")
+    @Async
+    public void updateDescendingAuctionPrice() {
+        try {
+            List<Auction> auctions = auctionService.getAuctionByStatus(EAuctionStatus.ONGOING);
+            for (Auction auction : auctions) {
+                List<AuctionKoi> auctionKois = auctionKoiService.getAuctionKoiByAuctionIdV2(auction.getId()).stream().
+                        filter(auctionKoi -> auctionKoi.getBidMethod().equals(EBidMethod.DESCENDING_BID)).
+                        filter(auctionKoi -> !auctionKoi.isSold()).toList();
+                for (AuctionKoi auctionKoi : auctionKois) {
+                    auctionKoiService.updateDescendAuctionKoiPrice(auctionKoi.getId(), auctionKoi);
+                }
+            }
+        } catch (SystemServiceTaskException e) {
+            log.error("Error updating on going auction status", e.getCause());
+        }
+    }
+
+    // every 10 minutes
+    @Scheduled(cron = "0 */10 * * * *")
+    @Async
+    public void updateOrderStatus() {
+        // with order status is PENDING, if it is not paid after 3 days, the order will be canceled
+        try {
+            List<Order> orders = orderService.getOrdersByStatus(OrderStatus.PENDING);
+            for (Order order : orders) {
+                if (order.getOrderDate().plusDays(3).isBefore(ChronoLocalDate.from(LocalDateTime.now()))) {
+                    orderService.cancelOrder(order.getId());
+                }
+            }
+        } catch (SystemServiceTaskException e) {
+            log.error("Error updating order status", e.getCause());
+        }
+
+    }
+
+    //every 5 minutes set the otp is expired
+    @Scheduled(cron = "0 */5 * * * *")
+    @Async
+    public void setOtpExpired() {
+        try {
+            otpService.setOtpExpired();
+        } catch (Exception e) {
+            // Log the exception and handle error
+            log.error("Error auto setting OTP expired", e.getCause());
+        }
+    }
+
+    //validate the token every 15days
+    @Scheduled(cron = "0 0 0 1/15 * ?")
+    @Async
+    public void setTokenExpired() {
+        try {
+            tokenService.setTokenExpired();
+        } catch (Exception e) {
+            // Log the exception and handle error
+            log.error("Error auto setting Token expired", e.getCause());
+        }
+    }
+
+    // every 10 minutes
+    @Scheduled(cron = "0 */10 * * * *")
+    @Async
+    public void deleteOrder() {
+        // with order status is CANCELLED, the order will be deleted after 10 days
+        try {
+            List<Order> orders = orderService.getOrdersByStatus(OrderStatus.CANCELLED);
+            for (Order order : orders) {
+                if (order.getOrderDate().plusDays(10).isBefore(ChronoLocalDate.from(LocalDateTime.now()))) {
+                    orderService.deleteOrder(order.getId());
+                }
+            }
+        } catch (SystemServiceTaskException e) {
+            log.error("Error updating order status", e.getCause());
+        }
+    }
+
+}

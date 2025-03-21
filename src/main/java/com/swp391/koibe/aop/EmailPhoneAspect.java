@@ -3,9 +3,8 @@ package com.swp391.koibe.aop;
 import com.swp391.koibe.enums.UserStatus;
 import com.swp391.koibe.exceptions.UserHasBeenBannedException;
 import com.swp391.koibe.exceptions.UserHasBeenVerifiedException;
-import com.swp391.koibe.exceptions.UserNotFoundException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
-import com.swp391.koibe.models.User;
+import com.swp391.koibe.domain.user.User;
 import com.swp391.koibe.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,7 @@ public class EmailPhoneAspect {
     private final UserRepository userRepository;
     private final HttpServletRequest request;
 
-    @Before("execution(* com.swp391.koibe.controllers.MailController.*(..)) && args(toEmail,..) && !@annotation(com.swp391.koibe.annotations.SkipEmailValidation)")
+    @Before("execution(* com.swp391.koibe.domain.mail.MailController.*(..)) && args(toEmail,..) && !@annotation(com.swp391.koibe.annotations.SkipEmailValidation)")
     public void checkValidEmail(JoinPoint joinPoint, String toEmail) {
         User user = validateUserEmail(toEmail);
 
@@ -37,7 +36,7 @@ public class EmailPhoneAspect {
         request.setAttribute("validatedEmail", user);
     }
 
-    @Before("execution(* com.swp391.koibe.controllers.ForgotPasswordController.*(..)) && args(toEmail,..)")
+    @Before("execution(* com.swp391.koibe.domain.auth.ForgotPasswordController.*(..)) && args(toEmail,..)")
     public void checkValidEmailForgotPassword(JoinPoint joinPoint, String toEmail) {
         User user = validateUserEmail(toEmail);
 

@@ -1,29 +1,44 @@
+server:
+  port: ${PORT:8080}
+
+api:
+  prefix: /api/v1
+
 spring:
+  application:
+    name: Koi-BE
+  output:
+    ansi:
+      enabled: ALWAYS
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+
   datasource:
-    url: ${DEV_SPRING_DATASOURCE_URL:jdbc:mysql://localhost:3306/koi_company_dev?useSSL=false&serverTimezone=UTC}
-    username: ${DEV_DB_USER:root}
-    password: ${DEV_DB_PASSWORD:Luucaohoang1604^^}
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:postgresql://zimacube.tail21fc44.ts.net:5432/koi_company
+    username: ${POSTGRES_USER:casaos}
+    password: ${POSTGRES_PASSWORD:casaos}
 
   jpa:
-    database-platform: org.hibernate.dialect.MySQLDialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: update
     show-sql: true
 
+
   mail:
     host: smtp.gmail.com
     port: 587
-    username: lvhhoangg1@gmail.com
-    password: ojlx ohfr qxwd llxx
+    username: ${MAIL_USERNAME:test}
+    password: ${MAIL_PASSWORD:test}
 
   security:
     oauth2:
       client:
         registration:
           google:
-            clientId: 1093656938461-fod9qlmrd68m0otn7mhrggi pp15b8cnj.apps.googleusercontent.com
-            clientSecret: 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
+            clientId: ${GOOGLE_OAUTH2_CLIENT_ID:test}
+            clientSecret: ${GOOGLE_OAUTH2_CLIENT_SECRET:test}
 
   data:
     redis:
@@ -32,34 +47,41 @@ spring:
       host: ${REDIS_HOST:localhost} # Default to 'localhost' if not provided
       port: ${REDIS_PORT:6379}      # Default to 6379 if not provided
 
+  graphql:
+    graphiql:
+      enabled: true
+      path: ${api.prefix}/graphiql
+    path: ${api.prefix}/graphql
+    schema:
+      printer:
+        enabled: true
+    cors:
+      allowed-origins: "*"
+      allowed-methods: GET,POST,PUT,DELETE,PATCH,OPTIONS
+      allowed-headers: "*"
+
 alert:
   manager:
-    emails: "hoangclw@gmail.com,manhduonglhp4@gmail.com"
-
-server:
-  port: 4000
-
-api:
-  prefix: /api/v1
+    emails: ${ALERT_MANAGER_EMAILS:hoangclw@gmail.com}
 
 jwt:
-  expiration: 2592000 #30 days = 30 * 24 * 60 * 60
-  expiration-refresh-token: 5184000 #60 days = 60 * 24 * 60 * 60
-  secretKey: TaqlmGv1iEDMRiFp/pHuID1+T84IABfuA0xXh4GhiUI=
+  expiration: ${JWT_EXPIRATION:1800}
+  expiration-refresh-token: ${JWT_EXPIRATION_REFRESH_TOKEN:86400}
+  secretKey: ${JWT_SECRET_KEY:TaqlmGv1iEDMRiFp/pHuID1+T84IABfuA0xXh4GhiUI=}
 
 logging:
-#  level:
-#    org.springframework: DEBUG
-#    springframework.security: DEBUG
-#    org.hibernate: DEBUG
+  level:
+    org.springframework: DEBUG
+    springframework.security: DEBUG
+    org.hibernate: DEBUG
+  file:
+    path: ${LOG_PATH:logs}
+    name: ${LOG_PATH:logs}/application.log
 
-# swagger-ui custom path
 springdoc:
   swagger-ui:
-    path: /swagger-ui.html
-  api-docs:
-    path: /api-docs
-  show-actuator: true
+    operations-sorter: method
+    tags-sorter: alpha
 
 #health check
 management:
@@ -79,16 +101,16 @@ management:
 # 3rd party
 unsplash:
   api:
-    root: https://api.unsplash.com
-    clientId: 2Me57Gt0_US3pizvMojZYoV55q_TinbMvYVmwEUqoOI
+    root: ${UNSPLASH_ROOT:test}
+    client-id: ${UNSPLASH_CLIENT_ID:test}
 
 vnpay:
   api:
-    vnp_Version: 2.0.0
-    vnp_Command: pay
-    vnp_OrderType: "billpayment"
-    vnp_PayUrl: "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html"
-    vnp_Returnurl: "http://localhost:4000/api/v1/payments/vnpay/payment_return"
-    vnp_TmnCode: "XM1B4C8V"
-    vnp_HashSecret: "JC3DPNWE1FO1PE8441MVDMCB77N16S71"
-    vnp_apiUrl: "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction"
+    vnp_Version: ${VNPAY_VERSION:test}
+    vnp_Command: ${VNPAY_COMMAND:test}
+    vnp_OrderType: ${VNPAY_ORDER_TYPE:test}
+    vnp_PayUrl: ${VNPAY_PAY_URL:test}
+    vnp_Returnurl: ${VNPAY_RETURN_URL:test}
+    vnp_TmnCode: ${VNPAY_TMN_CODE:test}
+    vnp_HashSecret: ${VNPAY_HASH_SECRET:test}
+    vnp_apiUrl: ${VNPAY_API_URL:test}

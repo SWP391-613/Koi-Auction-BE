@@ -1,8 +1,8 @@
 package com.swp391.koibe.repositories;
 
 import com.swp391.koibe.enums.EPaymentStatus;
-import com.swp391.koibe.models.Order;
-import com.swp391.koibe.models.Payment;
+import com.swp391.koibe.domain.order.Order;
+import com.swp391.koibe.domain.payment.Payment;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

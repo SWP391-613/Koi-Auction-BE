@@ -5,8 +5,8 @@
 //import com.swp391.koibe.custom.RetryAndBlock;
 //import com.swp391.koibe.enums.EmailCategoriesEnum;
 //import com.swp391.koibe.exceptions.base.DataNotFoundException;
-//import com.swp391.koibe.models.User;
-//import com.swp391.koibe.services.mail.IMailService;
+//import com.swp391.koibe.domain.user.User;
+//import com.swp391.koibe.domain.mail.IMailService;
 //import com.swp391.koibe.services.user.IUserService;
 //import jakarta.servlet.http.HttpServletRequest;
 //import java.time.Duration;

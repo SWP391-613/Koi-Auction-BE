@@ -1,7 +1,8 @@
 package com.swp391.koibe.services.user.breeder;
 
-import com.swp391.koibe.models.Role;
-import com.swp391.koibe.models.User;
+import com.swp391.koibe.domain.user.breeder.BreederService;
+import com.swp391.koibe.domain.role.Role;
+import com.swp391.koibe.domain.user.User;
 import com.swp391.koibe.utils.DTOConverter;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
