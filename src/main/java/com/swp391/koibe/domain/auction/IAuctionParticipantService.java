@@ -1,7 +1,7 @@
 package com.swp391.koibe.domain.auction;
 
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
-import com.swp391.koibe.dtos.responses.UserResponse;
+import com.swp391.koibe.domain.user.UserResponse;
 import java.util.Set;
 
 public interface  IAuctionParticipantService {

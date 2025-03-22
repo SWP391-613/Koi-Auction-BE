@@ -1,12 +1,8 @@
 package com.swp391.koibe.domain.auction;
 
-import com.swp391.koibe.dtos.AuctionDTO;
-import com.swp391.koibe.dtos.UpdateAuctionDTO;
 import com.swp391.koibe.enums.EAuctionStatus;
 import com.swp391.koibe.exceptions.base.DataAlreadyExistException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
-import com.swp391.koibe.dtos.responses.AuctionResponse;
-import com.swp391.koibe.dtos.responses.AuctionStatusCountResponse;
 import com.swp391.koibe.api.PageResponse;
 import java.util.List;
 import java.util.Set;
@@ -15,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface IAuctionService {
 
-    AuctionResponse createAscendingAuction(AuctionDTO auctionDTO) throws DataAlreadyExistException;
+    AuctionResponse createAscendingAuction(AuctionPort.AuctionDTO auctionDTO) throws DataAlreadyExistException;
 
     AuctionResponse getById(long id) throws DataNotFoundException;
 
@@ -39,10 +35,7 @@ public interface IAuctionService {
 
     List<AuctionResponse> getAuctionByAuctioneerId(long auctioneerId) throws DataNotFoundException;
 
-    PageResponse<AuctionResponse> getAuctionByKeyword(String keyword, Pageable pageable);
-
-    PageResponse<AuctionResponse> getAuctionUpcomingByKeyword(String keyword, EAuctionStatus status,
-                                              Pageable pageable);
+    PageResponse<AuctionResponse> getAuctionByKeyword(String keyword, EAuctionStatus status, Pageable pageable);
 
     AuctionStatusCountResponse countAuctionByStatus();
 }

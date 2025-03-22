@@ -3,8 +3,7 @@ package com.swp391.koibe.redis.koi;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.swp391.koibe.dtos.responses.KoiInAuctionResponse;
-import com.swp391.koibe.dtos.responses.KoiResponse;
+import com.swp391.koibe.domain.koi.KoiPort;
 import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +48,7 @@ public class KoiRedisService implements IKoiRedisService {
     }
 
     @Override
-    public List<KoiResponse> findKoiByKeyword(
+    public List<KoiPort.KoiResponse> findKoiByKeyword(
         String keyword,
         Long breederId,
         PageRequest pageRequest
@@ -70,7 +69,7 @@ public class KoiRedisService implements IKoiRedisService {
 
     @Override
     //save to Redis
-    public void saveAllKois(List<KoiResponse> koiResponses,
+    public void saveAllKois(List<KoiPort.KoiResponse> koiResponses,
                             String keyword,
                             Long breederId,
                             PageRequest pageRequest
@@ -97,7 +96,7 @@ public class KoiRedisService implements IKoiRedisService {
     }
 
     @Override
-    public List<KoiInAuctionResponse> findKoiInAuctionByKeyword(String keyword, PageRequest pageRequest)
+    public List<KoiPort.KoiInAuctionResponse> findKoiInAuctionByKeyword(String keyword, PageRequest pageRequest)
         throws JsonProcessingException {
 
         if (!useRedisCache) {
@@ -113,7 +112,7 @@ public class KoiRedisService implements IKoiRedisService {
     }
 
     @Override
-    public void saveAllKoiFindInAuctionByKeyword(List<KoiInAuctionResponse> productResponses, String keyword,
+    public void saveAllKoiFindInAuctionByKeyword(List<KoiPort.KoiInAuctionResponse> productResponses, String keyword,
                                                  PageRequest pageRequest)
         throws JsonProcessingException {
         String key = this.getKeyFromFindKoiInAuctionByKeyword(keyword, pageRequest);

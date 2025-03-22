@@ -1,22 +1,22 @@
 package com.swp391.koibe.domain.user.breeder;
 
-import com.swp391.koibe.dtos.koi.KoiDTO;
+import com.swp391.koibe.api.PageResponse;
+import com.swp391.koibe.domain.category.Category;
+import com.swp391.koibe.domain.koi.Koi;
+import com.swp391.koibe.domain.koi.KoiPort;
+import com.swp391.koibe.domain.mail.KoiDTO;
+import com.swp391.koibe.domain.user.BreederResponse;
+import com.swp391.koibe.domain.user.User;
+import com.swp391.koibe.domain.user.UserResponse;
 import com.swp391.koibe.enums.EKoiGender;
 import com.swp391.koibe.enums.EKoiStatus;
 import com.swp391.koibe.exceptions.BreederNotFoundException;
 import com.swp391.koibe.exceptions.MalformDataException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import com.swp391.koibe.metadata.PaginationMeta;
-import com.swp391.koibe.domain.category.Category;
-import com.swp391.koibe.domain.koi.Koi;
-import com.swp391.koibe.domain.user.User;
 import com.swp391.koibe.repositories.CategoryRepository;
 import com.swp391.koibe.repositories.KoiRepository;
 import com.swp391.koibe.repositories.UserRepository;
-import com.swp391.koibe.dtos.responses.BreederResponse;
-import com.swp391.koibe.dtos.responses.KoiResponse;
-import com.swp391.koibe.dtos.responses.UserResponse;
-import com.swp391.koibe.api.PageResponse;
 import com.swp391.koibe.utils.DTOConverter;
 import java.util.List;
 import java.util.Objects;
@@ -80,7 +80,7 @@ public class BreederService implements IBreederService {
     }
 
     @Override
-    public KoiResponse createKoi(Long categoryId, KoiDTO koiDTO, long breederId) {
+    public KoiPort.KoiResponse createKoi(Long categoryId, KoiDTO koiDTO, long breederId) {
 
         User existingBreeder = userRepository.findBreederById(koiDTO.ownerId())
             .orElseThrow(() ->
@@ -156,7 +156,7 @@ public class BreederService implements IBreederService {
     }
 
     @Override
-    public List<KoiResponse> getKoisByBreederID(long breederId) {
+    public List<KoiPort.KoiResponse> getKoisByBreederID(long breederId) {
         findById(breederId);
 
         return koiRepository
@@ -167,7 +167,7 @@ public class BreederService implements IBreederService {
     }
 
     @Override
-    public Page<KoiResponse> getKoisByBreederID(long breederId, Pageable pageable) {
+    public Page<KoiPort.KoiResponse> getKoisByBreederID(long breederId, Pageable pageable) {
         findById(breederId);
 
         return koiRepository
@@ -176,7 +176,8 @@ public class BreederService implements IBreederService {
     }
 
     @Override
-    public Page<KoiResponse> getKoisByBreederIdAndStatus(long breederId, EKoiStatus koiStatus,
+    public Page<KoiPort.KoiResponse> getKoisByBreederIdAndStatus(long breederId,
+                                                                EKoiStatus koiStatus,
                                                          Pageable pageable) {
         findById(breederId);
 
@@ -186,7 +187,8 @@ public class BreederService implements IBreederService {
     }
 
     @Override
-    public Page<KoiResponse> getKoisByBreederIdNotInAnyAuction(long breederId, Pageable pageable) {
+    public Page<KoiPort.KoiResponse> getKoisByBreederIdNotInAnyAuction(long breederId,
+                                                                 Pageable pageable) {
         userRepository.findBreederById(breederId)
             .orElseThrow(() -> new BreederNotFoundException("Breeder not found"));
 

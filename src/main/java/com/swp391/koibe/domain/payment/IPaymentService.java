@@ -1,6 +1,5 @@
 package com.swp391.koibe.domain.payment;
 
-import com.swp391.koibe.dtos.payment.PaymentDTO;
 import com.swp391.koibe.enums.EPaymentStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

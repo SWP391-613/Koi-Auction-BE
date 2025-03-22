@@ -2,7 +2,7 @@ package com.swp391.koibe.domain.mail;
 
 import com.swp391.koibe.annotations.SkipEmailValidation;
 import com.swp391.koibe.constants.EmailSubject;
-import com.swp391.koibe.dtos.UpdateRolePurposeDTO;
+import com.swp391.koibe.domain.role.UpdateRolePurposeDTO;
 import com.swp391.koibe.enums.EUpdateRole;
 import com.swp391.koibe.enums.EmailBlockReasonEnum;
 import com.swp391.koibe.enums.EmailCategoriesEnum;
@@ -10,7 +10,6 @@ import com.swp391.koibe.exceptions.InvalidApiPathVariableException;
 import com.swp391.koibe.exceptions.MethodArgumentNotValidException;
 import com.swp391.koibe.domain.otp.Otp;
 import com.swp391.koibe.domain.user.User;
-import com.swp391.koibe.dtos.responses.MailResponse;
 import com.swp391.koibe.domain.auction.IAuctionMailService;
 import com.swp391.koibe.domain.otp.IOtpService;
 import com.swp391.koibe.domain.user.IUserService;

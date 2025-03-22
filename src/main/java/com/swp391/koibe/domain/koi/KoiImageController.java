@@ -2,8 +2,6 @@ package com.swp391.koibe.domain.koi;
 
 import com.github.javafaker.Faker;
 import com.swp391.koibe.repositories.KoiImageRepository;
-import com.swp391.koibe.dtos.responses.KoiImageResponse;
-import com.swp391.koibe.dtos.responses.pagination.KoiImagePaginationResponse;
 import com.swp391.koibe.utils.SampleDataStorage;
 import com.swp391.koibe.utils.SampleDataStorage.KoiImage;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +43,7 @@ public class KoiImageController {
 
         try {
             PageRequest pageRequest = PageRequest.of(page, limit);
-            Page<KoiImageResponse> koiImages = koiImageService.getAllKoiImages(pageRequest);
+            Page<KoiPort.KoiImageResponse> koiImages = koiImageService.getAllKoiImages(pageRequest);
             response.setItems(koiImages.getContent());
             response.setTotalPage(koiImages.getTotalPages());
             response.setTotalItem(koiImages.getTotalElements());

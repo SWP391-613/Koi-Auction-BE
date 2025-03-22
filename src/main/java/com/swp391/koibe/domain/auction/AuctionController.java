@@ -1,15 +1,12 @@
 package com.swp391.koibe.domain.auction;
 
-import com.swp391.koibe.dtos.AuctionDTO;
-import com.swp391.koibe.dtos.UpdateAuctionDTO;
 import com.swp391.koibe.enums.EAuctionStatus;
 import com.swp391.koibe.exceptions.MalformDataException;
 import com.swp391.koibe.exceptions.MethodArgumentNotValidException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
-import com.swp391.koibe.dtos.responses.AuctionResponse;
-import com.swp391.koibe.dtos.responses.AuctionStatusCountResponse;
 import com.swp391.koibe.api.ApiResponse;
 import com.swp391.koibe.api.PageResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -26,6 +23,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -45,18 +43,6 @@ public class AuctionController {
     IAuctionService auctionService;
     IAuctionMailService auctionMailService;
 
-    @GetMapping("/count-by-auction-status")
-    public ResponseEntity<ApiResponse<AuctionStatusCountResponse>> countAuctionByStatus() {
-        return ResponseEntity.ok(
-            ApiResponse.<AuctionStatusCountResponse>builder()
-                .message("Count auction by status successfully")
-                .isSuccess(true)
-                .statusCode(HttpStatus.OK.value())
-                .data(auctionService.countAuctionByStatus())
-                .build()
-        );
-    }
-
     @GetMapping("/notify/upcoming")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_STAFF')")
     public ResponseEntity<?> notifyAllUserUpcomingAuction() {
@@ -68,32 +54,20 @@ public class AuctionController {
         }
     }
 
-    //pagination for auctions
-    @GetMapping("") // /auctions/?page=1&limit=10
+    @Operation(summary = "Get all auctions", description = "Get all auctions with pagination")
+    @GetMapping("")
     public ResponseEntity<PageResponse<AuctionResponse>> getAllAuctions(
-        @RequestParam int page,
-        @RequestParam int limit) {
-        return ResponseEntity.ok(auctionService.getAllAuctions(PageRequest.of(page, limit)));
-    }
+        @RequestParam(required = false, defaultValue = "0") int page,
+        @RequestParam(required = false, defaultValue = "10") int limit,
+        @RequestParam(required = false, defaultValue = "") String keyword,
+        @RequestParam(required = false) EAuctionStatus status
+    ) {
 
-    @GetMapping("/koi_register")
-    @PreAuthorize("hasAnyRole('ROLE_BREEDER')")
-    public ResponseEntity<List<AuctionResponse>> getAuctionsByStatus(
-        @RequestParam int page,
-        @RequestParam int limit,
-        @RequestParam String status) {
-        try {
-            PageRequest pageRequest = PageRequest.of(page, limit);
-            EAuctionStatus auctionStatus = EAuctionStatus.valueOf(status.toUpperCase());
-            Page<AuctionResponse> auctions = auctionService.getAuctionByStatus(auctionStatus,
-                                                                               pageRequest);
-            return ResponseEntity.ok(auctions.getContent());
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null); // Handle invalid status value
-        } catch (Exception e) {
-            log.error("Error getting all auctions: " + e.getMessage());
-            throw new DataNotFoundException();
-        }
+        return ResponseEntity.ok(
+            auctionService.getAuctionByKeyword(
+                keyword,
+                status,
+                PageRequest.of(page, limit, Sort.by("id").descending())));
     }
 
     @GetMapping("/staff")
@@ -114,49 +88,21 @@ public class AuctionController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<AuctionResponse>> getAuctionById(@PathVariable long id) {
-        AuctionResponse auction = auctionService.getById(id);
-
+    public ResponseEntity<ApiResponse<AuctionResponse>> getDetailById(@PathVariable long id) {
         return ResponseEntity.ok(
             ApiResponse.<AuctionResponse>builder()
                 .message("Auction found successfully")
                 .isSuccess(true)
                 .statusCode(HttpStatus.OK.value())
-                .data(auction)
+                .data(auctionService.getById(id))
                 .build()
         );
-    }
-
-    @GetMapping("/get-auctions-by-keyword")
-    public ResponseEntity<PageResponse<AuctionResponse>> getAuctionsByKeyword(
-        @RequestParam(defaultValue = "", required = false) String keyword,
-        @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "10") int limit) {
-        // Tạo Pageable từ thông tin trang và giới hạn
-
-        return ResponseEntity.ok(
-            auctionService.getAuctionByKeyword(
-                keyword,
-                PageRequest.of(page, limit, Sort.by("id").descending())));
-
-    }
-
-    @GetMapping("/get-auctions-upcoming")
-    public ResponseEntity<PageResponse<AuctionResponse>> getAuctionsUpcomingByKeyword(
-        @RequestParam(defaultValue = "", required = false) String keyword,
-        @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "10") int limit) {
-        return ResponseEntity.ok(
-            auctionService.getAuctionUpcomingByKeyword(
-                keyword,
-                EAuctionStatus.UPCOMING,
-                PageRequest.of(page, limit, Sort.by("id").descending())));
     }
 
     @PostMapping("")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER')")
     public ResponseEntity<ApiResponse<AuctionResponse>> createAuction(
-        @Valid @RequestBody AuctionDTO auctionDTO,
+        @Valid @RequestBody AuctionPort.AuctionDTO auctionDTO,
         BindingResult result
     ) {
 
@@ -174,7 +120,7 @@ public class AuctionController {
         );
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_STAFF')")
     public ResponseEntity<ApiResponse<AuctionResponse>> updateAuction(
         @PathVariable long id,
@@ -193,7 +139,7 @@ public class AuctionController {
                 .build());
     }
 
-    @PutMapping("/end/{id}")
+    @PatchMapping("/end/{id}")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_STAFF')")
     public ResponseEntity<ApiResponse<String>> endAuction(
         @PathVariable long id) {

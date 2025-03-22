@@ -1,12 +1,10 @@
 package com.swp391.koibe.domain.user;
 
-import com.swp391.koibe.enums.EKoiStatus;
-import com.swp391.koibe.dtos.responses.BreederResponse;
-import com.swp391.koibe.dtos.responses.KoiResponse;
-import com.swp391.koibe.dtos.responses.UserResponse;
 import com.swp391.koibe.api.PageResponse;
-import com.swp391.koibe.dtos.responses.pagination.KoiPaginationResponse;
+import com.swp391.koibe.domain.koi.KoiPaginationResponse;
+import com.swp391.koibe.domain.koi.KoiPort;
 import com.swp391.koibe.domain.user.breeder.IBreederService;
+import com.swp391.koibe.enums.EKoiStatus;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -65,7 +63,7 @@ public class BreederController {
 
         try {
             PageRequest pageRequest = PageRequest.of(page, limit);
-            Page<KoiResponse> koiList = breederService.getKoisByBreederID(breeder_id, pageRequest);
+            Page<KoiPort.KoiResponse> koiList = breederService.getKoisByBreederID(breeder_id, pageRequest);
             response.setItem(koiList.getContent());
             response.setTotalPage(koiList.getTotalPages());
             response.setTotalItem(koiList.getTotalElements());
@@ -85,7 +83,7 @@ public class BreederController {
         KoiPaginationResponse response = new KoiPaginationResponse();
 
         PageRequest pageRequest = PageRequest.of(page, limit);
-        Page<KoiResponse> koiList = breederService.getKoisByBreederIdAndStatus(
+        Page<KoiPort.KoiResponse> koiList = breederService.getKoisByBreederIdAndStatus(
             breeder_id,
             EKoiStatus.valueOf(koi_status),
             pageRequest);
@@ -106,7 +104,7 @@ public class BreederController {
         KoiPaginationResponse response = new KoiPaginationResponse();
 
         PageRequest pageRequest = PageRequest.of(page, limit);
-        Page<KoiResponse> koiList = breederService.getKoisByBreederIdNotInAnyAuction(
+        Page<KoiPort.KoiResponse> koiList = breederService.getKoisByBreederIdNotInAnyAuction(
             breeder_id,
             pageRequest);
 

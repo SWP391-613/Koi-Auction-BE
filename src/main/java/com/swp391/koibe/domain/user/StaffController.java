@@ -1,11 +1,8 @@
 package com.swp391.koibe.domain.user;
 
-import com.swp391.koibe.dtos.StaffRegisterDTO;
-import com.swp391.koibe.dtos.UserDTO;
 import com.swp391.koibe.exceptions.InvalidApiPathVariableException;
 import com.swp391.koibe.exceptions.MethodArgumentNotValidException;
 import com.swp391.koibe.exceptions.PermissionDeniedException;
-import com.swp391.koibe.dtos.responses.StaffResponse;
 import com.swp391.koibe.api.ApiResponse;
 import com.swp391.koibe.api.PageResponse;
 import com.swp391.koibe.domain.user.staff.IStaffService;

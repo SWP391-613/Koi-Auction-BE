@@ -1,8 +1,7 @@
 package com.swp391.koibe.domain.user;
 
-import com.swp391.koibe.dtos.UpdatePasswordDTO;
-import com.swp391.koibe.dtos.UpdateUserDTO;
-import com.swp391.koibe.dtos.UserRegisterDTO;
+import com.swp391.koibe.domain.auth.UpdatePasswordDTO;
+import com.swp391.koibe.domain.auth.UserRegisterDTO;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import java.util.List;
 import org.springframework.data.domain.Page;

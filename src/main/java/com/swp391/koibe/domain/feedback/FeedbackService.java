@@ -1,6 +1,5 @@
 package com.swp391.koibe.domain.feedback;
 
-import com.swp391.koibe.dtos.FeedbackDTO;
 import com.swp391.koibe.exceptions.base.DataAlreadyExistException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import com.swp391.koibe.domain.order.Order;
@@ -8,7 +7,6 @@ import com.swp391.koibe.domain.user.User;
 import com.swp391.koibe.repositories.FeedBackRepository;
 import com.swp391.koibe.repositories.OrderRepository;
 import com.swp391.koibe.repositories.UserRepository;
-import com.swp391.koibe.dtos.responses.FeedbackResponse;
 import com.swp391.koibe.utils.DTOConverter;
 import java.time.LocalDateTime;
 import java.util.List;

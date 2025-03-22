@@ -1,6 +1,7 @@
 package com.swp391.koibe.domain.auction;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.swp391.koibe.base.BaseEntity;
 import com.swp391.koibe.enums.EAuctionStatus;
 import com.swp391.koibe.domain.user.User;
 import jakarta.persistence.Column;
@@ -31,7 +32,7 @@ import lombok.ToString;
 @Table(name = "auctions")
 @ToString
 //@EntityListeners(AuctionListener.class)
-public class Auction {
+public class Auction extends BaseEntity {
 
     @Id
     @SequenceGenerator(name = "auction_seq", sequenceName = "auctions_id_seq", allocationSize = 1)

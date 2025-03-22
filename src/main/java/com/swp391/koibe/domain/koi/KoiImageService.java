@@ -1,7 +1,7 @@
 package com.swp391.koibe.domain.koi;
 
+import com.swp391.koibe.metadata.MediaMeta;
 import com.swp391.koibe.repositories.KoiImageRepository;
-import com.swp391.koibe.dtos.responses.KoiImageResponse;
 import com.swp391.koibe.utils.DTOConverter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class KoiImageService implements IKoiImageService {
         koi.setId(koiId);
         KoiImage koiImage = KoiImage.builder()
             .koi(koi)
-            .imageUrl(url)
+            .mediaMeta(MediaMeta.builder().imageUrl(url).build())
             .build();
         koiImageRepository.save(koiImage);
     }
@@ -31,7 +31,7 @@ public class KoiImageService implements IKoiImageService {
     public void updateKoiImage(long id, long koiId, String url) throws Exception {
         KoiImage koiImage = koiImageRepository.findById(id)
             .orElseThrow(() -> new Exception("Koi image not found"));
-        koiImage.setImageUrl(url);
+        koiImage.setMediaMeta(MediaMeta.builder().imageUrl(url).build());
         koiImageRepository.save(koiImage);
     }
 
@@ -43,20 +43,20 @@ public class KoiImageService implements IKoiImageService {
     }
 
     @Override
-    public List<KoiImageResponse> getKoiImage(long id) throws Exception {
+    public List<KoiPort.KoiImageResponse> getKoiImage(long id) throws Exception {
         koiImageRepository.findById(id)
             .orElseThrow(() -> new Exception("Koi image not found"));
         return List.of(DTOConverter.toKoiImageResponse(koiImageRepository.getById(id)));
     }
 
     @Override
-    public Page<KoiImageResponse> getAllKoiImages(Pageable pageable) throws Exception {
+    public Page<KoiPort.KoiImageResponse> getAllKoiImages(Pageable pageable) throws Exception {
         Page<KoiImage> koiImages = koiImageRepository.findAll(pageable);
         return koiImages.map(DTOConverter::toKoiImageResponse);
     }
 
     @Override
-    public List<KoiImageResponse> getKoiImagesByKoiId(Long koiId) throws Exception {
+    public List<KoiPort.KoiImageResponse> getKoiImagesByKoiId(Long koiId) throws Exception {
         List<KoiImage> koiImages = koiImageRepository.findByKoiId(koiId);
             if (koiImages.isEmpty()) {
                 throw new Exception("Koi images not found");

@@ -1,10 +1,8 @@
 package com.swp391.koibe.domain.role;
 
-import com.swp391.koibe.dtos.RoleDTO;
 import com.swp391.koibe.exceptions.base.DataAlreadyExistException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import com.swp391.koibe.repositories.RoleRepository;
-import com.swp391.koibe.dtos.responses.RoleResponse;
 import com.swp391.koibe.utils.DTOConverter;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

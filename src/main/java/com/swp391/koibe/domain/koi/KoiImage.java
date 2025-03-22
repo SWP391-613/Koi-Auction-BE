@@ -2,6 +2,7 @@ package com.swp391.koibe.domain.koi;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.swp391.koibe.metadata.MediaMeta;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,11 +30,7 @@ public class KoiImage {
     @JsonIgnore
     private Koi koi;
 
-    @Column(name = "image_url", length = 300)
-    @JsonProperty("image_url")
-    private String imageUrl;
-
-    @Column(name = "video_url", length = 500)
-    @JsonProperty("video_url")
-    private String videoUrl;
+    @Embedded
+    @JsonProperty("metadata")
+    private MediaMeta mediaMeta;
 }

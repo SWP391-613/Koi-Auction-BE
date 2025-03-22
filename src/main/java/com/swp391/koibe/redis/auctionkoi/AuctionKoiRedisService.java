@@ -3,7 +3,7 @@ package com.swp391.koibe.redis.auctionkoi;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.swp391.koibe.dtos.responses.AuctionKoiResponse;
+import com.swp391.koibe.domain.auction.AuctionKoiPort;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,7 +32,7 @@ public class AuctionKoiRedisService implements IAuctionKoiRedisService {
         return key;
     }
     @Override
-    public List<AuctionKoiResponse> getAllAuctionKois(String keyword,
+    public List<AuctionKoiPort.AuctionKoiResponse> getAllAuctionKois(String keyword,
                                                 Integer bidMethod,
                                                 PageRequest pageRequest) throws JsonProcessingException {
 
@@ -41,9 +41,9 @@ public class AuctionKoiRedisService implements IAuctionKoiRedisService {
         }
         String key = this.getKeyFrom(keyword, bidMethod, pageRequest);
         String json = (String) redisTemplate.opsForValue().get(key);
-        List<AuctionKoiResponse> auctionResponses =
+        List<AuctionKoiPort.AuctionKoiResponse> auctionResponses =
                 json != null ?
-                redisObjectMapper.readValue(json, new TypeReference<List<AuctionKoiResponse>>() {})
+                redisObjectMapper.readValue(json, new TypeReference<List<AuctionKoiPort.AuctionKoiResponse>>() {})
                 : null;
         return auctionResponses;
     }
@@ -54,7 +54,7 @@ public class AuctionKoiRedisService implements IAuctionKoiRedisService {
 
     @Override
     //save to Redis
-    public void saveAllAuctionKois(List<AuctionKoiResponse> auctionKoiResponses,
+    public void saveAllAuctionKois(List<AuctionKoiPort.AuctionKoiResponse> auctionKoiResponses,
                                 String keyword,
                                 Integer bidMethod,
                                 PageRequest pageRequest) throws JsonProcessingException {

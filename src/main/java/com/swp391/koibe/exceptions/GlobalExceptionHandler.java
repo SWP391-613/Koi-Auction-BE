@@ -4,7 +4,6 @@ import com.swp391.koibe.components.LocalizationUtils;
 import com.swp391.koibe.exceptions.base.DataAlreadyExistException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import com.swp391.koibe.exceptions.base.DataWrongFormatException;
-import com.swp391.koibe.dtos.responses.ExceptionResponse;
 import com.swp391.koibe.api.ApiError;
 import com.swp391.koibe.api.BaseResponse;
 import com.swp391.koibe.utils.MessageKey;

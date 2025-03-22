@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.swp391.koibe.domain.category.CategoryService;
-import com.swp391.koibe.dtos.CategoryDTO;
+import com.swp391.koibe.domain.category.CategoryDTO;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import com.swp391.koibe.domain.category.Category;
 import org.junit.jupiter.api.BeforeEach;

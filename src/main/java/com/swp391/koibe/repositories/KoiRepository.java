@@ -1,8 +1,9 @@
 package com.swp391.koibe.repositories;
 
-import com.swp391.koibe.enums.EKoiStatus;
 import com.swp391.koibe.domain.koi.Koi;
-import com.swp391.koibe.dtos.responses.KoiInAuctionResponse;
+import com.swp391.koibe.domain.koi.KoiInAuctionResponse;
+import com.swp391.koibe.domain.koi.KoiPort;
+import com.swp391.koibe.enums.EKoiStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -33,9 +34,9 @@ public interface KoiRepository extends JpaRepository<Koi, Long> {
     @Query("UPDATE Koi k SET k.isDisplay = 0 WHERE k.id = :id")
     void softDeleteKoi(@Param("id") Long id);
 
-    @Query("SELECT new com.swp391.koibe.dtos.responses.KoiInAuctionResponse(k.id, k.name, k.sex, k"
+    @Query("SELECT new com.swp391.koibe.domain.koi.KoiInAuctionResponse(k.id, k.name, k.sex, k"
         + ".length, k"
-        + ".yearBorn, k.price, k.status, k.isDisplay, k.thumbnail, k.description, k.owner.id, k.category.id, k.createdAt, k.updatedAt, ak.auction.id, ak.bidMethod) "
+        + ".yearBorn, k.price, k.status, k.isDisplay, k.thumbnail, k.description, k.owner.id, k.category.id, ak.auction.id, ak.bidMethod) "
             +
             "FROM Koi k INNER JOIN AuctionKoi ak ON k.id = ak.koi.id " +
             "INNER JOIN Auction a ON ak.auction.id = a.id " +

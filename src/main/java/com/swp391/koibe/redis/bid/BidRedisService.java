@@ -3,7 +3,7 @@ package com.swp391.koibe.redis.bid;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.swp391.koibe.dtos.responses.BidResponse;
+import com.swp391.koibe.domain.auction.BidResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

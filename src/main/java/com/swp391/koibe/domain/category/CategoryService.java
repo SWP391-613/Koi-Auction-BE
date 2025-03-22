@@ -2,13 +2,11 @@ package com.swp391.koibe.domain.category;
 
 import com.swp391.koibe.api.ApiResponse;
 import com.swp391.koibe.components.LocalizationUtils;
-import com.swp391.koibe.dtos.CategoryDTO;
 import com.swp391.koibe.exceptions.CategoryAlreadyExistException;
 import com.swp391.koibe.exceptions.CategoryNotFoundException;
 import com.swp391.koibe.exceptions.base.DataAlreadyExistException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import com.swp391.koibe.repositories.CategoryRepository;
-import com.swp391.koibe.dtos.responses.CategoryResponse;
 import com.swp391.koibe.utils.DTOConverter;
 import java.util.List;
 import java.util.stream.Collectors;

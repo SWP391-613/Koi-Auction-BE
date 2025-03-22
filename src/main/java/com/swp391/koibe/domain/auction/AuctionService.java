@@ -1,7 +1,5 @@
 package com.swp391.koibe.domain.auction;
 
-import com.swp391.koibe.dtos.AuctionDTO;
-import com.swp391.koibe.dtos.UpdateAuctionDTO;
 import com.swp391.koibe.enums.EAuctionStatus;
 import com.swp391.koibe.exceptions.DeleteException;
 import com.swp391.koibe.exceptions.MalformDataException;
@@ -13,8 +11,6 @@ import com.swp391.koibe.repositories.AuctionKoiRepository;
 import com.swp391.koibe.repositories.AuctionParticipantRepository;
 import com.swp391.koibe.repositories.AuctionRepository;
 import com.swp391.koibe.repositories.UserRepository;
-import com.swp391.koibe.dtos.responses.AuctionResponse;
-import com.swp391.koibe.dtos.responses.AuctionStatusCountResponse;
 import com.swp391.koibe.api.PageResponse;
 import com.swp391.koibe.utils.DTOConverter;
 import com.swp391.koibe.utils.DateTimeUtils;
@@ -40,7 +36,7 @@ public class AuctionService implements IAuctionService {
     private final UserRepository userRepository;
 
     @Override
-    public AuctionResponse createAscendingAuction(AuctionDTO auctionDTO) throws DataAlreadyExistException {
+    public AuctionResponse createAscendingAuction(AuctionPort.AuctionDTO auctionDTO) throws DataAlreadyExistException {
         LocalDateTime startTime = DateTimeUtils.parseTime(auctionDTO.startTime());
         LocalDateTime endTime = DateTimeUtils.parseTime(auctionDTO.endTime());
         DateTimeUtils.validateAuctionTimes(startTime, endTime);
@@ -231,9 +227,9 @@ public class AuctionService implements IAuctionService {
     }
 
     @Override
-    public PageResponse<AuctionResponse> getAuctionByKeyword(String keyword, Pageable pageable) {
+    public PageResponse<AuctionResponse> getAuctionByKeyword(String keyword, EAuctionStatus status, Pageable pageable) {
 
-        Page<Auction> auctions = auctionRepository.getAuctionByKeyword(keyword, pageable);
+        Page<Auction> auctions = auctionRepository.getAuctionByKeyword(keyword, status, pageable);
 
         List<AuctionResponse> auctionResponses = auctions.stream()
             .map(DTOConverter::toAuctionResponse)
@@ -241,29 +237,6 @@ public class AuctionService implements IAuctionService {
 
         return PageResponse.<AuctionResponse>pageBuilder()
             .message("Get all auctions successfully")
-            .data(auctionResponses)
-            .pagination(PaginationMeta.builder()
-                            .totalPages(auctions.getTotalPages())
-                            .totalItems(auctions.getTotalElements())
-                            .currentPage(auctions.getNumber())
-                            .pageSize(auctions.getSize())
-                            .build())
-            .isSuccess(true)
-            .statusCode(HttpStatus.OK.value())
-            .build();
-    }
-
-    @Override
-    public PageResponse<AuctionResponse> getAuctionUpcomingByKeyword(String keyword, EAuctionStatus status,
-                                                     Pageable pageable) {
-        Page<Auction> auctions = auctionRepository.getAuctionUpcomingByKeyword(keyword, status, pageable);
-
-        List<AuctionResponse> auctionResponses = auctions.stream()
-            .map(DTOConverter::toAuctionResponse)
-            .toList();
-
-        return PageResponse.<AuctionResponse>pageBuilder()
-            .message("Get all upcoming auctions successfully")
             .data(auctionResponses)
             .pagination(PaginationMeta.builder()
                             .totalPages(auctions.getTotalPages())

@@ -1,6 +1,5 @@
 package com.swp391.koibe.domain.order;
 
-import com.swp391.koibe.dtos.OrderDetailDTO;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import com.swp391.koibe.domain.koi.Koi;
 import com.swp391.koibe.repositories.KoiRepository;

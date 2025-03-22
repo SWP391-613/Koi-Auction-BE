@@ -1,10 +1,7 @@
 package com.swp391.koibe.domain.auction;
 
-import com.swp391.koibe.dtos.BidDTO;
 import com.swp391.koibe.exceptions.BiddingRuleException;
-import com.swp391.koibe.dtos.responses.BidResponse;
 import com.swp391.koibe.api.BaseResponse;
-import com.swp391.koibe.dtos.responses.pagination.BiddingHistoryPaginationResponse;
 import com.swp391.koibe.utils.DTOConverter;
 import java.util.Comparator;
 import java.util.HashMap;

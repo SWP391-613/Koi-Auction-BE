@@ -1,12 +1,9 @@
 package com.swp391.koibe.domain.auction;
 
-import com.swp391.koibe.dtos.BidDTO;
-import com.swp391.koibe.dtos.auctionkoi.UpdateAuctionKoiDTO;
 import com.swp391.koibe.exceptions.BiddingRuleException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import com.swp391.koibe.domain.user.User;
 import com.swp391.koibe.repositories.BidHistoryRepository;
-import com.swp391.koibe.dtos.responses.BidResponse;
 import com.swp391.koibe.domain.order.IOrderService;
 import com.swp391.koibe.domain.user.IUserService;
 import com.swp391.koibe.utils.DTOConverter;

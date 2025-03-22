@@ -9,26 +9,27 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-public class OtpService implements IOtpService{
+public class OtpService implements IOtpService {
 
     private final OtpRepository otpRepository;
 
     @Override
-    public Otp createOtp(Otp otp) {
-        Otp newOtp = Otp.builder()
-                .email(otp.getEmail())
-                .otp(otp.getOtp())
-                .expiredAt(otp.getExpiredAt())
-                .isUsed(otp.isUsed())
-                .isExpired(otp.isExpired())
-                .build();
-        return otpRepository.save(newOtp);
+    public void createOtp(Otp otp) {
+        otpRepository.save(Otp.builder()
+                               .email(otp.getEmail())
+                               .otp(otp.getOtp())
+                               .expiredAt(otp.getExpiredAt())
+                               .isUsed(otp.isUsed())
+                               .isExpired(otp.isExpired())
+                               .build());
     }
 
     @Override
     public void disableOtp(long id) {
         Otp existingOtp = otpRepository.findById(id).orElse(null);
-        if(existingOtp == null) return;
+        if (existingOtp == null) {
+            return;
+        }
         existingOtp.setExpired(true);
         otpRepository.save(existingOtp);
     }

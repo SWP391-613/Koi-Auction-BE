@@ -2,34 +2,35 @@ package com.swp391.koibe.utils;
 
 import com.swp391.koibe.domain.auction.Auction;
 import com.swp391.koibe.domain.auction.AuctionKoi;
+import com.swp391.koibe.domain.auction.AuctionKoiPort;
+import com.swp391.koibe.domain.auction.AuctionResponse;
 import com.swp391.koibe.domain.auction.Bid;
+import com.swp391.koibe.domain.auction.BidResponse;
 import com.swp391.koibe.domain.category.Category;
+import com.swp391.koibe.domain.category.CategoryResponse;
 import com.swp391.koibe.domain.feedback.Feedback;
+import com.swp391.koibe.domain.feedback.FeedbackResponse;
 import com.swp391.koibe.domain.koi.Koi;
 import com.swp391.koibe.domain.koi.KoiImage;
+import com.swp391.koibe.domain.koi.KoiInAuctionResponse;
+import com.swp391.koibe.domain.koi.KoiPort;
+import com.swp391.koibe.domain.koi.KoiPort.KoiImageResponse;
 import com.swp391.koibe.domain.order.Order;
 import com.swp391.koibe.domain.order.OrderDetail;
+import com.swp391.koibe.domain.order.OrderDetailResponse;
+import com.swp391.koibe.domain.order.OrderResponse;
 import com.swp391.koibe.domain.payment.Payment;
+import com.swp391.koibe.domain.payment.PaymentResponse;
 import com.swp391.koibe.domain.role.Role;
+import com.swp391.koibe.domain.role.RoleResponse;
+import com.swp391.koibe.domain.user.BreederResponse;
+import com.swp391.koibe.domain.user.MemberResponse;
+import com.swp391.koibe.domain.user.StaffResponse;
 import com.swp391.koibe.domain.user.User;
-import com.swp391.koibe.dtos.responses.AuctionKoiResponse;
-import com.swp391.koibe.dtos.responses.AuctionResponse;
-import com.swp391.koibe.dtos.responses.BidResponse;
-import com.swp391.koibe.dtos.responses.BreederResponse;
-import com.swp391.koibe.dtos.responses.CategoryResponse;
-import com.swp391.koibe.dtos.responses.FeedbackResponse;
-import com.swp391.koibe.dtos.responses.KoiImageResponse;
-import com.swp391.koibe.dtos.responses.KoiResponse;
-import com.swp391.koibe.dtos.responses.MemberResponse;
-import com.swp391.koibe.dtos.responses.PaymentResponse;
-import com.swp391.koibe.dtos.responses.RoleResponse;
-import com.swp391.koibe.dtos.responses.StaffResponse;
-import com.swp391.koibe.dtos.responses.UserResponse;
+import com.swp391.koibe.domain.user.UserResponse;
 import com.swp391.koibe.repositories.AuctionRepository;
 import com.swp391.koibe.repositories.KoiRepository;
 import com.swp391.koibe.repositories.OrderRepository;
-import com.swp391.koibe.dtos.responses.order.OrderDetailResponse;
-import com.swp391.koibe.dtos.responses.order.OrderResponse;
 import java.time.format.DateTimeFormatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -84,8 +85,8 @@ public class DTOConverter {
         return new RoleResponse(role.getId(), role.getUserRole());
     }
 
-    public static KoiResponse toKoiResponse(Koi koi) {
-        return new KoiResponse (
+    public static KoiPort.KoiResponse toKoiResponse(Koi koi) {
+        return new KoiPort.KoiResponse (
             koi.getId(),
             koi.getName(),
             koi.getSex(),
@@ -105,7 +106,7 @@ public class DTOConverter {
     }
 
     public static KoiImageResponse toKoiImageResponse(KoiImage koiImage) {
-        return new KoiImageResponse(koiImage.getId(), koiImage.getKoi().getId(), koiImage.getImageUrl(), koiImage.getVideoUrl());
+        return new KoiImageResponse(koiImage.getId(), koiImage.getKoi().getId(), koiImage.getMediaMeta());
     }
 
     public static AuctionResponse toAuctionResponse(Auction auction) {
@@ -119,8 +120,8 @@ public class DTOConverter {
         );
     }
 
-    public static AuctionKoiResponse toAuctionKoiResponse(AuctionKoi auctionKoi) {
-        return new AuctionKoiResponse(
+    public static AuctionKoiPort.AuctionKoiResponse toAuctionKoiResponse(AuctionKoi auctionKoi) {
+        return new AuctionKoiPort.AuctionKoiResponse(
             auctionKoi.getId(),
             auctionKoi.getBasePrice(),
             auctionKoi.getCeilPrice(),

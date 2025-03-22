@@ -1,7 +1,7 @@
 package com.swp391.koibe.domain.user.staff;
 
-import com.swp391.koibe.dtos.StaffRegisterDTO;
-import com.swp391.koibe.dtos.UserDTO;
+import com.swp391.koibe.domain.user.StaffRegisterDTO;
+import com.swp391.koibe.domain.user.UserDTO;
 import com.swp391.koibe.enums.UserRole;
 import com.swp391.koibe.enums.UserStatus;
 import com.swp391.koibe.exceptions.PermissionDeniedException;
@@ -13,7 +13,7 @@ import com.swp391.koibe.domain.role.Role;
 import com.swp391.koibe.domain.user.User;
 import com.swp391.koibe.repositories.RoleRepository;
 import com.swp391.koibe.repositories.UserRepository;
-import com.swp391.koibe.dtos.responses.StaffResponse;
+import com.swp391.koibe.domain.user.StaffResponse;
 import com.swp391.koibe.api.PageResponse;
 import com.swp391.koibe.utils.DTOConverter;
 import com.swp391.koibe.utils.DateTimeUtils;

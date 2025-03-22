@@ -3,7 +3,7 @@ package com.swp391.koibe.domain.auction;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import com.swp391.koibe.repositories.AuctionParticipantRepository;
 import com.swp391.koibe.repositories.AuctionRepository;
-import com.swp391.koibe.dtos.responses.UserResponse;
+import com.swp391.koibe.domain.user.UserResponse;
 import com.swp391.koibe.utils.DTOConverter;
 import java.util.Optional;
 import java.util.Set;

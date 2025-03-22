@@ -1,7 +1,5 @@
 package com.swp391.koibe.domain.user;
 
-import com.swp391.koibe.dtos.responses.MemberResponse;
-import com.swp391.koibe.dtos.responses.pagination.MemberPaginationResponse;
 import com.swp391.koibe.domain.user.member.IMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

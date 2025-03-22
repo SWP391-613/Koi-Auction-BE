@@ -20,20 +20,10 @@ public interface AuctionRepository extends JpaRepository<Auction, Long> {
 
     @Query("SELECT a FROM Auction a WHERE " +
         "a.title LIKE CONCAT('%', :keyword, '%')" +
-        "OR CAST(a.status as string) LIKE CONCAT('%', :keyword, '%') " +
         "OR CAST(a.startTime as string) LIKE CONCAT('%', :keyword, '%') " +
-        "OR CAST(a.endTime as string) LIKE CONCAT('%', :keyword, '%') ")
-    Page<Auction> getAuctionByKeyword(@Param("keyword") String keyword, Pageable pageable);
-
-    @Query("SELECT a FROM Auction a WHERE " +
-        "(a.title LIKE CONCAT('%', :keyword, '%') " +
-        "OR CAST(a.startTime as string) LIKE CONCAT('%', :keyword, '%') " +
-        "OR CAST(a.endTime as string) LIKE CONCAT('%', :keyword, '%')) " +
-        "AND a.status = :status")
-    Page<Auction> getAuctionUpcomingByKeyword(
-        @Param("keyword") String keyword,
-        @Param("status") EAuctionStatus status,
-        Pageable pageable);
+        "OR CAST(a.endTime as string) LIKE CONCAT('%', :keyword, '%')" +
+        "OR a.status = :status")
+    Page<Auction> getAuctionByKeyword(@Param("keyword") String keyword, @Param("status") EAuctionStatus status, Pageable pageable);
 
     @Query("SELECT COUNT(a) FROM Auction a WHERE a.auctioneer.id = :auctioneer_id")
     Long countAuctionsByAuctioneerId(Long auctioneer_id);

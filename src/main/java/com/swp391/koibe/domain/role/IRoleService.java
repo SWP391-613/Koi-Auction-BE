@@ -1,7 +1,5 @@
 package com.swp391.koibe.domain.role;
 
-import com.swp391.koibe.dtos.RoleDTO;
-import com.swp391.koibe.dtos.responses.RoleResponse;
 import java.util.List;
 
 public interface IRoleService {

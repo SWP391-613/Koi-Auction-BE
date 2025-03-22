@@ -1,8 +1,6 @@
 package com.swp391.koibe.domain.role;
 
-import com.swp391.koibe.dtos.RoleDTO;
 import com.swp391.koibe.exceptions.MethodArgumentNotValidException;
-import com.swp391.koibe.dtos.responses.RoleResponse;
 import com.swp391.koibe.api.ApiResponse;
 import jakarta.validation.Valid;
 import java.util.List;

@@ -1,23 +1,18 @@
 package com.swp391.koibe.domain.auction;
 
-import com.swp391.koibe.dtos.auctionkoi.AuctionKoiDTO;
-import com.swp391.koibe.dtos.auctionkoi.UpdateAuctionKoiDTO;
+import com.swp391.koibe.domain.koi.Koi;
+import com.swp391.koibe.domain.koi.KoiInAuctionResponse;
+import com.swp391.koibe.domain.mail.IMailService;
+import com.swp391.koibe.domain.user.User;
 import com.swp391.koibe.enums.EAuctionStatus;
 import com.swp391.koibe.enums.EBidMethod;
 import com.swp391.koibe.enums.EmailCategoriesEnum;
 import com.swp391.koibe.exceptions.MalformBehaviourException;
 import com.swp391.koibe.exceptions.MalformDataException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
-import com.swp391.koibe.domain.koi.Koi;
-import com.swp391.koibe.domain.user.User;
 import com.swp391.koibe.repositories.AuctionKoiRepository;
 import com.swp391.koibe.repositories.AuctionRepository;
 import com.swp391.koibe.repositories.KoiRepository;
-import com.swp391.koibe.dtos.responses.AuctionKoiResponse;
-import com.swp391.koibe.dtos.responses.AuctionResponse;
-import com.swp391.koibe.dtos.responses.BidMethodQuantityResponse;
-import com.swp391.koibe.dtos.responses.KoiInAuctionResponse;
-import com.swp391.koibe.domain.mail.IMailService;
 import com.swp391.koibe.utils.DTOConverter;
 import jakarta.mail.MessagingException;
 import java.util.List;
@@ -42,7 +37,7 @@ public class AuctionKoiService implements IAuctionKoiService {
     private final IMailService mailService;
 
     @Override
-    public AuctionKoi createAuctionKoi(AuctionKoiDTO auctionKoiDTO)
+    public AuctionKoi createAuctionKoi(AuctionKoiPort.AuctionKoiDTO auctionKoiDTO)
             throws DataNotFoundException, MessagingException {
 
         // check if the koi is already in another upcoming auction
@@ -236,20 +231,20 @@ public class AuctionKoiService implements IAuctionKoiService {
     }
 
     @Override
-    public List<AuctionKoiResponse> getAuctionKoiByAuctionId(long id) {
+    public List<AuctionKoiPort.AuctionKoiResponse> getAuctionKoiByAuctionId(long id) {
         return auctionKoiRepository.findAuctionKoiByAuctionId(id).stream()
                 .map(DTOConverter::toAuctionKoiResponse)
                 .toList();
     }
 
     @Override
-    public Page<AuctionKoiResponse> getAllAuctionKois(Pageable pageable) {
+    public Page<AuctionKoiPort.AuctionKoiResponse> getAllAuctionKois(Pageable pageable) {
         Page<AuctionKoi> kois = auctionKoiRepository.findAll(pageable);
         return kois.map(DTOConverter::toAuctionKoiResponse);
     }
 
     @Override
-    public AuctionKoiResponse updateAuctionKoi(long auctionKoiId,
+    public AuctionKoiPort.AuctionKoiResponse updateAuctionKoi(long auctionKoiId,
             UpdateAuctionKoiDTO updateAuctionKoiDTO) {
         // find auctionKoi
         AuctionKoi updateAuctionKoi = auctionKoiRepository.findById(auctionKoiId)
@@ -287,14 +282,14 @@ public class AuctionKoiService implements IAuctionKoiService {
     }
 
     @Override
-    public AuctionKoiResponse getAuctionKoiDetailsById(long id) throws DataNotFoundException {
+    public AuctionKoiPort.AuctionKoiResponse getAuctionKoiDetailsById(long id) throws DataNotFoundException {
         AuctionKoi auctionKoi = auctionKoiRepository.findById(id)
                 .orElseThrow(() -> new DataNotFoundException("Auction Koi not found"));
         return DTOConverter.toAuctionKoiResponse(auctionKoi);
     }
 
     @Override
-    public AuctionKoiResponse getAuctionKoiByAuctionIdAndKoiId(long aid, long id)
+    public AuctionKoiPort.AuctionKoiResponse getAuctionKoiByAuctionIdAndKoiId(long aid, long id)
             throws DataNotFoundException {
         List<AuctionKoi> auctionKois = auctionKoiRepository.findAuctionKoiByAuctionId(aid);
         AuctionKoi auctionKoi = auctionKois.stream()

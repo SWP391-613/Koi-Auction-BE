@@ -1,8 +1,6 @@
 package com.swp391.koibe.domain.auction;
 
-import com.swp391.koibe.dtos.BidDTO;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
-import com.swp391.koibe.dtos.responses.BidResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;

@@ -2,9 +2,8 @@ package com.swp391.koibe.domain.category;
 
 import com.swp391.koibe.api.ApiResponse;
 import com.swp391.koibe.components.LocalizationUtils;
-import com.swp391.koibe.dtos.CategoryDTO;
 import com.swp391.koibe.exceptions.MethodArgumentNotValidException;
-import com.swp391.koibe.dtos.responses.CategoryResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @Slf4j
 @FieldDefaults(level = lombok.AccessLevel.PRIVATE, makeFinal = true)
+@Tag(name = "Categories", description = "APIs for managing categories")
 public class CategoryController {
 
     ICategoryService categoryService;
@@ -56,7 +57,7 @@ public class CategoryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     public ResponseEntity<?> updateCategory(
         @PathVariable int id,

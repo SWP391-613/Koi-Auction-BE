@@ -1,6 +1,5 @@
 package com.swp391.koibe.domain.koi;
 
-import com.swp391.koibe.dtos.responses.KoiImageResponse;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,9 +12,9 @@ public interface IKoiImageService {
 
     void deleteKoiImage(long id) throws Exception;
 
-    List<KoiImageResponse> getKoiImage(long id) throws Exception;
+    List<KoiPort.KoiImageResponse> getKoiImage(long id) throws Exception;
 
-    Page<KoiImageResponse> getAllKoiImages(Pageable pageable) throws Exception;
-    List<KoiImageResponse> getKoiImagesByKoiId(Long koiId) throws Exception;
+    Page<KoiPort.KoiImageResponse> getAllKoiImages(Pageable pageable) throws Exception;
+    List<KoiPort.KoiImageResponse> getKoiImagesByKoiId(Long koiId) throws Exception;
 
 }

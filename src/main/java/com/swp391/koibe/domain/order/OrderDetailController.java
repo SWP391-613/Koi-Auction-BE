@@ -1,9 +1,7 @@
 package com.swp391.koibe.domain.order;
 
 import com.swp391.koibe.components.LocalizationUtils;
-import com.swp391.koibe.dtos.OrderDetailDTO;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
-import com.swp391.koibe.dtos.responses.order.OrderDetailResponse;
 import com.swp391.koibe.utils.DTOConverter;
 import com.swp391.koibe.utils.MessageKey;
 import io.swagger.v3.oas.annotations.Operation;

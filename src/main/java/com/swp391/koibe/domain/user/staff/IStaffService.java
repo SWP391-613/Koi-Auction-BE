@@ -1,10 +1,10 @@
 package com.swp391.koibe.domain.user.staff;
 
-import com.swp391.koibe.dtos.StaffRegisterDTO;
-import com.swp391.koibe.dtos.UserDTO;
+import com.swp391.koibe.domain.user.StaffRegisterDTO;
+import com.swp391.koibe.domain.user.UserDTO;
 import com.swp391.koibe.exceptions.PermissionDeniedException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
-import com.swp391.koibe.dtos.responses.StaffResponse;
+import com.swp391.koibe.domain.user.StaffResponse;
 import com.swp391.koibe.api.PageResponse;
 import org.springframework.data.domain.Pageable;
 

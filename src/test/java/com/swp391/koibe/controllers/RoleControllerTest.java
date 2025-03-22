@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.hasItems;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.google.gson.Gson;
-import com.swp391.koibe.dtos.RoleDTO;
+import com.swp391.koibe.domain.role.RoleDTO;
 import com.swp391.koibe.enums.UserRole;
 import com.swp391.koibe.domain.role.Role;
 import com.swp391.koibe.repositories.RoleRepository;

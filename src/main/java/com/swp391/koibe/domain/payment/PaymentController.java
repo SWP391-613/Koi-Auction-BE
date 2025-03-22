@@ -1,12 +1,8 @@
 package com.swp391.koibe.domain.payment;
 
 import com.swp391.koibe.configs.VNPayConfig;
-import com.swp391.koibe.dtos.payment.PaymentDTO;
-import com.swp391.koibe.dtos.payment.PaymentStatusUpdateDTO;
 import com.swp391.koibe.enums.EPaymentStatus;
-import com.swp391.koibe.dtos.responses.PaymentResponse;
 import com.swp391.koibe.api.BaseResponse;
-import com.swp391.koibe.dtos.responses.pagination.PaymentPaginationResponse;
 import com.swp391.koibe.utils.DTOConverter;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;

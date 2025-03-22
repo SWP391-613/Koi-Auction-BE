@@ -1,7 +1,6 @@
 package com.swp391.koibe.domain.payment;
 
 import com.swp391.koibe.configs.VNPayConfig;
-import com.swp391.koibe.dtos.payment.PaymentDTO;
 import com.swp391.koibe.enums.EPaymentStatus;
 import com.swp391.koibe.enums.EPaymentType;
 import com.swp391.koibe.enums.EmailCategoriesEnum;

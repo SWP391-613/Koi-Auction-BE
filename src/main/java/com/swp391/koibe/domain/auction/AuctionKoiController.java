@@ -1,20 +1,18 @@
 package com.swp391.koibe.domain.auction;
 
+import com.swp391.koibe.api.ApiResponse;
+import com.swp391.koibe.api.PageResponse;
 import com.swp391.koibe.components.JwtTokenUtils;
 import com.swp391.koibe.constants.BusinessNumber;
-import com.swp391.koibe.dtos.auctionkoi.AuctionKoiDTO;
-import com.swp391.koibe.dtos.auctionkoi.UpdateAuctionKoiDTO;
+import com.swp391.koibe.domain.koi.KoiInAuctionPaginationResponse;
+import com.swp391.koibe.domain.koi.KoiInAuctionResponse;
+import com.swp391.koibe.domain.koi.KoiPort;
+import com.swp391.koibe.domain.user.IUserService;
+import com.swp391.koibe.domain.user.User;
 import com.swp391.koibe.exceptions.MalformDataException;
 import com.swp391.koibe.exceptions.MethodArgumentNotValidException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
-import com.swp391.koibe.domain.user.User;
-import com.swp391.koibe.dtos.responses.AuctionKoiResponse;
-import com.swp391.koibe.dtos.responses.BidMethodQuantityResponse;
-import com.swp391.koibe.dtos.responses.KoiInAuctionResponse;
-import com.swp391.koibe.api.ApiResponse;
-import com.swp391.koibe.dtos.responses.pagination.KoiInAuctionPaginationResponse;
 import com.swp391.koibe.redis.koi.IKoiRedisService;
-import com.swp391.koibe.domain.user.IUserService;
 import com.swp391.koibe.utils.DTOConverter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -31,7 +29,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
@@ -52,7 +58,7 @@ public class AuctionKoiController {
     }
 
     @GetMapping("/auction/{id}")
-    public ResponseEntity<List<AuctionKoiResponse>> getAuctionKoisByAuctionId(
+    public ResponseEntity<List<AuctionKoiPort.AuctionKoiResponse>> getAuctionKoisByAuctionId(
         @PathVariable Long id) {
         try {
             return ResponseEntity.ok(auctionKoiService.getAuctionKoiByAuctionId(id));
@@ -75,12 +81,12 @@ public class AuctionKoiController {
     }
 
     @GetMapping("") // /auctions/?page=1&limit=10
-    public ResponseEntity<List<AuctionKoiResponse>> getAllAuctions(
+    public ResponseEntity<List<AuctionKoiPort.AuctionKoiResponse>> getAllAuctions(
         @RequestParam int page,
         @RequestParam int limit) {
         try {
             PageRequest pageRequest = PageRequest.of(page, limit);
-            Page<AuctionKoiResponse> auctionKois = auctionKoiService.getAllAuctionKois(pageRequest);
+            Page<AuctionKoiPort.AuctionKoiResponse> auctionKois = auctionKoiService.getAllAuctionKois(pageRequest);
             return ResponseEntity.ok(auctionKois.getContent());
         } catch (Exception e) {
             log.error("Error getting all auctionkois    : {}", e.getMessage());
@@ -89,9 +95,9 @@ public class AuctionKoiController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AuctionKoiResponse> getAuctionKoiDetails(@PathVariable Long id) {
+    public ResponseEntity<AuctionKoiPort.AuctionKoiResponse> getAuctionKoiDetails(@PathVariable Long id) {
         try {
-            AuctionKoiResponse auctionKoiResponse = auctionKoiService.getAuctionKoiDetailsById(id);
+            AuctionKoiPort.AuctionKoiResponse auctionKoiResponse = auctionKoiService.getAuctionKoiDetailsById(id);
             return ResponseEntity.ok(auctionKoiResponse);
         } catch (DataNotFoundException e) {
             return ResponseEntity.notFound().build();
@@ -104,8 +110,8 @@ public class AuctionKoiController {
     // assign koi list to an auction
     @PostMapping("")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_STAFF', 'ROLE_BREEDER')")
-    public ResponseEntity<ApiResponse<AuctionKoiResponse>> createAuctionKoi(
-        @Valid @RequestBody AuctionKoiDTO auctionKoiDTO,
+    public ResponseEntity<ApiResponse<AuctionKoiPort.AuctionKoiResponse>> createAuctionKoi(
+        @Valid @RequestBody AuctionKoiPort.AuctionKoiDTO auctionKoiDTO,
         Principal principal,
         BindingResult result
     ) throws Exception {
@@ -121,7 +127,7 @@ public class AuctionKoiController {
         }
 
         AuctionKoi newAuctionKoi = auctionKoiService.createAuctionKoi(auctionKoiDTO);
-        AuctionKoiResponse response = DTOConverter.toAuctionKoiResponse(newAuctionKoi);
+        AuctionKoiPort.AuctionKoiResponse response = DTOConverter.toAuctionKoiResponse(newAuctionKoi);
 
         userService.validateAccountBalance(user, auctionKoiDTO.basePrice());
 
@@ -129,7 +135,7 @@ public class AuctionKoiController {
         userService.updateAccountBalance(user.getId(), -Math.floorDiv(auctionKoiDTO.basePrice(), 10));
 
         return ResponseEntity.ok(
-            ApiResponse.<AuctionKoiResponse>builder()
+            ApiResponse.<AuctionKoiPort.AuctionKoiResponse>builder()
                 .message("AuctionKoi created successfully")
                 .data(response)
                 .isSuccess(true)
@@ -138,28 +144,28 @@ public class AuctionKoiController {
     }
 
     @PutMapping("/auctionkois/{auctionkoi_id}")
-    public ResponseEntity<AuctionKoiResponse> updateAuctionKoi(
+    public ResponseEntity<AuctionKoiPort.AuctionKoiResponse> updateAuctionKoi(
         @PathVariable Long auctionkoi_id,
         @Valid @RequestBody UpdateAuctionKoiDTO updateAuctionKoiDTO,
         BindingResult result) {
         if (result.hasErrors()) {
             throw new MethodArgumentNotValidException(result);
         }
-        AuctionKoiResponse updatedAuctionKoi = auctionKoiService.updateAuctionKoi(auctionkoi_id,
+        AuctionKoiPort.AuctionKoiResponse updatedAuctionKoi = auctionKoiService.updateAuctionKoi(auctionkoi_id,
                                                                                   updateAuctionKoiDTO);
         return ResponseEntity.ok(updatedAuctionKoi);
     }
 
     @PutMapping("/revoke/koi/{koi_id}/auction/{auction_id}")
     @PreAuthorize("hasAnyRole('ROLE_BREEDER', 'ROLE_MANAGER', 'ROLE_STAFF')")
-    public ResponseEntity<ApiResponse<AuctionKoiResponse>> revokeKoiInAuction(
+    public ResponseEntity<ApiResponse<AuctionKoiPort.AuctionKoiResponse>> revokeKoiInAuction(
         @PathVariable Long koi_id,
         @PathVariable Long auction_id
     ) {
         auctionKoiService.revokeKoiInAuction(koi_id, auction_id);
 
         return ResponseEntity.ok(
-            ApiResponse.<AuctionKoiResponse>builder()
+            ApiResponse.<AuctionKoiPort.AuctionKoiResponse>builder()
                 .message("Koi in Auction revoked successfully")
                 .data(null)
                 .isSuccess(true)
@@ -176,40 +182,18 @@ public class AuctionKoiController {
     }
 
     @GetMapping("/get-kois-by-keyword")
-    public ResponseEntity<KoiInAuctionPaginationResponse> getOrdersByKeyword(
+    public ResponseEntity<PageResponse<KoiInAuctionResponse>> getKoisByKeyword(
         @RequestParam(defaultValue = "", required = false) String keyword,
-        @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "10") int limit
+        @RequestParam(defaultValue = "0", required = false) int page,
+        @RequestParam(defaultValue = "10", required = false) int limit
     ) throws Exception {
-
-        KoiInAuctionPaginationResponse response = new KoiInAuctionPaginationResponse();
-
         PageRequest pageRequest = PageRequest.of(
             page, limit,
             Sort.by("id").ascending()
         );
 
-//        List<KoiInAuctionResponse> koiResponses = koiRedisService.findKoiInAuctionByKeyword(keyword, pageRequest);
-//
-//
-//        if (koiResponses != null && !koiResponses.isEmpty()) {
-//            response.setItem(koiResponses);
-//            response.setTotalItem(koiResponses.size());
-//            response.setTotalPage(koiResponses.get(0).getTotalPage());
-//            return ResponseEntity.ok(response);
-//        }
-
-        Page<KoiInAuctionResponse> koiPage = auctionKoiService.getKoiByKeyword(keyword,
-                                                                               pageRequest);
-        response.setItem(koiPage.getContent());
-        response.setTotalItem(koiPage.getTotalElements());
-        response.setTotalPage(koiPage.getTotalPages());
-
-//        int totalPage = koiPage.getTotalPages();
-//        koiResponses = koiPage.getContent();
-//        koiResponses.forEach(koi -> koi.setTotalPage(totalPage));
-//
-//        koiRedisService.saveAllKoiFindInAuctionByKeyword(koiResponses, keyword , pageRequest);
+        Page<KoiInAuctionResponse> koiPage = auctionKoiService.getKoiByKeyword(keyword, pageRequest);
+        PageResponse<KoiInAuctionResponse> response = KoiInAuctionPaginationResponse.fromPage(koiPage, pageRequest);
 
         return ResponseEntity.ok(response);
     }

@@ -1,9 +1,7 @@
 package com.swp391.koibe.domain.auth;
 
-import com.swp391.koibe.dtos.UpdatePasswordDTO;
 import com.swp391.koibe.exceptions.MethodArgumentNotValidException;
 import com.swp391.koibe.domain.user.User;
-import com.swp391.koibe.dtos.responses.ForgotPasswordResponse;
 import com.swp391.koibe.api.ApiResponse;
 import com.swp391.koibe.domain.user.UserService;
 import jakarta.mail.MessagingException;
