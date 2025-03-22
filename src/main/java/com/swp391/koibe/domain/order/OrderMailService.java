@@ -1,10 +1,7 @@
 package com.swp391.koibe.domain.order;
 
-import com.swp391.koibe.domain.user.User;
-import com.swp391.koibe.domain.auction.IAuctionService;
-import com.swp391.koibe.domain.auction.IAuctionParticipantService;
 import com.swp391.koibe.domain.mail.IMailService;
-import com.swp391.koibe.domain.user.IUserService;
+import com.swp391.koibe.domain.user.User;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.retry.annotation.Backoff;
@@ -17,10 +14,7 @@ import org.thymeleaf.context.Context;
 @Service
 @RequiredArgsConstructor
 public class OrderMailService implements IOrderMailService {
-    private final IAuctionService auctionService;
-    private final IAuctionParticipantService auctionParticipantService;
     private final IMailService mailService;
-    private final IUserService userService;
 
     @Retryable(
             retryFor = {MessagingException.class},  // Retry only for specific exceptions

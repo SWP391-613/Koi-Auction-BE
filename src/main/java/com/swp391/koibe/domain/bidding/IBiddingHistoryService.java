@@ -1,4 +1,4 @@
-package com.swp391.koibe.domain.auction;
+package com.swp391.koibe.domain.bidding;
 
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import org.springframework.data.domain.Page;

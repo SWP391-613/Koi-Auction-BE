@@ -24,8 +24,7 @@ import org.thymeleaf.context.Context;
 @RequiredArgsConstructor
 public class AuctionMailService implements IAuctionMailService {
 
-    private final IAuctionService auctionService;
-    private final IAuctionParticipantService auctionParticipantService;
+    private final IAuctionContract auctionContract;
     private final IMailService mailService;
     private final IUserService userService;
 
@@ -40,7 +39,7 @@ public class AuctionMailService implements IAuctionMailService {
                                                 String templateName,
                                                 Context context) throws MessagingException {
 
-        AuctionResponse existingAuction = auctionService.getById(auctionId);
+        AuctionResponse existingAuction = auctionContract.getAuctionById(auctionId);
 
         if (existingAuction == null) {
             throw new DataNotFoundException("Auction not found");
@@ -50,7 +49,7 @@ public class AuctionMailService implements IAuctionMailService {
         context.setVariable("auction_end_date", existingAuction.endTime());
         context.setVariable("auction_url", "http://localhost:3000/auctions/" + auctionId);
 
-        Set<UserResponse> userList = auctionParticipantService.getAllUserJoinAuction(auctionId);
+        Set<UserResponse> userList = auctionContract.getAllUserJoinAuction(auctionId);
 
         for (UserResponse user : userList) {
             // Send email to each user with personalized context
@@ -68,7 +67,7 @@ public class AuctionMailService implements IAuctionMailService {
     @Scheduled(cron = "0 0 7 * * MON,WED,FRI") // Every Monday, Wednesday, and Friday at 7:00 AM
     @Override
     public void notifyUsersAboutUpcomingAuctions() throws MessagingException {
-        Set<Auction> upcomingAuctions = auctionService.getAuctionOnStatus(EAuctionStatus.UPCOMING);
+        Set<Auction> upcomingAuctions = auctionContract.getAuctionOnStatus(EAuctionStatus.UPCOMING);
         Auction neerestAuction = upcomingAuctions.stream()
             .filter(auction -> auction.getStartTime().isAfter(
                 LocalDateTime.now())).findFirst().orElse(null);

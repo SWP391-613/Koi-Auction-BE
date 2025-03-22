@@ -1,5 +1,6 @@
-package com.swp391.koibe.domain.auction;
+package com.swp391.koibe.domain.bidding;
 
+import com.swp391.koibe.domain.auction.AuctionKoi;
 import com.swp391.koibe.domain.user.User;
 import com.swp391.koibe.domain.mail.IMailService;
 import com.swp391.koibe.domain.user.UserService;

@@ -1,23 +1,32 @@
 package com.swp391.koibe.domain.system;
 
+import com.swp391.koibe.domain.auction.Auction;
+import com.swp391.koibe.domain.auction.AuctionKoi;
+import com.swp391.koibe.domain.auction.IAuctionMailService;
+import com.swp391.koibe.domain.bidding.Bid;
+import com.swp391.koibe.domain.auction.IAuctionContract;
+import com.swp391.koibe.domain.bidding.IBiddingHistoryEmailService;
+import com.swp391.koibe.domain.bidding.IBiddingHistoryService;
+import com.swp391.koibe.domain.mail.IMailService;
+import com.swp391.koibe.domain.order.IOrderService;
+import com.swp391.koibe.domain.order.Order;
+import com.swp391.koibe.domain.otp.IOtpService;
+import com.swp391.koibe.domain.token.ITokenService;
+import com.swp391.koibe.domain.user.IUserService;
 import com.swp391.koibe.enums.EAuctionStatus;
 import com.swp391.koibe.enums.EBidMethod;
 import com.swp391.koibe.enums.OrderStatus;
 import com.swp391.koibe.exceptions.SystemServiceTaskException;
-import com.swp391.koibe.domain.auction.Auction;
-import com.swp391.koibe.domain.auction.AuctionKoi;
-import com.swp391.koibe.domain.auction.Bid;
-import com.swp391.koibe.domain.order.Order;
-import com.swp391.koibe.domain.auction.IAuctionMailService;
-import com.swp391.koibe.domain.auction.IAuctionService;
-import com.swp391.koibe.domain.auction.IAuctionKoiService;
-import com.swp391.koibe.domain.auction.IBiddingHistoryEmailService;
-import com.swp391.koibe.domain.auction.IBiddingHistoryService;
-import com.swp391.koibe.domain.order.IOrderService;
-import com.swp391.koibe.domain.otp.IOtpService;
-import com.swp391.koibe.domain.token.ITokenService;
-import com.swp391.koibe.domain.user.IUserService;
+import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.scheduling.annotation.Async;
@@ -25,34 +34,30 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
 
-import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
-
 @Component
 @RequiredArgsConstructor
 @Slf4j
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SystemService {
 
-    private final IUserService userService;
-    private final IBiddingHistoryService biddingHistoryService;
-    private final IAuctionKoiService auctionKoiService;
-    private final IAuctionService auctionService;
-    private final IOrderService orderService;
-    private final IAuctionMailService auctionMailService;
-    private final IBiddingHistoryEmailService biddingHistoryEmailService;
-    private final IOtpService otpService;
-    private final ITokenService tokenService;
+    IUserService userService;
+    IBiddingHistoryService biddingHistoryService;
+    IAuctionContract auctionContract;
+    IOrderService orderService;
+    IMailService iMailService;
+    IBiddingHistoryEmailService biddingHistoryEmailService;
+    IOtpService otpService;
+    ITokenService tokenService;
+    IAuctionMailService auctionMailService;
 
     //every minute
     @Scheduled(cron = "0 */1 * * * *")
     @Async
     public void updateUpcomingAuctionStatus() {
         try {
-            List<Auction> auctions = auctionService.getAuctionByStatus(EAuctionStatus.UPCOMING);
+            List<Auction> auctions = auctionContract.getAuctionByStatus(EAuctionStatus.UPCOMING);
             for (Auction auction : auctions) {
-                auctionService.updateAuctionStatus(auction);
+                auctionContract.updateAuctionStatus(auction);
             }
         } catch (SystemServiceTaskException e) {
             log.error("Error updating upcoming auction status", e.getCause());
@@ -64,9 +69,9 @@ public class SystemService {
     @Async
     public void updateOnGoingAuctionStatus() {
         try {
-            List<Auction> auctions = auctionService.getAuctionByStatus(EAuctionStatus.ONGOING);
+            List<Auction> auctions = auctionContract.getAuctionByStatus(EAuctionStatus.ONGOING);
             for (Auction auction : auctions) {
-                boolean isUpdate = auctionService.updateAuctionStatus(auction);
+                boolean isUpdate = auctionContract.updateAuctionStatus(auction);
                 if (isUpdate) {
                     updateAuctionKoiStatus(auction);
                     Context context = new Context();
@@ -84,9 +89,9 @@ public class SystemService {
 
 
     public void updateAuctionKoiStatus(@NotNull Auction auction) throws Exception {
-        List<AuctionKoi> auctionKois = auctionKoiService.getAuctionKoiByAuctionIdV2(auction.getId());
+        List<AuctionKoi> auctionKois = auctionContract.getAuctionKoiByAuctionIdV2(auction.getId());
         for (AuctionKoi auctionKoi : auctionKois) {
-            boolean isUpdate = auctionKoiService.updateAuctionKoiStatus(auctionKoi.getId(), auctionKoi);
+            boolean isUpdate = auctionContract.updateAuctionKoiStatus(auctionKoi.getId(), auctionKoi);
             if (isUpdate) {
                 orderService.createOrderForAuctionKoi(auctionKoi, userService.getUserById(auctionKoi.getCurrentBidderId()));
             }
@@ -127,13 +132,13 @@ public class SystemService {
     @Async
     public void updateDescendingAuctionPrice() {
         try {
-            List<Auction> auctions = auctionService.getAuctionByStatus(EAuctionStatus.ONGOING);
+            List<Auction> auctions = auctionContract.getAuctionByStatus(EAuctionStatus.ONGOING);
             for (Auction auction : auctions) {
-                List<AuctionKoi> auctionKois = auctionKoiService.getAuctionKoiByAuctionIdV2(auction.getId()).stream().
+                List<AuctionKoi> auctionKois = auctionContract.getAuctionKoiByAuctionIdV2(auction.getId()).stream().
                         filter(auctionKoi -> auctionKoi.getBidMethod().equals(EBidMethod.DESCENDING_BID)).
                         filter(auctionKoi -> !auctionKoi.isSold()).toList();
                 for (AuctionKoi auctionKoi : auctionKois) {
-                    auctionKoiService.updateDescendAuctionKoiPrice(auctionKoi.getId(), auctionKoi);
+                    auctionContract.updateDescendAuctionKoiPrice(auctionKoi.getId(), auctionKoi);
                 }
             }
         } catch (SystemServiceTaskException e) {

@@ -3,13 +3,10 @@ package com.swp391.koibe.domain.auction;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.swp391.koibe.enums.EAuctionStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
-import lombok.Builder;
 
 public interface AuctionPort {
 

@@ -1,5 +1,6 @@
 package com.swp391.koibe.domain.koi;
 
+import com.swp391.koibe.domain.auction.IAuctionContract;
 import com.swp391.koibe.domain.mail.KoiDTO;
 import com.swp391.koibe.domain.mail.UpdateKoiDTO;
 import com.swp391.koibe.domain.mail.UpdateKoiStatusDTO;
@@ -17,7 +18,6 @@ import com.swp391.koibe.repositories.KoiImageRepository;
 import com.swp391.koibe.repositories.KoiRepository;
 import com.swp391.koibe.repositories.UserRepository;
 import com.swp391.koibe.api.PageResponse;
-import com.swp391.koibe.domain.auction.AuctionKoiService;
 import com.swp391.koibe.domain.mail.IMailService;
 import com.swp391.koibe.utils.DTOConverter;
 import io.reactivex.rxjava3.core.Single;
@@ -41,7 +41,7 @@ public non-sealed class KoiService implements IKoiService<KoiPort.KoiResponse> {
     UserRepository userRepository;
     KoiImageRepository koiImageRepository;
     IMailService mailService;
-    AuctionKoiService auctionKoiService;
+    IAuctionContract auctionKoiService;
 
     @Override
     public Single<KoiPort.KoiResponse> createKoi(KoiDTO koiDTO, long breederId) throws Exception {

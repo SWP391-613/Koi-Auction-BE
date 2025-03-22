@@ -1,7 +1,7 @@
 package com.swp391.koibe.redis.bid;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.swp391.koibe.domain.auction.BidResponse;
+import com.swp391.koibe.domain.bidding.BidResponse;
 import java.util.List;
 import org.springframework.data.domain.PageRequest;
 

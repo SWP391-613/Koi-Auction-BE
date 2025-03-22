@@ -1,5 +1,7 @@
-package com.swp391.koibe.domain.auction;
+package com.swp391.koibe.domain.bidding;
 
+import com.swp391.koibe.domain.auction.AuctionKoi;
+import com.swp391.koibe.domain.auction.IAuctionContract;
 import com.swp391.koibe.exceptions.BiddingRuleException;
 import com.swp391.koibe.api.BaseResponse;
 import com.swp391.koibe.utils.DTOConverter;
@@ -33,7 +35,7 @@ public class BiddingHistoryController {
 
     private final IBiddingHistoryService biddingHistoryService;
     private final SimpMessagingTemplate messagingTemplate;
-    private final IAuctionKoiService auctionKoiService;
+    private final IAuctionContract auctionKoiService;
 
     @GetMapping("/{id}")
     public ResponseEntity<List<BidResponse>> getBiddingHistoryByAuctionKoiId(@PathVariable long id) {

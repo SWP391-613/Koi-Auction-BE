@@ -2,7 +2,7 @@ package com.swp391.koibe.domain.statistic;
 
 import com.swp391.koibe.api.ApiResponse;
 import com.swp391.koibe.domain.auction.AuctionStatusCountResponse;
-import com.swp391.koibe.domain.auction.IAuctionService;
+import com.swp391.koibe.domain.auction.IAuctionContract;
 import com.swp391.koibe.domain.koi.IKoiService;
 import com.swp391.koibe.domain.koi.KoiPort;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class StatisticController {
 
-    IAuctionService auctionService;
+    IAuctionContract auctionService;
     IKoiService koiService;
 
     @GetMapping("/count-by-auction-status")

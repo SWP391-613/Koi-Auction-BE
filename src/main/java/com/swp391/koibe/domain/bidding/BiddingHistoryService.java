@@ -1,5 +1,11 @@
-package com.swp391.koibe.domain.auction;
+package com.swp391.koibe.domain.bidding;
 
+import com.swp391.koibe.domain.auction.Auction;
+import com.swp391.koibe.domain.auction.AuctionContract;
+import com.swp391.koibe.domain.auction.AuctionKoi;
+import com.swp391.koibe.domain.auction.AuctionParticipant;
+import com.swp391.koibe.domain.auction.IAuctionContract;
+import com.swp391.koibe.domain.auction.UpdateAuctionKoiDTO;
 import com.swp391.koibe.exceptions.BiddingRuleException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import com.swp391.koibe.domain.user.User;
@@ -23,13 +29,12 @@ public class BiddingHistoryService implements IBiddingHistoryService, Biddable {
 
     private final BidHistoryRepository bidHistoryRepository;
 
-    private final IAuctionKoiService auctionKoiService;
+    private final IAuctionContract auctionKoiService;
 
     private final IUserService userService;
 
-    private final IAuctionParticipantService auctionParticipantService;
-
     private final IOrderService orderService;
+    private final AuctionContract auctionContract;
 
     @Override
     public Bid createBidHistory(Bid bid) throws DataNotFoundException {
@@ -269,13 +274,13 @@ public class BiddingHistoryService implements IBiddingHistoryService, Biddable {
         if (latestBid == 0) {
             // check if the bidder has already joined the auction, if not, create a new
             // record
-            if (!auctionParticipantService.hasJoinedAuction(auction.getId(), bidder.getId())) {
+            if (!auctionContract.hasJoinedAuction(auction.getId(), bidder.getId())) {
                 AuctionParticipant auctionParticipant = AuctionParticipant.builder()
                     .auction(auction)
                     .user(bidder)
                     .joinTime(bid.getBidTime())
                     .build();
-                auctionParticipantService.createAuctionParticipant(auctionParticipant);
+                auctionContract.createAuctionParticipant(auctionParticipant);
             }
         }
     }

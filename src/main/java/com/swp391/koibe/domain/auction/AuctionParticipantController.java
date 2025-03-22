@@ -15,18 +15,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("${api.prefix}/auction-participant")
 public class AuctionParticipantController {
 
-    private final IAuctionParticipantService auctionParticipantService;
+    private final IAuctionContract auctionContract;
 
     @GetMapping("/{auctionId}")
     public ResponseEntity<?> getAllUsersJoinAuction(
         @PathVariable long auctionId) {
-        if(auctionId <= 0) {
+        if (auctionId <= 0) {
             throw new InvalidApiPathVariableException("Invalid auction id");
         }
         try {
-            Set<UserResponse> userList = auctionParticipantService.getAllUserJoinAuction(auctionId);
+            Set<UserResponse> userList = auctionContract.getAllUserJoinAuction(auctionId);
             return ResponseEntity.ok(userList);
-        } catch(Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
 

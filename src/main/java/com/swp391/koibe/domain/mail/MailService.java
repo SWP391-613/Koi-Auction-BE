@@ -1,10 +1,9 @@
 package com.swp391.koibe.domain.mail;
 
-import com.swp391.koibe.domain.auction.IAuctionService;
-import com.swp391.koibe.domain.auction.IAuctionParticipantService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -16,11 +15,10 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = lombok.AccessLevel.PRIVATE)
 public class MailService implements IMailService {
-    private final JavaMailSender mailSender;
-    private final SpringTemplateEngine templateEngine;
-    private final IAuctionParticipantService auctionParticipantService;
-    private final IAuctionService auctionService;
+    JavaMailSender mailSender;
+    SpringTemplateEngine templateEngine;
 
     @Override
     @Async

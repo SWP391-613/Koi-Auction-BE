@@ -4,9 +4,9 @@ import com.swp391.koibe.api.ApiResponse;
 import com.swp391.koibe.api.PageResponse;
 import com.swp391.koibe.components.JwtTokenUtils;
 import com.swp391.koibe.constants.BusinessNumber;
+import com.swp391.koibe.domain.bidding.BidMethodQuantityResponse;
 import com.swp391.koibe.domain.koi.KoiInAuctionPaginationResponse;
 import com.swp391.koibe.domain.koi.KoiInAuctionResponse;
-import com.swp391.koibe.domain.koi.KoiPort;
 import com.swp391.koibe.domain.user.IUserService;
 import com.swp391.koibe.domain.user.User;
 import com.swp391.koibe.exceptions.MalformDataException;
@@ -47,26 +47,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AuctionKoiController {
 
-    private final IAuctionKoiService auctionKoiService;
-    private final IUserService userService;
-    private final IKoiRedisService koiRedisService;
-    private final JwtTokenUtils jwtTokenUtils;
+    IAuctionContract auctionKoiService;
+    IUserService userService;
+    IKoiRedisService koiRedisService;
+    JwtTokenUtils jwtTokenUtils;
 
     @GetMapping("/count-by-bid-method")
     public ResponseEntity<BidMethodQuantityResponse> countAuctionKoiByBidMethod() {
         return ResponseEntity.ok(auctionKoiService.findQuantityByBidMethod());
     }
 
-    @GetMapping("/auction/{id}")
-    public ResponseEntity<List<AuctionKoiPort.AuctionKoiResponse>> getAuctionKoisByAuctionId(
-        @PathVariable Long id) {
-        try {
-            return ResponseEntity.ok(auctionKoiService.getAuctionKoiByAuctionId(id));
-        } catch (Exception e) {
-            log.error("Error getting auctionkois by auction id: {}", e.getMessage());
-            throw new DataNotFoundException();
-        }
-    }
+//    @GetMapping("/auction/{id}")
+//    public ResponseEntity<List<AuctionKoiPort.AuctionKoiResponse>> getAuctionKoisByAuctionId(
+//        @PathVariable Long id) {
+//        try {
+//            return ResponseEntity.ok(auctionKoiService.getAuctionKoiByAuctionId(id));
+//        } catch (Exception e) {
+//            log.error("Error getting auctionkois by auction id: {}", e.getMessage());
+//            throw new DataNotFoundException();
+//        }
+//    }
 
     @GetMapping("/{aid}/{id}")
     public ResponseEntity<?> getAuctionKoiByAuctionIdAndKoiId(@PathVariable Long aid,

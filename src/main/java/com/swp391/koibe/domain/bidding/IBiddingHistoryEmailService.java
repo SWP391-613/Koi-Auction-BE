@@ -1,10 +1,11 @@
-package com.swp391.koibe.domain.auction;
+package com.swp391.koibe.domain.bidding;
 
+import com.swp391.koibe.domain.auction.AuctionKoi;
 import jakarta.mail.MessagingException;
 import org.thymeleaf.context.Context;
 
 public interface IBiddingHistoryEmailService {
     void sendRefundEmail(
-            AuctionKoi auctionKoi, String subject, String templateName, Context context
+        AuctionKoi auctionKoi, String subject, String templateName, Context context
     ) throws MessagingException;
 }

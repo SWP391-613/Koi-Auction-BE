@@ -3,16 +3,16 @@ package com.swp391.koibe.utils;
 import com.swp391.koibe.domain.auction.Auction;
 import com.swp391.koibe.domain.auction.AuctionKoi;
 import com.swp391.koibe.domain.auction.AuctionKoiPort;
+import com.swp391.koibe.domain.auction.AuctionKoiPort.AuctionKoiResponse;
 import com.swp391.koibe.domain.auction.AuctionResponse;
-import com.swp391.koibe.domain.auction.Bid;
-import com.swp391.koibe.domain.auction.BidResponse;
+import com.swp391.koibe.domain.bidding.Bid;
+import com.swp391.koibe.domain.bidding.BidResponse;
 import com.swp391.koibe.domain.category.Category;
 import com.swp391.koibe.domain.category.CategoryResponse;
 import com.swp391.koibe.domain.feedback.Feedback;
 import com.swp391.koibe.domain.feedback.FeedbackResponse;
 import com.swp391.koibe.domain.koi.Koi;
 import com.swp391.koibe.domain.koi.KoiImage;
-import com.swp391.koibe.domain.koi.KoiInAuctionResponse;
 import com.swp391.koibe.domain.koi.KoiPort;
 import com.swp391.koibe.domain.koi.KoiPort.KoiImageResponse;
 import com.swp391.koibe.domain.order.Order;
@@ -32,6 +32,7 @@ import com.swp391.koibe.repositories.AuctionRepository;
 import com.swp391.koibe.repositories.KoiRepository;
 import com.swp391.koibe.repositories.OrderRepository;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -109,6 +110,18 @@ public class DTOConverter {
         return new KoiImageResponse(koiImage.getId(), koiImage.getKoi().getId(), koiImage.getMediaMeta());
     }
 
+    public static AuctionResponse toAuctionResponse(Auction auction, List<AuctionKoiResponse> auctionKoi) {
+        return new  AuctionResponse(
+            auction.getId(),
+            auction.getTitle(),
+            auction.getStartTime(),
+            auction.getEndTime(),
+            auction.getStatus() != null ? auction.getStatus() : null,
+            auction.getAuctioneer().getId(),
+            auctionKoi
+        );
+    }
+
     public static AuctionResponse toAuctionResponse(Auction auction) {
         return new  AuctionResponse(
             auction.getId(),
@@ -116,7 +129,8 @@ public class DTOConverter {
             auction.getStartTime(),
             auction.getEndTime(),
             auction.getStatus() != null ? auction.getStatus() : null,
-            auction.getAuctioneer().getId()
+            auction.getAuctioneer().getId(),
+            null
         );
     }
 
@@ -132,7 +146,7 @@ public class DTOConverter {
             auctionKoi.getRevoked(),
             auctionKoi.isSold(),
             auctionKoi.getAuction().getId(),
-            auctionKoi.getKoi().getId()
+            toKoiResponse(auctionKoi.getKoi())
         );
     }
 

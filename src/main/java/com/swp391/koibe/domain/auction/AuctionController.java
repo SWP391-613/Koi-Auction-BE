@@ -3,7 +3,6 @@ package com.swp391.koibe.domain.auction;
 import com.swp391.koibe.enums.EAuctionStatus;
 import com.swp391.koibe.exceptions.MalformDataException;
 import com.swp391.koibe.exceptions.MethodArgumentNotValidException;
-import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import com.swp391.koibe.api.ApiResponse;
 import com.swp391.koibe.api.PageResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,7 +13,6 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -26,7 +24,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,7 +37,7 @@ import org.springframework.web.bind.annotation.RestController;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuctionController {
 
-    IAuctionService auctionService;
+    IAuctionContract auctionContract;
     IAuctionMailService auctionMailService;
 
     @GetMapping("/notify/upcoming")
@@ -64,7 +61,7 @@ public class AuctionController {
     ) {
 
         return ResponseEntity.ok(
-            auctionService.getAuctionByKeyword(
+            auctionContract.getAuctionByKeyword(
                 keyword,
                 status,
                 PageRequest.of(page, limit, Sort.by("id").descending())));
@@ -82,7 +79,7 @@ public class AuctionController {
                 .message("Get Auction handle by staff successfully")
                 .isSuccess(true)
                 .statusCode(HttpStatus.OK.value())
-                .data(auctionService.getAuctionByAuctioneerId(id))
+                .data(auctionContract.getAuctionByAuctioneerId(id))
                 .build());
     }
 
@@ -94,7 +91,7 @@ public class AuctionController {
                 .message("Auction found successfully")
                 .isSuccess(true)
                 .statusCode(HttpStatus.OK.value())
-                .data(auctionService.getById(id))
+                .data(auctionContract.getAuctionById(id))
                 .build()
         );
     }
@@ -115,7 +112,7 @@ public class AuctionController {
                 .message("Auction created successfully")
                 .isSuccess(true)
                 .statusCode(HttpStatus.CREATED.value())
-                .data(auctionService.createAscendingAuction(auctionDTO))
+                .data(auctionContract.createAscendingAuction(auctionDTO))
                 .build()
         );
     }
@@ -135,7 +132,7 @@ public class AuctionController {
                 .message("Auction updated successfully")
                 .isSuccess(true)
                 .statusCode(HttpStatus.OK.value())
-                .data(auctionService.update(id, updateAuctionDTO))
+                .data(auctionContract.update(id, updateAuctionDTO))
                 .build());
     }
 
@@ -143,7 +140,7 @@ public class AuctionController {
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_STAFF')")
     public ResponseEntity<ApiResponse<String>> endAuction(
         @PathVariable long id) {
-        auctionService.end(id);
+        auctionContract.end(id);
 
         return ResponseEntity.ok().body(
             ApiResponse.<String>builder()
@@ -158,7 +155,7 @@ public class AuctionController {
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_MANAGER')")
     public ResponseEntity<ApiResponse<AuctionResponse>> deleteAuction(@PathVariable long id) {
-        auctionService.delete(id);
+        auctionContract.delete(id);
         return ResponseEntity.ok(
             ApiResponse.<AuctionResponse>builder()
                 .message("Auction deleted successfully")

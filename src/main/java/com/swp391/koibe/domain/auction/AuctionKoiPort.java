@@ -2,6 +2,7 @@ package com.swp391.koibe.domain.auction;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.swp391.koibe.domain.koi.KoiPort.KoiResponse;
 import com.swp391.koibe.enums.EBidMethod;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -60,7 +61,9 @@ public interface AuctionKoiPort {
         Integer revoked,
         @JsonProperty("is_sold") Boolean isSold,
         @JsonProperty("auction_id") Long auctionId,
-        @JsonProperty("koi_id") Long koiId
+
+        @JsonProperty("koi")
+        KoiResponse koiResponse
     ) {}
 
 }
