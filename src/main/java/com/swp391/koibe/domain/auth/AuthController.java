@@ -86,14 +86,19 @@ public class AuthController {
                                      .build());
     }
 
-    @Operation(summary = "Get user details from token")
     @PostMapping("/details")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_MEMBER', 'ROLE_STAFF', 'ROLE_BREEDER')")
-    public ResponseEntity<UserResponse> takeUserDetailsFromToken() throws Exception {
+    public ResponseEntity<ApiResponse<UserResponse>> takeUserDetailsFromToken() {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
             .getAuthentication().getPrincipal();
         return ResponseEntity.ok(
-            DTOConverter.toUserResponse(userService.findByUsername(userDetails.getUsername())));
+            ApiResponse.<UserResponse>builder()
+                .message("Get User details successfully")
+                .data(DTOConverter.toUserResponse(
+                    userService.findByUsername(userDetails.getUsername())))
+                .isSuccess(true)
+                .statusCode(HttpStatus.OK.value())
+                .build());
     }
 
     @Timed(
