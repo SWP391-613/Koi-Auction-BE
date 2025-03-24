@@ -1,17 +1,18 @@
 package com.swp391.koibe.domain.auth;
 
 import com.swp391.koibe.annotations.RetryAndBlock;
+import com.swp391.koibe.api.ApiResponse;
 import com.swp391.koibe.components.LocalizationUtils;
+import com.swp391.koibe.domain.otp.OtpResponse;
+import com.swp391.koibe.domain.token.ITokenService;
+import com.swp391.koibe.domain.token.Token;
 import com.swp391.koibe.domain.token.TokenPort;
+import com.swp391.koibe.domain.user.IUserService;
+import com.swp391.koibe.domain.user.User;
+import com.swp391.koibe.domain.user.UserPort;
+import com.swp391.koibe.domain.user.UserPort.UserResponse;
 import com.swp391.koibe.exceptions.MethodArgumentNotValidException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
-import com.swp391.koibe.domain.token.Token;
-import com.swp391.koibe.domain.user.User;
-import com.swp391.koibe.domain.otp.OtpResponse;
-import com.swp391.koibe.domain.user.UserResponse;
-import com.swp391.koibe.api.ApiResponse;
-import com.swp391.koibe.domain.token.ITokenService;
-import com.swp391.koibe.domain.user.IUserService;
 import com.swp391.koibe.utils.DTOConverter;
 import com.swp391.koibe.utils.MessageKey;
 import io.micrometer.core.annotation.Timed;
@@ -85,6 +86,7 @@ public class AuthController {
                                      .build());
     }
 
+    @Operation(summary = "Get user details from token")
     @PostMapping("/details")
     @PreAuthorize("hasAnyRole('ROLE_MANAGER', 'ROLE_MEMBER', 'ROLE_STAFF', 'ROLE_BREEDER')")
     public ResponseEntity<UserResponse> takeUserDetailsFromToken() throws Exception {
@@ -99,7 +101,7 @@ public class AuthController {
         extraTags = {"uri", "/api/v1/users/register"},
         description = "Track register request count")
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<UserResponse>> createUser(
+    public ResponseEntity<ApiResponse<UserPort.UserResponse>> createUser(
         @RequestBody @Valid UserRegisterDTO userRegisterDTO,
         BindingResult result) throws Exception {
 
@@ -110,7 +112,7 @@ public class AuthController {
         User user = userService.createUser(userRegisterDTO);
         log.info("New user registered successfully");
         return ResponseEntity.status(HttpStatus.CREATED).body(
-            ApiResponse.<UserResponse>builder()
+            ApiResponse.<UserPort.UserResponse>builder()
                 .message(
                     localizationUtils.getLocalizedMessage(MessageKey.REGISTER_SUCCESSFULLY))
                 .statusCode(HttpStatus.CREATED.value())
@@ -249,8 +251,6 @@ public class AuthController {
         }
         return userAgent.toLowerCase().contains("mobile");
     }
-
-
 
 
 }

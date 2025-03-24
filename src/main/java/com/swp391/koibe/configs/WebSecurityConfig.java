@@ -87,7 +87,7 @@ public class WebSecurityConfig {
                     //UserController
                     .requestMatchers(GET, String.format("%s/users/{id:\\d+}", apiPrefix))
                     .permitAll()
-                    .requestMatchers(POST, String.format("%s/users/details", apiPrefix))
+                    .requestMatchers(POST, String.format("%s/auth/details", apiPrefix))
                     .hasAnyRole(Role.MANAGER, Role.MEMBER, Role.BREEDER, Role.STAFF)
                     .requestMatchers(POST, String.format("%s/auth/login", apiPrefix)).permitAll()
                     .requestMatchers(POST, String.format("%s/auth/register", apiPrefix))

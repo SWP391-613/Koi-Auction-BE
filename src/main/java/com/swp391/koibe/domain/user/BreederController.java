@@ -3,6 +3,7 @@ package com.swp391.koibe.domain.user;
 import com.swp391.koibe.api.PageResponse;
 import com.swp391.koibe.domain.koi.KoiPaginationResponse;
 import com.swp391.koibe.domain.koi.KoiPort;
+import com.swp391.koibe.domain.user.UserPort.*;
 import com.swp391.koibe.domain.user.breeder.IBreederService;
 import com.swp391.koibe.enums.EKoiStatus;
 import java.util.List;
@@ -27,8 +28,8 @@ public class BreederController {
 
     @GetMapping("")
     public ResponseEntity<PageResponse<BreederResponse>> getAllBreeders(
-        @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "0") int limit
+        @RequestParam(required = false, defaultValue = "0") int page,
+        @RequestParam(required = false, defaultValue = "14") int limit
     ) {
         return ResponseEntity.ok(breederService.getAllBreeders(PageRequest.of(page, limit)));
     }

@@ -48,4 +48,12 @@ public interface TokenPort {
 
     }
 
+    record AccessTokenReq(
+        @JsonProperty("access_token")
+        @NotBlank(message = "Access token is required") String accessToken
+    ) {
+
+    }
+
+
 }

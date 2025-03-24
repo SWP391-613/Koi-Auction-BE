@@ -1,5 +1,6 @@
 package com.swp391.koibe.domain.user;
 
+import com.swp391.koibe.domain.user.UserPort.MemberResponse;
 import com.swp391.koibe.domain.user.member.IMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

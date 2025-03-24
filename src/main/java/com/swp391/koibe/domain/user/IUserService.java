@@ -2,8 +2,10 @@ package com.swp391.koibe.domain.user;
 
 import com.swp391.koibe.domain.auth.UpdatePasswordDTO;
 import com.swp391.koibe.domain.auth.UserRegisterDTO;
+import com.swp391.koibe.domain.user.UserPort.UpdateUserDTO;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,8 @@ public interface IUserService {
     User findByUsername(String username) throws DataNotFoundException;
 
     Page<User> findAll(String keyword, Pageable pageable) throws Exception;
+
+    Optional<User> findByField(String fieldName, String value) throws DataNotFoundException;
 
     void blockOrEnable(Long userId, Boolean active) throws DataNotFoundException;
 

@@ -1,8 +1,7 @@
 package com.swp391.koibe.domain.payment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import com.swp391.koibe.domain.user.UserResponse;
+import com.swp391.koibe.domain.user.UserPort.UserResponse;
 import java.time.LocalDateTime;
 
 public record PaymentResponse(

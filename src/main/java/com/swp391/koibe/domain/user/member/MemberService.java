@@ -1,11 +1,11 @@
 package com.swp391.koibe.domain.user.member;
 
-import com.swp391.koibe.exceptions.base.DataNotFoundException;
-import com.swp391.koibe.exceptions.MemberNotFoundException;
-import com.swp391.koibe.domain.user.User;
-import com.swp391.koibe.repositories.UserRepository;
-import com.swp391.koibe.domain.user.MemberResponse;
 import com.swp391.koibe.domain.user.IUserService;
+import com.swp391.koibe.domain.user.User;
+import com.swp391.koibe.domain.user.UserPort.MemberResponse;
+import com.swp391.koibe.exceptions.MemberNotFoundException;
+import com.swp391.koibe.exceptions.base.DataNotFoundException;
+import com.swp391.koibe.repositories.UserRepository;
 import com.swp391.koibe.utils.DTOConverter;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;

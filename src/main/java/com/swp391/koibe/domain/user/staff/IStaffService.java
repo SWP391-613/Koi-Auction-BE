@@ -1,11 +1,11 @@
 package com.swp391.koibe.domain.user.staff;
 
-import com.swp391.koibe.domain.user.StaffRegisterDTO;
-import com.swp391.koibe.domain.user.UserDTO;
+import com.swp391.koibe.api.PageResponse;
+import com.swp391.koibe.domain.user.UserPort.StaffRegisterDTO;
+import com.swp391.koibe.domain.user.UserPort.StaffResponse;
+import com.swp391.koibe.domain.user.UserPort.UserDTO;
 import com.swp391.koibe.exceptions.PermissionDeniedException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
-import com.swp391.koibe.domain.user.StaffResponse;
-import com.swp391.koibe.api.PageResponse;
 import org.springframework.data.domain.Pageable;
 
 public interface IStaffService {

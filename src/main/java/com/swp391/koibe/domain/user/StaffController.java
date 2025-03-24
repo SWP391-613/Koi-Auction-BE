@@ -1,11 +1,14 @@
 package com.swp391.koibe.domain.user;
 
+import com.swp391.koibe.api.ApiResponse;
+import com.swp391.koibe.api.PageResponse;
+import com.swp391.koibe.domain.user.UserPort.StaffRegisterDTO;
+import com.swp391.koibe.domain.user.UserPort.StaffResponse;
+import com.swp391.koibe.domain.user.UserPort.UserDTO;
+import com.swp391.koibe.domain.user.staff.IStaffService;
 import com.swp391.koibe.exceptions.InvalidApiPathVariableException;
 import com.swp391.koibe.exceptions.MethodArgumentNotValidException;
 import com.swp391.koibe.exceptions.PermissionDeniedException;
-import com.swp391.koibe.api.ApiResponse;
-import com.swp391.koibe.api.PageResponse;
-import com.swp391.koibe.domain.user.staff.IStaffService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

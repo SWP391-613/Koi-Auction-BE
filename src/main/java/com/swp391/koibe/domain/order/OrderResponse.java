@@ -1,7 +1,7 @@
 package com.swp391.koibe.domain.order;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.swp391.koibe.domain.user.UserResponse;
+import com.swp391.koibe.domain.user.UserPort.*;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -17,6 +17,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Builder
 public class OrderResponse {
+
     private Long id;
 
     @JsonProperty("user")

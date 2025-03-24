@@ -4,7 +4,7 @@ import com.swp391.koibe.api.PageResponse;
 import com.swp391.koibe.domain.auction.AuctionKoiPort.AuctionKoiResponse;
 import com.swp391.koibe.domain.bidding.BidMethodQuantityResponse;
 import com.swp391.koibe.domain.koi.KoiInAuctionResponse;
-import com.swp391.koibe.domain.user.UserResponse;
+import com.swp391.koibe.domain.user.UserPort.UserResponse;
 import com.swp391.koibe.enums.EAuctionStatus;
 import com.swp391.koibe.exceptions.base.DataAlreadyExistException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Set;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.thymeleaf.context.Context;
 
 public interface IAuctionContract {
 

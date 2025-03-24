@@ -1,7 +1,7 @@
 package com.swp391.koibe.domain.auction;
 
+import com.swp391.koibe.domain.user.UserPort.UserResponse;
 import com.swp391.koibe.exceptions.InvalidApiPathVariableException;
-import com.swp391.koibe.domain.user.UserResponse;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

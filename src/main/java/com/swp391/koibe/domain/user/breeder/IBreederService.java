@@ -3,14 +3,13 @@ package com.swp391.koibe.domain.user.breeder;
 import com.swp391.koibe.api.PageResponse;
 import com.swp391.koibe.domain.koi.KoiPort;
 import com.swp391.koibe.domain.mail.KoiDTO;
-import com.swp391.koibe.domain.user.BreederResponse;
 import com.swp391.koibe.domain.user.User;
-import com.swp391.koibe.domain.user.UserResponse;
 import com.swp391.koibe.enums.EKoiStatus;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import com.swp391.koibe.domain.user.UserPort.*;
 
 public interface IBreederService {
 

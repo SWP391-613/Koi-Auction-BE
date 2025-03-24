@@ -5,9 +5,9 @@ import com.swp391.koibe.domain.category.Category;
 import com.swp391.koibe.domain.koi.Koi;
 import com.swp391.koibe.domain.koi.KoiPort;
 import com.swp391.koibe.domain.mail.KoiDTO;
-import com.swp391.koibe.domain.user.BreederResponse;
+
 import com.swp391.koibe.domain.user.User;
-import com.swp391.koibe.domain.user.UserResponse;
+import com.swp391.koibe.domain.user.UserPort.*;
 import com.swp391.koibe.enums.EKoiGender;
 import com.swp391.koibe.enums.EKoiStatus;
 import com.swp391.koibe.exceptions.BreederNotFoundException;

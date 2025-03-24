@@ -4,27 +4,38 @@ import com.swp391.koibe.components.JwtTokenUtils;
 import com.swp391.koibe.components.LocalizationUtils;
 import com.swp391.koibe.constants.BusinessNumber;
 import com.swp391.koibe.constants.Regex;
-import com.swp391.koibe.domain.token.Token;
 import com.swp391.koibe.domain.auth.UpdatePasswordDTO;
 import com.swp391.koibe.domain.auth.UserRegisterDTO;
+import com.swp391.koibe.domain.mail.IMailService;
+import com.swp391.koibe.domain.otp.Otp;
+import com.swp391.koibe.domain.otp.OtpService;
+import com.swp391.koibe.domain.role.Role;
+import com.swp391.koibe.domain.role.RoleService;
+import com.swp391.koibe.domain.token.Token;
+import com.swp391.koibe.domain.user.UserPort.UpdateUserDTO;
 import com.swp391.koibe.enums.EmailCategoriesEnum;
 import com.swp391.koibe.enums.ProviderName;
 import com.swp391.koibe.enums.UserRole;
 import com.swp391.koibe.enums.UserStatus;
-import com.swp391.koibe.exceptions.*;
+import com.swp391.koibe.exceptions.BiddingRuleException;
+import com.swp391.koibe.exceptions.EmailAlreadyUsedException;
+import com.swp391.koibe.exceptions.ExpiredTokenException;
+import com.swp391.koibe.exceptions.MalformBehaviourException;
+import com.swp391.koibe.exceptions.MalformDataException;
+import com.swp391.koibe.exceptions.PasswordWrongFormatException;
+import com.swp391.koibe.exceptions.PermissionDeniedException;
+import com.swp391.koibe.exceptions.PhoneAlreadyUsedException;
+import com.swp391.koibe.exceptions.TokenNotFoundException;
+import com.swp391.koibe.exceptions.UpdateEmailException;
 import com.swp391.koibe.exceptions.base.DataNotFoundException;
-import com.swp391.koibe.domain.otp.Otp;
-import com.swp391.koibe.domain.role.Role;
 import com.swp391.koibe.repositories.RoleRepository;
 import com.swp391.koibe.repositories.SocialAccountRepository;
 import com.swp391.koibe.repositories.TokenRepository;
 import com.swp391.koibe.repositories.UserRepository;
-import com.swp391.koibe.domain.mail.IMailService;
-import com.swp391.koibe.domain.otp.OtpService;
-import com.swp391.koibe.domain.role.RoleService;
 import com.swp391.koibe.utils.MessageKey;
 import com.swp391.koibe.utils.OtpUtils;
 import jakarta.mail.MessagingException;
+import java.lang.reflect.Field;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -548,5 +559,29 @@ public class UserService implements IUserService {
         return getUserDetailsFromToken(existingToken.getToken());
     }
 
+    @Override
+    public Optional<User> findByField(String fieldName, String value) throws DataNotFoundException {
+        try {
+            // Fetch all users from the repository (database)
+            List<User> allUsers = userRepository.findAll();
+
+            for (User user : allUsers) {
+                Field field = user.getClass().getDeclaredField(fieldName);
+                field.setAccessible(true); // Access private fields
+
+                Object fieldValue = field.get(user);
+
+                // If the field value matches the given value
+                if (fieldValue != null && fieldValue.toString().equals(value)) {
+                    return Optional.of(user);
+                }
+            }
+
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException("Field not found or access issue: " + e.getMessage());
+        }
+
+        throw new DataNotFoundException("No user found with " + fieldName + " = " + value);
+    }
 
 }
